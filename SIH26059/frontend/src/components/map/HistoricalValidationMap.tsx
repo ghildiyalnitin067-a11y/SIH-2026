@@ -23,6 +23,8 @@ interface HistoricalValidationMapProps {
   progressiveRevealPercent?: number;     // 0 to 100 for progressive reveal animation
 }
 
+const MAPTILER_API_KEY = import.meta.env.VITE_MAPTILER_API_KEY || '';
+
 const DARK_BASE_STYLE: StyleSpecification = {
   version: 8,
   sources: {
@@ -51,6 +53,13 @@ const DARK_BASE_STYLE: StyleSpecification = {
       maxzoom: 19
     }
   ]
+};
+
+const getBaseStyle = (): StyleSpecification | string => {
+  if (MAPTILER_API_KEY) {
+    return `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${MAPTILER_API_KEY}`;
+  }
+  return DARK_BASE_STYLE;
 };
 
 export const HistoricalValidationMap: React.FC<HistoricalValidationMapProps> = ({
@@ -82,7 +91,7 @@ export const HistoricalValidationMap: React.FC<HistoricalValidationMapProps> = (
 
     const instance = new MapLibreMap({
       container: mapContainer.current,
-      style: DARK_BASE_STYLE,
+      style: getBaseStyle(),
       center: [110.0, -60.0],
       zoom: 3.2,
       attributionControl: false,

@@ -254,6 +254,15 @@ export const HistoricalValidationPage: React.FC = () => {
   const safetyRoute = comparisonData?.route_safety || {};
 
   // Current replay step details
+  const selectedVoyage = catalog.find((v) => v.voyage_id === selectedVoyageId) || catalog[0] || {
+    voyage_id: 'AAD-2015-16',
+    vessel_name: 'Aurora Australis',
+    operator: 'Australian Antarctic Division',
+    country: 'Australia',
+    start_coordinates: [-65.20, 64.30],
+    end_coordinates: [-42.88, 147.33],
+  };
+
   const currentStep = replayData?.simulated_steps?.[currentStepIdx] || null;
   const currentCoord: [number, number] | undefined = currentStep
     ? [currentStep.latitude, currentStep.longitude]
@@ -560,9 +569,9 @@ export const HistoricalValidationPage: React.FC = () => {
                   showActual={showActual}
                   showPredicted={showPredicted}
                   showSafety={showSafety}
-                  vesselName="Aurora Australis"
-                  departureName="Davis Station (-65.2°S, 64.3°E)"
-                  destinationName="Hobart, Tasmania (-42.9°S, 147.3°E)"
+                  vesselName={selectedVoyage.vessel_name}
+                  departureName={`${selectedVoyage.vessel_name.includes('Polarstern') ? 'Neumayer Station' : selectedVoyage.vessel_name.includes('Palmer') ? 'McMurdo Station' : 'Davis Station'} (${selectedVoyage.start_coordinates ? selectedVoyage.start_coordinates[0].toFixed(1) : '-65.2'}°S, ${selectedVoyage.start_coordinates ? selectedVoyage.start_coordinates[1].toFixed(1) : '64.3'}°E)`}
+                  destinationName={`${selectedVoyage.vessel_name.includes('Polarstern') ? 'Cape Town' : selectedVoyage.vessel_name.includes('Palmer') ? 'Punta Arenas' : 'Hobart'} (${selectedVoyage.end_coordinates ? selectedVoyage.end_coordinates[0].toFixed(1) : '-42.9'}°S, ${selectedVoyage.end_coordinates ? selectedVoyage.end_coordinates[1].toFixed(1) : '147.3'}°E)`}
                   progressiveRevealPercent={demoMode && demoStep === 5 ? progressiveRevealPercent : 100}
                 />
 

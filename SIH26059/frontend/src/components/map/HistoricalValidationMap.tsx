@@ -20,6 +20,7 @@ interface HistoricalValidationMapProps {
   vesselName?: string;
   departureName?: string;
   destinationName?: string;
+  progressiveRevealPercent?: number;     // 0 to 100 for progressive reveal animation
 }
 
 const DARK_BASE_STYLE: StyleSpecification = {
@@ -63,6 +64,7 @@ export const HistoricalValidationMap: React.FC<HistoricalValidationMapProps> = (
   vesselName = 'Aurora Australis',
   departureName = 'Hobart Port',
   destinationName = 'Casey Station',
+  progressiveRevealPercent,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
@@ -232,12 +234,21 @@ export const HistoricalValidationMap: React.FC<HistoricalValidationMapProps> = (
   useEffect(() => {
     if (!map.current || !map.current.isStyleLoaded()) return;
 
+    let effActual = actualCoords;
+    let effPredicted = predictedCoords;
+    if (progressiveRevealPercent !== undefined && progressiveRevealPercent >= 0 && progressiveRevealPercent <= 100) {
+      const actCount = Math.max(2, Math.floor((actualCoords.length * progressiveRevealPercent) / 100));
+      const predCount = Math.max(2, Math.floor((predictedCoords.length * progressiveRevealPercent) / 100));
+      effActual = actualCoords.slice(0, actCount);
+      effPredicted = predictedCoords.slice(0, predCount);
+    }
+
     const sAct = map.current.getSource('route-actual-source') as GeoJSONSource;
     if (sAct) {
       sAct.setData({
         type: 'Feature',
         properties: {},
-        geometry: { type: 'LineString', coordinates: toLngLat(actualCoords) },
+        geometry: { type: 'LineString', coordinates: toLngLat(effActual) },
       });
     }
 
@@ -246,7 +257,7 @@ export const HistoricalValidationMap: React.FC<HistoricalValidationMapProps> = (
       sPred.setData({
         type: 'Feature',
         properties: {},
-        geometry: { type: 'LineString', coordinates: toLngLat(predictedCoords) },
+        geometry: { type: 'LineString', coordinates: toLngLat(effPredicted) },
       });
     }
 
@@ -258,7 +269,7 @@ export const HistoricalValidationMap: React.FC<HistoricalValidationMapProps> = (
         geometry: { type: 'LineString', coordinates: toLngLat(safetyCoords) },
       });
     }
-  }, [actualCoords, predictedCoords, safetyCoords]);
+  }, [actualCoords, predictedCoords, safetyCoords, progressiveRevealPercent]);
 
   // Update Layer Visibilities
   useEffect(() => {

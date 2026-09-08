@@ -228,6 +228,7 @@ export const api = {
   historicalCatalog: () => apiFetch<{ catalog: any[] }>("/routes/backtest/catalog"),
   historicalReplay: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/replay?voyage_id=${voyageId}`),
   historicalThreeWay: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/three-way?voyage_id=${voyageId}`),
+  historicalEnvironmentSnapshot: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/environment-snapshot?voyage_id=${voyageId}`),
 };
 
 

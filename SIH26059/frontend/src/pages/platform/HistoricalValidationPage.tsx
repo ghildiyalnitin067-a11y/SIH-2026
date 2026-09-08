@@ -53,6 +53,7 @@ export const HistoricalValidationPage: React.FC = () => {
   const [isAutoPlayingDemo, setIsAutoPlayingDemo] = useState<boolean>(false);
   const [progressiveRevealPercent, setProgressiveRevealPercent] = useState<number>(100);
   const [isRevealingAnim, setIsRevealingAnim] = useState<boolean>(false);
+  const [showArchitectureMap, setShowArchitectureMap] = useState<boolean>(false);
 
   // 1. Voyage Catalog & Selection State
   const [catalog, setCatalog] = useState<HistoricalVoyageItem[]>([]);
@@ -431,10 +432,65 @@ export const HistoricalValidationPage: React.FC = () => {
         {/* Technical Explanation Panel (Always visible in Judge Demo Mode) */}
         {demoMode && (
           <div className="bg-[#030c17] border-b border-cyan-950/70 px-4 py-2 shrink-0">
-            <div className="text-[10px] font-mono text-cyan-400 font-semibold mb-1 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-              <span>TECHNICAL PIPELINE EXPLANATION FOR JUDGES:</span>
+            <div className="text-[10px] font-mono text-cyan-400 font-semibold mb-1 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <Cpu className="w-3.5 h-3.5 text-cyan-400" />
+                <span>TECHNICAL PIPELINE EXPLANATION FOR JUDGES:</span>
+              </div>
+              <button
+                onClick={() => setShowArchitectureMap(!showArchitectureMap)}
+                className="text-[10px] px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 hover:text-white transition-colors"
+              >
+                {showArchitectureMap ? 'HIDE PIPELINE ARCHITECTURE' : 'VIEW COMPLETE PIPELINE ARCHITECTURE MAP'}
+              </button>
             </div>
+
+            {showArchitectureMap && (
+              <div className="my-2 p-3 rounded bg-[#02060c] border border-cyan-800/60 font-mono text-[11px] text-cyan-300/90 overflow-x-auto whitespace-pre leading-tight shadow-inner">
+{`                 HISTORICAL DATA
+                       │
+              ┌────────┴────────┐
+              │                 │
+             AIS         Environmental Data
+              │                 │
+              └────────┬────────┘
+                       ↓
+             Historical Replay DB
+                       │
+                       ↓
+              Feature Engineering
+                       │
+                       ↓
+             Voyage-Based Split
+                       │
+              ┌────────┴────────┐
+              ↓                 ↓
+         ML Training        ML Evaluation
+              │
+        XGBoost / RF
+              │
+              ↓
+        Risk / Cost Model
+              │
+              ↓
+       Existing Route Engine
+              │
+              ↓
+      Predicted Historical Route
+              │
+        ┌─────┴──────────┐
+        ↓                ↓
+ Actual AIS Route    Safety Analysis
+        │                │
+        └───────┬────────┘
+                ↓
+       Historical Backtesting
+                │
+                ↓
+       Judge Validation UI`}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-mono">
               <div className="bg-[#081526] border border-cyan-900/40 rounded p-2">
                 <div className="text-amber-400 font-semibold text-[11px] mb-0.5">1. INPUT</div>

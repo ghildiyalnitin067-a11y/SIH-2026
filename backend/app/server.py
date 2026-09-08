@@ -311,6 +311,16 @@ def api_route_backtest_catalog():
     return {"catalog": get_historical_voyages_catalog()}
 
 
+@app.get("/api/ais/historical/summary")
+def api_ais_historical_summary():
+    """Return comprehensive validation summary of raw historical AIS datasets."""
+    try:
+        from src.vessel_tracking.ais_validator_cli import run_ais_validation_report
+    except ImportError:
+        from backend.src.vessel_tracking.ais_validator_cli import run_ais_validation_report
+    return run_ais_validation_report(output_json=True)
+
+
 @app.get("/api/routes/{route_id}")
 def api_route_detail(route_id: str, vessel_id: str = Query(None)):
     """Get detail for a specific route corridor."""

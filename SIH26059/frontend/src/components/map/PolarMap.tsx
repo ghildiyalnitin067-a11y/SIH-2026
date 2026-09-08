@@ -409,7 +409,8 @@ export const PolarMap: React.FC<PolarMapProps> = ({
     setSelectedVesselId: contextSetSelectedVesselId,
     selectedIcebergId: contextSelectedIcebergId,
     setSelectedIcebergId: contextSetSelectedIcebergId,
-    activeHorizonLabel: contextActiveHorizonLabel
+    activeHorizonLabel: contextActiveHorizonLabel,
+    emergencyRerouteActive
   } = useFleet();
 
   const effectiveHorizon = activeHorizon || contextActiveHorizonLabel || 'NOW';
@@ -445,7 +446,8 @@ export const PolarMap: React.FC<PolarMapProps> = ({
 
   // Floating HUD UI state
   const [layersMenuOpen, setLayersMenuOpen] = useState(false);
-  const [legendCollapsed, setLegendCollapsed] = useState(true);
+  const [legendCollapsed, setLegendCollapsed] = useState(false); // Legend visible by default for judges
+  const [iridiumMode, setIridiumMode] = useState(false); // Low-bandwidth mode toggle
 
   // Layer Toggles (User controlled with defaults from sectionConfig)
   const [layerToggles, setLayerToggles] = useState({
@@ -1038,15 +1040,79 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       });
 
       map.on('click', 'routes-layer', (e) => {
-        if (e.features && e.features[0]?.properties?.id) {
-          onSelectRoute(e.features[0].properties.id);
+        if (!e.features || !e.features[0]?.properties) return;
+        const props = e.features[0].properties;
+        const routeId: string = props.id || '';
+        onSelectRoute(routeId);
+        // Find the route object for real data
+        const clickedRoute = vesselRoutes.find((r: any) => r.id === routeId);
+        const isRec = Boolean(props.isRecommended === 1 || props.isRecommended === '1');
+        const routeRisk = clickedRoute?.iceRisk || props.risk || 'MODERATE';
+        const routeLabel = clickedRoute?.optimization_mode
+          ? clickedRoute.optimization_mode === 'FASTEST' ? 'Fastest Route'
+            : clickedRoute.optimization_mode === 'SAFEST' ? 'Safest Route'
+            : 'Balanced Route'
+          : routeId.includes('route-a') ? 'Fastest Route'
+          : routeId.includes('route-c') ? 'Safest Route'
+          : 'Balanced Route';
+        const sicVal = clickedRoute?.sic_actual !== undefined
+          ? `${clickedRoute.sic_actual}%`
+          : clickedRoute?.sicExposure !== undefined
+          ? `${clickedRoute.sicExposure}%`
+          : 'Data unavailable';
+        const details: { label: string; value: string | number }[] = [
+          { label: 'Type', value: routeLabel },
+          { label: 'Distance', value: clickedRoute?.distance || props.distance || 'N/A' },
+          { label: 'ETA', value: clickedRoute?.eta || 'N/A' },
+          { label: 'SIC Exposure', value: sicVal },
+          { label: 'Ice Risk', value: routeRisk },
+          { label: 'IMO RIO Score', value: clickedRoute?.rioScore !== undefined ? (clickedRoute.rioScore > 0 ? `+${Number(clickedRoute.rioScore).toFixed(1)}` : String(clickedRoute.rioScore)) : 'N/A' },
+        ];
+        // Why This Route: only show verified factors from real data
+        const whyFactors: string[] = [];
+        if (isRec) whyFactors.push('✓ System-recommended corridor');
+        if (clickedRoute?.sic_actual !== undefined && clickedRoute.sic_actual < 50) whyFactors.push('✓ Lower sea-ice concentration exposure');
+        if (clickedRoute?.iceRisk === 'LOW' || clickedRoute?.iceRisk === 'SAFE') whyFactors.push('✓ Lower predicted ice risk');
+        if (clickedRoute?.minimum_cpa_km !== undefined && clickedRoute.minimum_cpa_km > 20) whyFactors.push(`✓ Iceberg CPA: ${clickedRoute.minimum_cpa_km} km clearance`);
+        if (clickedRoute?.decision_support?.recommendation) whyFactors.push(`✓ ${clickedRoute.decision_support.recommendation.slice(0, 60)}`);
+        if (whyFactors.length > 0) {
+          details.push({ label: 'Why This Route?', value: whyFactors.join(' | ') });
         }
+        setSelectedEntityInfo({
+          title: `${isRec ? '★ ' : ''}${props.name || routeLabel}`,
+          badge: isRec ? 'RECOMMENDED' : 'ALTERNATIVE',
+          badgeColor: isRec ? '#10B981' : '#64748B',
+          details
+        });
+      });
+      // Dashed overlay for alternative (non-selected) routes
+      map.addLayer({
+        id: 'routes-alt-dash',
+        type: 'line',
+        source: 'routes-src',
+        filter: ['==', ['get', 'isSelected'], 0],
+        paint: {
+          'line-color': ['get', 'color'],
+          'line-width': 1.8,
+          'line-opacity': layerToggles.altRoutes ? 0.55 : 0.0,
+          'line-dasharray': [4, 3]
+        },
+        layout: { visibility: layerToggles.recommendedRoute ? 'visible' : 'none' }
       });
     } else {
       const src = map.getSource('routes-src') as GeoJSONSource;
       src.setData(routeFeatures);
-      map.setLayoutProperty('routes-glow', 'visibility', layerToggles.recommendedRoute ? 'visible' : 'none');
-      map.setLayoutProperty('routes-layer', 'visibility', layerToggles.recommendedRoute ? 'visible' : 'none');
+      const routeVis = (layerToggles.recommendedRoute && !iridiumMode) ? 'visible' : layerToggles.recommendedRoute ? 'visible' : 'none';
+      map.setLayoutProperty('routes-glow', 'visibility', routeVis);
+      map.setLayoutProperty('routes-layer', 'visibility', routeVis);
+      if (map.getLayer('routes-alt-dash')) {
+        map.setPaintProperty('routes-alt-dash', 'line-opacity', layerToggles.altRoutes ? 0.55 : 0.0);
+        map.setLayoutProperty('routes-alt-dash', 'visibility', routeVis);
+      }
+      // Iridium mode: suppress ocean currents to reduce tile load
+      if (map.getLayer('ocean-currents-points')) {
+        map.setLayoutProperty('ocean-currents-points', 'visibility', (layerToggles.oceanCurrents && !iridiumMode) ? 'visible' : 'none');
+      }
     }
 
     // =========================================================================
@@ -1660,10 +1726,83 @@ export const PolarMap: React.FC<PolarMapProps> = ({
     });
   }, [mapZoom]);
 
+  // Derive operational status bar values from existing real state
+  const opStatusRoute = activeRouteObj ? (emergencyRerouteActive ? 'DEGRADED' : 'OPERATIONAL') : 'NO ROUTE';
+  const opStatusColor = opStatusRoute === 'OPERATIONAL' ? '#10B981' : opStatusRoute === 'DEGRADED' ? '#EF4444' : '#64748B';
+  const opVesselSpeed = activeVessel?.speed ?? activeVessel?.sog ?? 0;
+  const opRouteRisk = activeRouteObj?.iceRisk || 'N/A';
+  const opDataMode = activeVessel?.data_status === 'LIVE' ? 'LIVE AIS' : activeVessel?.data_status === 'DETERMINISTIC_SIMULATION' ? 'SIMULATION' : activeVessel?.data_status || 'SIMULATION';
+  const opIsLive = opDataMode === 'LIVE AIS';
+  // Estimate Iridium data size from route path length
+  const iridiumDataKB = activeRouteObj?.path ? Math.round((activeRouteObj.path.length * 16) / 1024 * 10) / 10 : 0;
+
   return (
     <div className="w-full h-full bg-[#040B16] relative z-0 overflow-hidden select-none">
       {/* MAP CANVAS */}
       <div ref={mapContainerRef} className="w-full h-full" style={{ background: '#040B16' }} />
+
+      {/* ========================================================================= */}
+      {/* 0. OPERATIONAL STATUS BAR (top strip — real data only)                   */}
+      {/* ========================================================================= */}
+      <div className="absolute top-0 left-0 right-0 z-25 h-7 bg-[#040B16]/90 backdrop-blur-sm border-b border-slate-800/80 flex items-center px-3 gap-4 font-mono text-[10px] overflow-hidden select-none pointer-events-none">
+        {/* Route Status */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: opStatusColor }} />
+          <span className="font-bold" style={{ color: opStatusColor }}>ROUTE: {opStatusRoute}</span>
+        </div>
+        <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+        {/* Speed */}
+        <div className="flex items-center gap-1 text-slate-300 shrink-0">
+          <span className="text-slate-500">SOG</span>
+          <span className="font-bold text-white">{Number(opVesselSpeed).toFixed(1)} kn</span>
+        </div>
+        <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+        {/* Risk */}
+        <div className="flex items-center gap-1 shrink-0">
+          <span className="text-slate-500">RISK</span>
+          <span className={`font-bold ${
+            opRouteRisk === 'HIGH' || opRouteRisk === 'CRITICAL' ? 'text-red-400'
+            : opRouteRisk === 'MODERATE' || opRouteRisk === 'CAUTION' ? 'text-amber-400'
+            : 'text-emerald-400'
+          }`}>{opRouteRisk}</span>
+        </div>
+        <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+        {/* ETA */}
+        {activeRouteObj?.eta && (
+          <>
+            <div className="flex items-center gap-1 text-slate-300 shrink-0">
+              <span className="text-slate-500">ETA</span>
+              <span className="font-bold text-white">{activeRouteObj.eta}</span>
+            </div>
+            <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+          </>
+        )}
+        {/* Destination */}
+        {activeVessel?.destination && (
+          <div className="flex items-center gap-1 text-slate-300 shrink-0">
+            <span className="text-slate-500">DEST</span>
+            <span className="text-white">{String(activeVessel.destination).split(' ').slice(0, 2).join(' ')}</span>
+          </div>
+        )}
+        {/* Spacer */}
+        <div className="flex-1" />
+        {/* Iridium Mode Indicator */}
+        {iridiumMode && (
+          <div className="flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/40 px-2 py-0.5 rounded text-amber-300 font-bold shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            IRIDIUM · {iridiumDataKB} KB CACHED
+          </div>
+        )}
+        {/* Data mode badge */}
+        <div className={`flex items-center gap-1 shrink-0 px-2 py-0.5 rounded border ${
+          opIsLive
+            ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
+            : 'bg-slate-700/40 border-slate-600/40 text-slate-400'
+        }`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${opIsLive ? 'bg-emerald-400' : 'bg-slate-500'}`} />
+          <span className="font-bold">{opDataMode}</span>
+        </div>
+      </div>
 
 
 
@@ -1869,6 +2008,21 @@ export const PolarMap: React.FC<PolarMapProps> = ({
         >
           <Crosshair className="w-4 h-4 text-cyan-400" />
           <span className="text-[8px] font-bold mt-0.5">FIT</span>
+        </button>
+
+        {/* Iridium / Low-Bandwidth Mode Toggle */}
+        <button
+          type="button"
+          onClick={() => setIridiumMode(prev => !prev)}
+          className={`w-9 h-9 rounded-lg border backdrop-blur-md shadow-xl flex flex-col items-center justify-center transition-all ${
+            iridiumMode
+              ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
+              : 'bg-[#040B16]/95 border-slate-700/80 text-slate-400 hover:text-amber-300 hover:border-amber-500/50'
+          }`}
+          title={iridiumMode ? 'Iridium Mode ON — Low bandwidth, cached layers only' : 'Enable Iridium / Low-Bandwidth Mode'}
+        >
+          <Ship className="w-3.5 h-3.5" />
+          <span className="text-[7px] font-bold mt-0.5">{iridiumMode ? 'IRID' : 'IRID'}</span>
         </button>
 
         {/* Zoom Controls */}

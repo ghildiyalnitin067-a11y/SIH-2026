@@ -873,6 +873,20 @@ export const NavigationPage: React.FC = () => {
           {/* Compact Floating HUD Tactical Hazard Alert */}
           <TacticalHazardBanner className="absolute top-3 left-1/2 -translate-x-1/2 z-50 max-w-xl w-full px-3 pointer-events-auto" />
 
+          {/* Operational Route Status Strip — uses real activeRoute data only */}
+          {activeRoute && emergencyRerouteActive && (
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 z-40 max-w-lg w-full px-3 pointer-events-none">
+              <div className="bg-red-950/90 border border-red-500/70 backdrop-blur-md rounded px-3 py-1.5 flex items-center justify-between font-mono text-[10px] shadow-lg">
+                <div className="flex items-center gap-2 text-red-300">
+                  <ShieldAlert className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                  <span className="font-bold text-red-400">ROUTE DEGRADATION DETECTED</span>
+                  <span className="text-red-300">— Emergency diversion active</span>
+                </div>
+                <span className="text-slate-400 text-[9px]">Review new corridor →</span>
+              </div>
+            </div>
+          )}
+
           <PolarMap
             section="navigation"
             activeHorizon={activeHorizonLabel}

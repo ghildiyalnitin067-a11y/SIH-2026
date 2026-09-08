@@ -302,6 +302,7 @@ def api_route_backtest(voyage_id: str = "AAD-2015-16"):
 
 
 @app.get("/api/routes/backtest/catalog")
+@app.get("/api/historical/catalog")
 def api_route_backtest_catalog():
     """Return catalog of available historical voyages for backtesting comparison."""
     try:

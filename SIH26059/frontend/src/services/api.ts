@@ -167,6 +167,9 @@ export const api = {
     return apiFetch<Record<string, any>>(`/risk/grid${qs}`);
   },
   waypoints: () => apiFetch<{waypoints: any[]}>("/waypoints"),
+  historicalVessels: () => apiFetch<{vessels: any[]}>("/historical-vessels"),
+  backtest: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/routes/backtest?voyage_id=${voyageId}`),
+  backtestCatalog: () => apiFetch<{catalog: any[]}>("/routes/backtest/catalog"),
   alerts: () => apiFetch<{alerts: any[]}>("/alerts"),
   reports: () => apiFetch<{reports: any[]}>("/reports"),
   optimize: (params?: Record<string, string>) => {

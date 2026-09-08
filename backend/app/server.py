@@ -291,6 +291,26 @@ def api_routes(
     }
 
 
+@app.get("/api/routes/backtest")
+def api_route_backtest(voyage_id: str = "AAD-2015-16"):
+    """Execute validation backtest comparing historical voyage to PolarNav corridor."""
+    try:
+        from src.vessel_tracking.backtest_engine import execute_route_backtest
+    except ImportError:
+        from backend.src.vessel_tracking.backtest_engine import execute_route_backtest
+    return execute_route_backtest(voyage_id)
+
+
+@app.get("/api/routes/backtest/catalog")
+def api_route_backtest_catalog():
+    """Return catalog of available historical voyages for backtesting comparison."""
+    try:
+        from src.vessel_tracking.backtest_engine import get_historical_voyages_catalog
+    except ImportError:
+        from backend.src.vessel_tracking.backtest_engine import get_historical_voyages_catalog
+    return {"catalog": get_historical_voyages_catalog()}
+
+
 @app.get("/api/routes/{route_id}")
 def api_route_detail(route_id: str, vessel_id: str = Query(None)):
     """Get detail for a specific route corridor."""

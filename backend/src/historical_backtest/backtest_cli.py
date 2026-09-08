@@ -37,6 +37,11 @@ def main():
     )
     parser.add_argument("--polar-class", type=str, default="PC3", help="Vessel Polar Class (default: PC3)")
     parser.add_argument("--speed", type=float, default=14.0, help="Operational cruising speed in knots (default: 14.0)")
+    parser.add_argument(
+        "--three-way",
+        action="store_true",
+        help="Execute 3-way route safety comparison: Actual AIS vs. Predicted vs. Safety-Optimized",
+    )
 
     args = parser.parse_args()
 
@@ -131,6 +136,62 @@ def main():
         json.dump(result.to_dict(), f, indent=2)
 
     print(f"\nStandardized BacktestResult written to: {out_path.resolve()}\n")
+
+    # Optional or Flagged 3-Way Route Safety & Efficiency Comparison
+    if args.three_way:
+        print("=" * 76)
+        print("PHASE 6: THREE-WAY ROUTE SAFETY & EFFICIENCY COMPARISON")
+        print("A. Actual AIS Track  vs.  B. Predicted (Balanced)  vs.  C. Safety-Optimized (Safest)")
+        print("=" * 76)
+        comparison = engine.compare_voyage_safety(
+            voyage_id=args.voyage_id,
+            actual_track=track,
+            departure_time=dep_time,
+            vessel_name=v_name,
+            polar_class=args.polar_class,
+            speed_knots=args.speed,
+            actual_duration_hours=act_hours,
+        )
+
+        r_act = comparison.route_actual
+        r_pred = comparison.route_predicted
+        r_safe = comparison.route_safety_optimized
+
+        print(f"\n{'Metric Dimension':<32} | {'A. Actual Human AIS':<18} | {'B. Predicted (Balanced)':<21} | {'C. Safety-Optimized (Safest)':<26}")
+        print("-" * 105)
+        print(f"{'EFFICIENCY: Corridor Length':<32} | {r_act.total_distance_km:>14,.1f} km | {r_pred.total_distance_km:>17,.1f} km | {r_safe.total_distance_km:>22,.1f} km")
+        print(f"{'EFFICIENCY: Transit Duration':<32} | {r_act.estimated_duration_hours:>14,.1f} h  | {r_pred.estimated_duration_hours:>17,.1f} h  | {r_safe.estimated_duration_hours:>22,.1f} h ")
+        print(f"{'EFFICIENCY: Fuel Consumption':<32} | {r_act.fuel_consumption_tonnes:>14,.1f} MT | {r_pred.fuel_consumption_tonnes:>17,.1f} MT | {r_safe.fuel_consumption_tonnes:>22,.1f} MT")
+        print(f"{'SAFETY: Mean SIC Exposure':<32} | {r_act.mean_sic_pct:>17.1f}% | {r_pred.mean_sic_pct:>20.1f}% | {r_safe.mean_sic_pct:>25.1f}%")
+        print(f"{'SAFETY: Max SIC Encountered':<32} | {r_act.max_sic_pct:>17.1f}% | {r_pred.max_sic_pct:>20.1f}% | {r_safe.max_sic_pct:>25.1f}%")
+        print(f"{'SAFETY: High Pack Ice (>40% SIC)':<32} | {r_act.high_sic_distance_km:>14,.1f} km | {r_pred.high_sic_distance_km:>17,.1f} km | {r_safe.high_sic_distance_km:>22,.1f} km")
+        print(f"{'SAFETY: Min Iceberg Clearance':<32} | {r_act.min_iceberg_clearance_km:>14,.1f} km | {r_pred.min_iceberg_clearance_km:>17,.1f} km | {r_safe.min_iceberg_clearance_km:>22,.1f} km")
+        print(f"{'SAFETY: Iceberg Encounters (<15km)':<32} | {r_act.iceberg_encounters_15km:>18} | {r_pred.iceberg_encounters_15km:>21} | {r_safe.iceberg_encounters_15km:>26}")
+        print(f"{'SAFETY: Shallow Water Depth (<20m)':<32} | {r_act.bathymetry_violations_20m:>18} | {r_pred.bathymetry_violations_20m:>21} | {r_safe.bathymetry_violations_20m:>26}")
+        print(f"{'SAFETY: Land Mask Intersections':<32} | {r_act.coastline_land_violations:>18} | {r_pred.coastline_land_violations:>21} | {r_safe.coastline_land_violations:>26}")
+        print(f"{'COMPOSITE SAFETY INDEX (CSI)':<32} | {r_act.composite_safety_index:>18.4f} | {r_pred.composite_safety_index:>21.4f} | {r_safe.composite_safety_index:>26.4f}")
+
+        print("\n" + "-" * 105)
+        print("PAIRWISE ROUTE SIMILARITY (SPATIAL & GEOGRAPHIC DEVIATIONS)")
+        print("-" * 105)
+        for pair_key, sim in comparison.to_dict()["pairwise_similarities"].items():
+            print(f"  [{sim['comparison_pair']}]")
+            print(f"    Hausdorff Distance:          {sim['hausdorff_distance_km']:>8,.1f} km (maximum trajectory divergence)")
+            print(f"    Mean Cross-Track Deviation:  {sim['mean_cross_track_deviation_km']:>8,.1f} km (average lateral offset)")
+            print(f"    Length Difference:           {sim['length_difference_km']:>8,.1f} km ({sim['length_difference_pct']:+.1f}%)")
+
+        print("\n" + "=" * 105)
+        print("METHODOLOGICAL DISCLOSURES & SCIENTIFIC LIMITATIONS")
+        print("=" * 105)
+        for k, text in comparison.methodological_notes.items():
+            print(f"  * {text}")
+        print("=" * 105)
+
+        # Export 3-way comparison
+        three_way_out = out_path.parent / f"three_way_comparison_{args.voyage_id.lower().replace('-', '_')}.json"
+        with open(three_way_out, "w", encoding="utf-8") as f:
+            json.dump(comparison.to_dict(), f, indent=2)
+        print(f"Three-way comparison JSON exported to: {three_way_out.resolve()}\n")
 
 
 if __name__ == "__main__":

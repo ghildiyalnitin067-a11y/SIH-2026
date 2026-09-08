@@ -275,3 +275,101 @@ class HistoricalVoyageReplayEngine:
             actual_path_coords=actual_path,
             model_path_coords=clean_model_path,
         )
+
+    def compare_voyage_safety(
+        self,
+        voyage_id: str,
+        actual_track: List[List[float]],
+        departure_time: datetime,
+        vessel_name: str = "Research Vessel",
+        polar_class: str = "PC3",
+        speed_knots: float = 14.0,
+        draft_m: float = 8.0,
+        destination_coords: Optional[Tuple[float, float]] = None,
+        actual_duration_hours: Optional[float] = None,
+    ):
+        """Execute full three-way safety and efficiency comparison across:
+        Route A: Actual Historical AIS Route
+        Route B: ML + Routing Predicted Route (Balanced Corridor)
+        Route C: Safety-Optimized Route (Safest Corridor)
+        """
+        from .route_safety_comparator import RouteSafetyComparator
+
+        if len(actual_track) < 2:
+            raise ValueError(f"Actual track must contain at least 2 points, got {len(actual_track)}")
+
+        start_lat, start_lon = float(actual_track[0][0]), float(actual_track[0][1])
+        dest_lat = float(destination_coords[0]) if destination_coords else float(actual_track[-1][0])
+        dest_lon = float(destination_coords[1]) if destination_coords else float(actual_track[-1][1])
+
+        vessel_info = {
+            "vessel_name": vessel_name,
+            "polar_class": polar_class,
+            "speed_knots": speed_knots,
+            "draft_m": draft_m,
+            "current_lat": start_lat,
+            "current_lon": start_lon,
+        }
+
+        # Generate Pareto candidates from routing engine
+        routes = self.routing_engine.generate_routes(
+            vessel=vessel_info,
+            dest_override=(dest_lat, dest_lon),
+            dest_name="Destination",
+        )
+
+        actual_path = [[float(p[0]), float(p[1])] for p in actual_track]
+
+        # Extract Predicted (Balanced) and Safety-Optimized (Safest)
+        pred_route = None
+        safest_route = None
+
+        for r in routes:
+            opt_mode = r.get("optimization_mode", "")
+            if opt_mode == "BALANCED" or r.get("recommended"):
+                if pred_route is None:
+                    pred_route = r
+            elif opt_mode == "SAFEST" or r.get("is_safest"):
+                if safest_route is None:
+                    safest_route = r
+
+        if not pred_route and routes:
+            pred_route = routes[0]
+        if not safest_route and routes:
+            safest_route = routes[-1] if len(routes) > 1 else routes[0]
+
+        # Fallback if no routes found
+        if not pred_route:
+            lats = np.linspace(start_lat, dest_lat, 25)
+            lons = np.linspace(start_lon, dest_lon, 25)
+            pred_path = [[float(lt), float(ln)] for lt, ln in zip(lats, lons)]
+            safest_path = [[float(lt), float(ln)] for lt, ln in zip(lats, lons)]
+        else:
+            p_pts = pred_route.get("path", [])
+            if not p_pts:
+                p_pts = [[c[1], c[0]] for c in pred_route.get("geojson_coordinates", [])]
+            pred_path = [[float(pt[0]), float(pt[1])] for pt in p_pts]
+
+            s_pts = safest_route.get("path", [])
+            if not s_pts:
+                s_pts = [[c[1], c[0]] for c in safest_route.get("geojson_coordinates", [])]
+            safest_path = [[float(pt[0]), float(pt[1])] for pt in s_pts]
+
+        comparator = RouteSafetyComparator(
+            sic_lookup_fn=self._get_sic,
+            iceberg_dist_fn=self._get_iceberg_dist,
+            depth_lookup_fn=self._get_depth,
+            is_land_fn=self._is_land,
+        )
+
+        return comparator.compare_three_routes(
+            voyage_id=voyage_id,
+            vessel_name=vessel_name,
+            departure_time=departure_time.isoformat(),
+            actual_path=actual_path,
+            predicted_path=pred_path,
+            safest_path=safest_path,
+            speed_knots=speed_knots,
+            polar_class=polar_class,
+            actual_duration_hours=actual_duration_hours,
+        )

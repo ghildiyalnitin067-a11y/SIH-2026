@@ -10,7 +10,13 @@ from .backtest_schema import (
     RouteComparisonMetrics,
     BacktestResult,
 )
+from .safety_metrics_schema import (
+    RouteProfileMetrics,
+    PairwiseSimilarityMetrics,
+    ThreeWayRouteComparison,
+)
 from .backtest_metrics import compute_route_comparison_metrics
+from .route_safety_comparator import RouteSafetyComparator
 from .replay_engine import HistoricalVoyageReplayEngine
 
 __all__ = [
@@ -18,6 +24,10 @@ __all__ = [
     "ViolationAudit",
     "RouteComparisonMetrics",
     "BacktestResult",
+    "RouteProfileMetrics",
+    "PairwiseSimilarityMetrics",
+    "ThreeWayRouteComparison",
+    "RouteSafetyComparator",
     "compute_route_comparison_metrics",
     "HistoricalVoyageReplayEngine",
 ]

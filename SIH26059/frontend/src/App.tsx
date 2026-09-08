@@ -11,6 +11,8 @@ import AlertsPage from './pages/platform/AlertsPage';
 import ReportsPage from './pages/platform/ReportsPage';
 import IntelligencePage from './pages/platform/IntelligencePage';
 
+import HistoricalValidationPage from './pages/platform/HistoricalValidationPage';
+
 function App() {
   return (
     <Router>
@@ -22,6 +24,7 @@ function App() {
           <Route path="/sea-ice" element={<SeaIcePage />} />
           <Route path="/icebergs" element={<IcebergTrackingPage />} />
           <Route path="/routes" element={<RouteOptimizationPage />} />
+          <Route path="/historical-validation" element={<HistoricalValidationPage />} />
           <Route path="/intelligence" element={<IntelligencePage />} />
           <Route path="/analysis" element={<AnalysisPage />} />
           <Route path="/alerts" element={<AlertsPage />} />

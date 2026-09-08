@@ -14,7 +14,8 @@ import {
   Menu,
   X,
   Layers,
-  Cpu
+  Cpu,
+  History
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { api } from '../../services/api';
@@ -33,6 +34,7 @@ const primaryNav = [
   { id: 'sea-ice', path: '/sea-ice', icon: Snowflake, label: 'Sea-Ice & SAR' },
   { id: 'icebergs', path: '/icebergs', icon: Target, label: 'Icebergs' },
   { id: 'routes', path: '/routes', icon: RouteIcon, label: 'Routes' },
+  { id: 'historical-validation', path: '/historical-validation', icon: History, label: 'Historical Validation' },
 ];
 
 // 2. Secondary Analytics & Documentation Tools (Grouped in dropdown)

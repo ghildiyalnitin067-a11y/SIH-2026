@@ -22,8 +22,7 @@ import {
   Plus,
   Minus,
   Eye,
-  Activity,
-  MapPin
+  Activity
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { useFleet, CANONICAL_FLEET, haversineDistKm } from '../../context/FleetContext';
@@ -1380,7 +1379,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
     // -------------------------------------------------------------------------
     const histFeatures: Feature[] = [];
     if (historicalWaypoints && historicalWaypoints.length > 1) {
-      const histCoords = historicalWaypoints.map((w: any) => [w.longitude, w.latitude]);
+      const histCoords: [number, number][] = historicalWaypoints.map((w: any) => [Number(w.longitude), Number(w.latitude)]);
       const histSegments = splitAntimeridianLine(histCoords);
       histFeatures.push({
         type: 'Feature',

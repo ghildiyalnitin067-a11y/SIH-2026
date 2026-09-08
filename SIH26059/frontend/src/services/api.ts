@@ -225,6 +225,9 @@ export const api = {
     generated_at: string;
     engine: string;
   }>("/routes/optimize", payload),
+  historicalCatalog: () => apiFetch<{ catalog: any[] }>("/routes/backtest/catalog"),
+  historicalReplay: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/replay?voyage_id=${voyageId}`),
+  historicalThreeWay: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/three-way?voyage_id=${voyageId}`),
 };
 
 

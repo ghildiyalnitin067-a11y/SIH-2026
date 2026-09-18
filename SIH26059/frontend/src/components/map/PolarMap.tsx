@@ -1945,7 +1945,6 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   border-left:3px solid transparent;
                   border-right:3px solid transparent;
                   border-bottom:5px solid ${isSelected ? '#FACC15' : color};
-                  filter:drop-shadow(0 0 2px ${color});
                 "></div>
               </div>
             ` : ''}

@@ -50,10 +50,10 @@ const Landing = () => {
       {/* Streamlined Navbar */}
       <nav
         className={cn(
-          "fixed top-0 w-full z-50 transition-all duration-200 border-b",
+          "fixed top-0 w-full z-50 transition-all duration-200 border-b border-slate-800 bg-[#06111e]",
           scrolled 
-            ? "bg-[#06111e]/95 backdrop-blur-md border-slate-800 py-2.5 shadow-md" 
-            : "bg-[#040B14]/80 backdrop-blur-sm border-slate-800/60 py-3"
+            ? "py-2.5 shadow-md" 
+            : "py-3"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
@@ -216,7 +216,7 @@ const Landing = () => {
         </div>
 
         {/* Hero Metrics */}
-        <div className="relative z-10 w-full border-t border-slate-800 bg-[#06111e]/90 backdrop-blur-md">
+        <div className="relative z-10 w-full border-t border-slate-800 bg-[#06111e]">
           <div className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <div>
               <p className="text-slate-400 text-xs font-mono mb-1 tracking-widest">SEA-ICE MONITORING</p>

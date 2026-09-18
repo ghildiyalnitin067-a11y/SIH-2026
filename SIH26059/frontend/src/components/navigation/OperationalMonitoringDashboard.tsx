@@ -1193,7 +1193,7 @@ export const OperationalMonitoringDashboard: React.FC = () => {
           <div ref={mapContainerRef} className="w-full h-full" />
 
           {/* MAP OVERLAY: LAYER PROVENANCE HUD (Every Live Layer Displays: Source, Timestamp, Data Age) */}
-          <div className="absolute top-3 left-3 z-10 bg-slate-950/85 backdrop-blur border border-slate-800 p-2 rounded shadow-lg font-mono text-[10px] max-w-sm pointer-events-auto">
+          <div className="absolute top-3 left-3 z-10 bg-slate-950 border border-slate-800 p-2 rounded shadow-lg font-mono text-[10px] max-w-sm pointer-events-auto">
             <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-1 mb-1">
               <span className="font-bold text-slate-200 uppercase flex items-center gap-1.5">
                 <Database className="w-3 h-3 text-emerald-400" />
@@ -1260,7 +1260,7 @@ export const OperationalMonitoringDashboard: React.FC = () => {
           </div>
 
           {/* MAP BOTTOM: LAYER TOGGLES DRAWER */}
-          <div className="absolute bottom-3 left-3 right-3 z-10 bg-slate-950/90 backdrop-blur border border-slate-800 p-2.5 rounded shadow-xl font-mono text-xs flex items-center justify-between gap-4 overflow-x-auto">
+          <div className="absolute bottom-3 left-3 right-3 z-10 bg-slate-950 border border-slate-800 p-2.5 rounded shadow-xl font-mono text-xs flex items-center justify-between gap-4 overflow-x-auto">
             <div className="flex items-center gap-1.5 font-bold text-slate-300 text-[11px] shrink-0">
               <Layers className="w-3.5 h-3.5 text-emerald-400" />
               <span>LAYER TOGGLES:</span>

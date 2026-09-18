@@ -3,8 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: dark;
+  }
   body {
-    @apply bg-navy text-ice-white font-sans antialiased overflow-x-hidden;
+    background-color: #040911;
+    color: #f1f5f9;
+    font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    color-scheme: dark;
+  }
+  input, select, textarea, button {
+    color-scheme: dark;
+  }
+  select option {
+    background-color: #081322;
+    color: #e2e8f0;
   }
 }
 

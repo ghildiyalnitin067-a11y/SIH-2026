@@ -1637,23 +1637,22 @@ export const PolarMap: React.FC<PolarMapProps> = ({
           : `${vSpeed} kn`;
         
         if (isSelected) {
-          // RANK 1: ACTIVE VESSEL (Bright Cyan/White, Active Beacon Pulse, Heading Vector)
+          // RANK 1: ACTIVE VESSEL (Sleek, Calm, Non-Glowing Maritime Icon)
           vesselEl.innerHTML = `
-            <div style="position:relative;width:50px;height:50px;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-              <div style="position:absolute;width:46px;height:46px;border-radius:50%;background:rgba(0,242,254,0.22);border:1.5px solid #00F2FE;animation:ping 2.5s infinite;pointer-events:none;"></div>
-              <div style="width:30px;height:30px;border-radius:50%;background:#040B16;border:2.5px solid #00F2FE;display:flex;align-items:center;justify-content:center;transform:rotate(${vHeading}deg);box-shadow:0 0 20px rgba(0,242,254,0.95);pointer-events:none;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="#00F2FE" stroke="#FFFFFF" stroke-width="2"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
+            <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+              <div style="width:26px;height:26px;border-radius:50%;background:#061322;border:2px solid #38bdf8;display:flex;align-items:center;justify-content:center;transform:rotate(${vHeading}deg);pointer-events:none;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#38bdf8" stroke="#061322" stroke-width="1.5"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
               </div>
-              <span style="position:absolute;bottom:-14px;font-family:monospace;font-size:9.5px;font-weight:bold;color:#00F2FE;background:#040B16;padding:2px 6px;border-radius:3px;border:1px solid #00F2FE;white-space:nowrap;box-shadow:0 0 10px rgba(0,242,254,0.45);pointer-events:none;">
-                ★ ${cleanName} • ${statusLabel}
+              <span style="position:absolute;bottom:-13px;font-family:sans-serif;font-size:9.5px;font-weight:600;color:#e2e8f0;background:#061322;padding:1.5px 6px;border-radius:4px;border:1px solid rgba(255,255,255,0.12);white-space:nowrap;pointer-events:none;">
+                ${cleanName} • ${statusLabel}
               </span>
             </div>`;
         } else {
           // RANK 6: OTHER FLEET VESSELS (Muted Slate, Interactive on Hover & Click)
           vesselEl.innerHTML = `
-            <div style="position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;pointer-events:none;" title="${cleanName} (${statusLabel})">
-              <div style="width:24px;height:24px;border-radius:50%;background:#0A1322;border:1.5px solid #64748B;display:flex;align-items:center;justify-content:center;transform:rotate(${vHeading}deg);box-shadow:0 0 8px rgba(100,116,139,0.5);pointer-events:none;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#94A3B8" stroke="#FFFFFF" stroke-width="1.5"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
+            <div style="position:relative;width:28px;height:28px;display:flex;align-items:center;justify-content:center;pointer-events:none;" title="${cleanName} (${statusLabel})">
+              <div style="width:20px;height:20px;border-radius:50%;background:#0A1322;border:1.5px solid #475569;display:flex;align-items:center;justify-content:center;transform:rotate(${vHeading}deg);pointer-events:none;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#94A3B8" stroke="#0A1322" stroke-width="1"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
               </div>
             </div>`;
         }

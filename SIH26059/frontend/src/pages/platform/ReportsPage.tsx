@@ -124,7 +124,7 @@ export const ReportsPage: React.FC = () => {
       subtitle={`Polar Code compliance documentation & official logs • Vessel: ${selectedVessel.name}`}
       actions={
         <div className="flex items-center gap-2 text-xs">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
+          <div className="flex items-center gap-2 px-2.5 py-1 bg-[#081525] rounded-md text-slate-300 border border-white/[0.06]">
             <Ship className="w-3.5 h-3.5 text-sky-400" />
             <span className="text-slate-400">Vessel:</span>
             <span className="text-slate-200 font-medium">{selectedVessel.name.split(' ')[0]}</span>
@@ -132,7 +132,7 @@ export const ReportsPage: React.FC = () => {
           <button
             type="button"
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/80 text-slate-200 text-xs border border-slate-800/60 transition-colors font-medium"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#081525] hover:bg-[#0c1c2e] text-slate-200 text-xs border border-white/[0.06] transition-colors font-medium cursor-pointer"
           >
             <Printer className="w-3.5 h-3.5 text-sky-400" />
             <span>Print</span>
@@ -141,7 +141,7 @@ export const ReportsPage: React.FC = () => {
             type="button"
             onClick={handleDownload}
             disabled={isExporting}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition-colors disabled:opacity-50 cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isExporting ? 'Exporting...' : 'Export Report'}</span>
@@ -149,33 +149,33 @@ export const ReportsPage: React.FC = () => {
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-8 max-w-4xl mx-auto space-y-4 bg-[#040B14] font-sans">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-8 max-w-4xl mx-auto space-y-4 bg-[#040911] font-sans">
         
         {/* Selector Pills */}
-        <div className="flex items-center gap-2 border-b border-slate-800/50 pb-3 overflow-x-auto custom-scrollbar">
+        <div className="flex items-center gap-2 border-b border-white/[0.04] pb-3 overflow-x-auto custom-scrollbar">
           {reports.map((r) => (
             <button
               key={r.id}
               type="button"
               onClick={() => setSelectedReportId(r.id)}
               className={cn(
-                "px-3 py-1.5 rounded-lg text-xs transition-colors whitespace-nowrap border flex items-center gap-2 font-medium",
+                "px-3 py-1.5 rounded-md text-xs transition-colors whitespace-nowrap flex items-center gap-2 font-medium cursor-pointer",
                 selectedReportId === r.id
-                  ? "bg-sky-500/20 text-sky-300 border-sky-500/40"
-                  : "bg-slate-900/60 text-slate-400 border-slate-800/50 hover:text-slate-200 hover:bg-slate-900/90"
+                  ? "bg-sky-600 text-white font-semibold"
+                  : "bg-[#081424]/70 text-slate-400 hover:text-white"
               )}
             >
-              <FileCheck className="w-3.5 h-3.5 text-sky-400" />
+              <FileCheck className="w-3.5 h-3.5 text-sky-300" />
               <span className="font-mono">{r.id}</span>
             </button>
           ))}
         </div>
 
         {/* Formal Report Document Display */}
-        <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl p-5 sm:p-7 space-y-5 text-xs shadow-xs">
+        <div className="bg-[#081424]/70 rounded-lg p-5 sm:p-7 space-y-5 text-xs">
           
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/50 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-4">
             <div>
               <span className="text-[11px] text-sky-400 tracking-wide uppercase font-medium block mb-1">
                 International Maritime Organization (IMO) POLARIS Protocol
@@ -186,7 +186,7 @@ export const ReportsPage: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <span className={cn(
-                "px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1.5",
+                "px-3 py-1 rounded-md text-xs font-medium flex items-center gap-1.5",
                 selectedReport.status === 'COMPLIANT' ? "text-emerald-400 bg-emerald-500/15" : "text-amber-400 bg-amber-500/15"
               )}>
                 {selectedReport.status === 'COMPLIANT' ? <ShieldCheck className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
@@ -196,7 +196,7 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           {/* RIO Score Metric Banner */}
-          <div className="grid grid-cols-3 gap-3 p-4 bg-slate-900/60 rounded-xl border border-slate-800/50 text-center">
+          <div className="grid grid-cols-3 gap-3 p-4 bg-[#081525]/60 rounded-lg text-center">
             <div>
               <span className="text-[11px] text-slate-400 uppercase font-medium block">RIO Outcome</span>
               <span className="text-xl font-bold font-mono text-emerald-400 mt-0.5 block">+{selectedReport.rioScore}</span>
@@ -237,7 +237,7 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           {/* Signature Footer */}
-          <div className="pt-4 border-t border-slate-800/50 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400">
+          <div className="pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400">
             <span className="font-mono">Record Hash: SHA256:{selectedReport.id}-POLAR-NAV</span>
             <span>Issued Date: {selectedReport.date} (UTC)</span>
           </div>

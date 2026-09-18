@@ -153,17 +153,17 @@ export const IcebergTrackingPage: React.FC = () => {
       actions={
         <div className="flex items-center gap-2 text-xs">
           {/* Horizon Selector */}
-          <div className="flex items-center bg-slate-900/80 border border-slate-800/60 rounded-lg p-1 gap-1">
+          <div className="flex items-center bg-[#081525] rounded-md p-0.5 gap-0.5 border border-white/[0.06]">
             {horizonOptions.map((h) => (
               <button
                 key={h.hours}
                 type="button"
                 onClick={() => setSelectedHorizon(h.hours)}
                 className={cn(
-                  "px-2.5 py-1 rounded-md text-xs font-medium transition-colors",
+                  "px-2.5 py-1 rounded-sm text-[11px] font-medium transition-colors cursor-pointer",
                   selectedHorizon === h.hours
-                    ? "bg-sky-500/20 text-sky-300 font-semibold"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+                    ? "bg-sky-600 text-white font-semibold"
+                    : "text-slate-400 hover:text-white"
                 )}
               >
                 {h.label}
@@ -171,39 +171,41 @@ export const IcebergTrackingPage: React.FC = () => {
             ))}
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
-            <Mountain className="w-3.5 h-3.5 text-sky-400" />
-            <span className="text-slate-400 text-xs">Dataset:</span>
-            <span className="text-slate-200 font-medium text-xs">{icebergs.length} Records (US NIC)</span>
+          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 text-slate-300 text-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="text-slate-300 font-medium">US NIC + BYU</span>
           </div>
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-6 space-y-4 bg-[#040B14] text-slate-200 font-sans">
+      <div className="flex flex-col h-full overflow-hidden bg-[#040911] font-sans">
         
         {/* ========================================================================= */}
-        {/* 1. DOMINANT MAP (UPPER AREA) WITH SELECTED TARGET INSPECTOR               */}
+        {/* 1. MAP WORKSPACE & TRACKING VIEW                                         */}
         {/* ========================================================================= */}
-        <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl overflow-hidden shadow-xs flex flex-col">
+        <div className="flex-1 relative overflow-hidden flex flex-col">
           
-          <div className="px-4 py-3 bg-slate-900/60 border-b border-slate-800/50 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2.5">
-              <span className="text-slate-200 font-semibold flex items-center gap-2">
-                <Mountain className="w-4 h-4 text-sky-400" />
+          {/* Top Info Bar */}
+          <div className="bg-[#060e18] border-b border-white/[0.04] px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3 text-xs shrink-0">
+            <div className="flex items-center gap-3">
+              <span className="text-slate-200 font-semibold flex items-center gap-1.5">
+                <Mountain className="w-3.5 h-3.5 text-sky-400" />
                 Tracked Iceberg Targets
               </span>
-              <span className="text-slate-600">|</span>
-              <span className="text-slate-400 text-xs">{filteredIcebergs.length} of {icebergs.length} Active in View</span>
+              <span className="text-slate-500 font-mono">|</span>
+              <span className="text-slate-400 font-mono text-[11px]">
+                {filteredIcebergs.length} of {icebergs.length} Active in View
+              </span>
             </div>
 
             {selectedIceberg && (
-              <div className="flex items-center gap-2 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-lg">
+              <div className="flex items-center gap-2 bg-sky-500/10 px-2.5 py-1 rounded-md">
                 <span className="text-slate-400 text-xs">Selected:</span>
                 <span className="text-sky-300 font-semibold text-xs font-mono">{selectedIceberg.id} ({selectedIceberg.name})</span>
                 <button
                   type="button"
                   onClick={() => setSelectedIcebergId(null)}
-                  className="text-slate-400 hover:text-slate-200 p-0.5 rounded-md hover:bg-slate-800/40 ml-1"
+                  className="text-slate-400 hover:text-slate-200 p-0.5 rounded-md hover:bg-white/10 ml-1 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -211,7 +213,7 @@ export const IcebergTrackingPage: React.FC = () => {
             )}
           </div>
 
-          <div className="relative w-full h-[380px] lg:h-[440px] bg-[#040B14]">
+          <div className="relative w-full h-[380px] lg:h-[420px] bg-[#040911]">
             <PolarMap
               section="icebergs"
               showRoute={true}
@@ -234,14 +236,14 @@ export const IcebergTrackingPage: React.FC = () => {
 
             {/* Selected Iceberg Floating Inspector Card */}
             {selectedIceberg && (
-              <div className="absolute top-4 right-4 z-30 max-w-sm w-full bg-[#06111e]/95 backdrop-blur-md border border-slate-700/60 p-4 rounded-xl shadow-lg text-xs space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-800/60 pb-2.5">
+              <div className="absolute top-4 right-4 z-30 max-w-sm w-full bg-[#060e18]/95 backdrop-blur-md border border-white/10 p-4 rounded-lg text-xs space-y-3">
+                <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-100 font-bold font-mono text-sm">{selectedIceberg.id}</span>
                     <span className="text-slate-400 text-xs truncate max-w-[130px]">{selectedIceberg.name}</span>
                   </div>
                   <span className={cn(
-                    "text-[10px] px-2 py-0.5 rounded-full font-medium",
+                    "text-[10px] px-2 py-0.5 rounded-md font-medium",
                     selectedIceberg.risk === 'HIGH' ? "bg-rose-500/15 text-rose-400" :
                     selectedIceberg.risk === 'CAUTION' ? "bg-amber-500/15 text-amber-400" :
                     "bg-emerald-500/15 text-emerald-400"
@@ -269,7 +271,7 @@ export const IcebergTrackingPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800/60 flex justify-between">
+                <div className="text-[11px] text-slate-400 pt-2 border-t border-white/[0.06] flex justify-between">
                   <span>Source: <strong className="text-slate-300 font-normal">{selectedIceberg.sensorSource}</strong></span>
                   <span>Trend: <strong className="text-slate-300 font-normal">{selectedIceberg.movementTrend}</strong></span>
                 </div>
@@ -282,7 +284,7 @@ export const IcebergTrackingPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 2. FILTERS BAR: ID, Region, Risk, Status                                 */}
         {/* ========================================================================= */}
-        <div className="bg-[#06111e]/90 border border-slate-800/50 p-3.5 rounded-xl text-xs flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div className="bg-[#060e18] border-t border-b border-white/[0.04] p-3 text-xs flex flex-wrap items-center justify-between gap-3">
           
           <div className="flex flex-wrap items-center gap-3 flex-1">
             {/* Filter by ID */}
@@ -293,7 +295,7 @@ export const IcebergTrackingPage: React.FC = () => {
                 placeholder="Filter by target ID or name..."
                 value={filterId}
                 onChange={(e) => setFilterId(e.target.value)}
-                className="w-full bg-slate-900/80 border border-slate-800/60 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors"
+                className="w-full bg-[#081525] border border-white/10 rounded-md pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-sky-500/50 transition-colors"
               />
             </div>
 
@@ -303,7 +305,7 @@ export const IcebergTrackingPage: React.FC = () => {
               <select
                 value={filterRegion}
                 onChange={(e) => setFilterRegion(e.target.value)}
-                className="bg-slate-900/80 border border-slate-800/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
+                className="bg-[#081525] border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
               >
                 <option value="ALL">All Regions</option>
                 <option value="Weddell Sea">Weddell Sea</option>
@@ -320,7 +322,7 @@ export const IcebergTrackingPage: React.FC = () => {
               <select
                 value={filterRisk}
                 onChange={(e) => setFilterRisk(e.target.value)}
-                className="bg-slate-900/80 border border-slate-800/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
+                className="bg-[#081525] border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
               >
                 <option value="ALL">All Risk Levels</option>
                 <option value="HIGH">High</option>
@@ -335,7 +337,7 @@ export const IcebergTrackingPage: React.FC = () => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="bg-slate-900/80 border border-slate-800/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
+                className="bg-[#081525] border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="Moving">Moving</option>
@@ -345,8 +347,8 @@ export const IcebergTrackingPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="text-xs text-slate-400">
-            Showing <span className="text-slate-200 font-semibold font-mono">{filteredIcebergs.length}</span> targets
+          <div className="text-xs text-slate-400 font-mono">
+            Showing <span className="text-slate-200 font-semibold">{filteredIcebergs.length}</span> targets
           </div>
 
         </div>
@@ -354,11 +356,11 @@ export const IcebergTrackingPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 3. CLEAN TABULAR LIST: ID, Lat, Lon, Timestamp, Risk, Distance, Status   */}
         {/* ========================================================================= */}
-        <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl overflow-hidden shadow-xs">
+        <div className="bg-[#060e18] overflow-hidden flex-1 flex flex-col justify-between">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-slate-900/60 border-b border-slate-800/50 text-slate-400 text-[11px] uppercase tracking-wider">
+                <tr className="bg-[#081424]/80 border-b border-white/[0.04] text-slate-400 text-[11px] uppercase tracking-wider">
                   <th className="py-2.5 px-4 font-semibold">Iceberg ID</th>
                   <th className="py-2.5 px-4 font-semibold">Name / Class</th>
                   <th className="py-2.5 px-4 font-semibold">Latitude</th>
@@ -370,7 +372,7 @@ export const IcebergTrackingPage: React.FC = () => {
                   <th className="py-2.5 px-4 text-right font-semibold">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/40">
+              <tbody className="divide-y divide-white/[0.04]">
                 {filteredIcebergs.length === 0 ? (
                   <tr>
                     <td colSpan={9} className="py-8 text-center text-slate-500 text-xs">
@@ -388,10 +390,10 @@ export const IcebergTrackingPage: React.FC = () => {
                           "cursor-pointer transition-colors",
                           isSelected
                             ? "bg-sky-500/10 text-slate-100 font-medium"
-                            : "hover:bg-slate-800/30 text-slate-300"
+                            : "hover:bg-white/[0.03] text-slate-300"
                         )}
                       >
-                        <td className="py-2 px-4 text-slate-200 font-bold font-mono flex items-center gap-2">
+                        <td className="py-2.5 px-4 text-slate-200 font-bold font-mono flex items-center gap-2">
                           <span
                             className="w-2 h-2 rounded-full inline-block shrink-0"
                             style={{
@@ -400,13 +402,13 @@ export const IcebergTrackingPage: React.FC = () => {
                           />
                           {ib.id}
                         </td>
-                        <td className="py-2 px-4 text-slate-300 truncate max-w-[140px]">{ib.name}</td>
-                        <td className="py-2 px-4 text-slate-400 font-mono text-[11px]">{Math.abs(ib.latitude).toFixed(2)}°S</td>
-                        <td className="py-2 px-4 text-slate-400 font-mono text-[11px]">{Math.abs(ib.longitude).toFixed(2)}°{ib.longitude >= 0 ? 'E' : 'W'}</td>
-                        <td className="py-2 px-4 text-slate-400 text-[11px]">{ib.lastObserved || 'Daily 12:00 UTC'}</td>
-                        <td className="py-2 px-4">
+                        <td className="py-2.5 px-4 text-slate-300 truncate max-w-[140px]">{ib.name}</td>
+                        <td className="py-2.5 px-4 text-slate-400 font-mono text-[11px]">{Math.abs(ib.latitude).toFixed(2)}°S</td>
+                        <td className="py-2.5 px-4 text-slate-400 font-mono text-[11px]">{Math.abs(ib.longitude).toFixed(2)}°{ib.longitude >= 0 ? 'E' : 'W'}</td>
+                        <td className="py-2.5 px-4 text-slate-400 text-[11px]">{ib.lastObserved || 'Daily 12:00 UTC'}</td>
+                        <td className="py-2.5 px-4">
                           <span className={cn(
-                            "text-[10px] px-2 py-0.5 rounded-full font-medium",
+                            "text-[10px] px-2 py-0.5 rounded-md font-medium",
                             ib.risk === 'HIGH' ? "bg-rose-500/15 text-rose-400" :
                             ib.risk === 'CAUTION' ? "bg-amber-500/15 text-amber-400" :
                             "bg-emerald-500/15 text-emerald-400"
@@ -414,12 +416,12 @@ export const IcebergTrackingPage: React.FC = () => {
                             {ib.risk}
                           </span>
                         </td>
-                        <td className="py-2 px-4 text-sky-400 font-semibold font-mono">{ib.distanceToRoute}</td>
-                        <td className="py-2 px-4 text-slate-400 text-[11px]">{ib.status}</td>
-                        <td className="py-2 px-4 text-right">
+                        <td className="py-2.5 px-4 text-sky-400 font-semibold font-mono">{ib.distanceToRoute}</td>
+                        <td className="py-2.5 px-4 text-slate-400 text-[11px]">{ib.status}</td>
+                        <td className="py-2.5 px-4 text-right">
                           <button
                             type="button"
-                            className="text-xs text-sky-400 hover:text-slate-100 px-2.5 py-1 rounded-md bg-slate-900/80 border border-slate-800/60 hover:bg-slate-800/60 transition-colors font-medium"
+                            className="text-xs text-sky-400 hover:text-slate-100 px-2.5 py-1 rounded-md bg-white/[0.04] hover:bg-white/[0.08] transition-colors font-medium cursor-pointer"
                           >
                             Focus Target
                           </button>
@@ -432,7 +434,7 @@ export const IcebergTrackingPage: React.FC = () => {
             </table>
           </div>
 
-          <div className="px-4 py-2.5 bg-slate-900/60 border-t border-slate-800/50 text-xs text-slate-400 flex items-center justify-between">
+          <div className="px-4 py-2 bg-[#060e18] border-t border-white/[0.04] text-xs text-slate-400 flex items-center justify-between">
             <span>U.S. National Ice Center (US NIC) + BYU Antarctic Iceberg Database</span>
             <span className="font-mono text-[11px]">Hydrodynamic Drift Model: ERA5 Wind + Currents</span>
           </div>

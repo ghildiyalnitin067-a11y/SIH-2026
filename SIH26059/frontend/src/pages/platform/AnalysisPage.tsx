@@ -76,12 +76,12 @@ export const AnalysisPage: React.FC = () => {
       subtitle={`Physics-informed environmental simulation & IMO POLARIS verification — ${env.timestep || 'T+0h'}`}
       actions={
         <div className="flex items-center gap-2 text-xs">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
+          <div className="flex items-center gap-2 px-2.5 py-1 bg-[#081525] rounded-md text-slate-300 border border-white/[0.06]">
             <Ship className="w-3.5 h-3.5 text-sky-400" />
             <span className="text-slate-400">Vessel:</span>
             <span className="text-slate-200 font-medium">{selectedVessel.name.split(' ')[0]}</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
+          <div className="flex items-center gap-2 px-2.5 py-1 bg-[#081525] rounded-md text-slate-300 border border-white/[0.06]">
             <Activity className="w-3.5 h-3.5 text-sky-400" />
             <span className="text-slate-400">Data:</span>
             <span className="text-slate-200 font-medium">Sentinel-1 + ERA5</span>
@@ -89,18 +89,18 @@ export const AnalysisPage: React.FC = () => {
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-6 space-y-4 bg-[#040B14] font-sans">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-6 space-y-4 bg-[#040911] font-sans">
         
         {/* Time Step Selector */}
-        <div className="bg-[#06111e]/90 p-3 rounded-xl border border-slate-800/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs shadow-xs">
+        <div className="bg-[#081424]/70 p-3 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-2.5">
             <Clock className="w-4 h-4 text-sky-400" />
             <span className="text-slate-400 text-xs font-medium">Operational Horizon:</span>
-            <span className="text-sky-300 font-semibold bg-sky-500/10 px-2.5 py-1 rounded-md border border-sky-500/20 font-mono">
+            <span className="text-sky-300 font-semibold bg-white/[0.06] px-2.5 py-1 rounded-md font-mono">
               {activeHorizonLabel} ({env.timestep})
             </span>
           </div>
-          <div className="flex items-center gap-1 w-full sm:w-auto bg-slate-900/80 p-1 rounded-lg border border-slate-800/60">
+          <div className="flex items-center gap-1 w-full sm:w-auto bg-[#081525] p-0.5 rounded-md border border-white/[0.06]">
             {([
               { hours: 0, label: 'NOW' },
               { hours: 6, label: '+6H' },
@@ -113,10 +113,10 @@ export const AnalysisPage: React.FC = () => {
                 type="button"
                 onClick={() => setSelectedHorizon(hours)}
                 className={cn(
-                  "px-3 py-1 rounded-md text-xs font-medium transition-colors uppercase",
+                  "px-2.5 py-1 rounded-sm text-xs font-medium transition-colors uppercase cursor-pointer",
                   selectedHorizon === hours
-                    ? "bg-sky-500/20 text-sky-300 font-semibold"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+                    ? "bg-sky-600 text-white font-semibold"
+                    : "text-slate-400 hover:text-white"
                 )}
               >
                 {label}
@@ -127,7 +127,7 @@ export const AnalysisPage: React.FC = () => {
 
         {/* Hero Section */}
         <div className="grid lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 space-y-1.5 p-4 bg-[#06111e]/90 border border-slate-800/50 rounded-xl shadow-xs">
+          <div className="lg:col-span-2 space-y-1.5 p-4 bg-[#081424]/70 rounded-lg">
             <div className="text-xs font-medium text-sky-400 tracking-wide uppercase">
               Hydrodynamic Risk Modeling
             </div>
@@ -139,7 +139,7 @@ export const AnalysisPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl text-center flex flex-col items-center justify-center shadow-xs">
+          <div className="bg-[#081424]/70 p-4 rounded-lg text-center flex flex-col items-center justify-center">
             <span className="text-slate-400 text-xs font-medium tracking-wide block mb-1">
               Composite Risk Score
             </span>
@@ -150,7 +150,7 @@ export const AnalysisPage: React.FC = () => {
               {overallRisk} / 100
             </span>
             <span className={cn(
-              "text-[10px] font-medium px-2.5 py-0.5 rounded-full mt-2",
+              "text-[10px] font-medium px-2.5 py-0.5 rounded-md mt-2",
               riskLabel === 'LOW' ? "text-emerald-400 bg-emerald-500/15" : riskLabel === 'MODERATE' ? "text-amber-400 bg-amber-500/15" : "text-rose-400 bg-rose-500/15"
             )}>
               {riskLabel} RISK ZONE
@@ -160,7 +160,7 @@ export const AnalysisPage: React.FC = () => {
 
         {/* 3 Hazard Factor Cards */}
         <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl space-y-2.5 shadow-xs">
+          <div className="bg-[#081424]/70 p-4 rounded-lg space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Snowflake className="w-4 h-4 text-sky-400" />
@@ -170,7 +170,7 @@ export const AnalysisPage: React.FC = () => {
                 {env.seaIceConcentration > 100 ? (env.seaIceConcentration / 100).toFixed(1) : Number(env.seaIceConcentration).toFixed(1)}%
               </span>
             </div>
-            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-[#040911] rounded-full overflow-hidden">
               <div className="h-full bg-sky-400 rounded-full" style={{ width: `${env.seaIceRiskScore || 78}%` }} />
             </div>
             <p className="text-xs text-slate-300 leading-relaxed pt-0.5">
@@ -178,7 +178,7 @@ export const AnalysisPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl space-y-2.5 shadow-xs">
+          <div className="bg-[#081424]/70 p-4 rounded-lg space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-rose-400" />
@@ -186,7 +186,7 @@ export const AnalysisPage: React.FC = () => {
               </div>
               <span className="text-xs font-mono font-bold text-rose-400">{env.icebergRiskScore}%</span>
             </div>
-            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-[#040911] rounded-full overflow-hidden">
               <div className="h-full bg-rose-400 rounded-full" style={{ width: `${env.icebergRiskScore || 41}%` }} />
             </div>
             <p className="text-xs text-slate-300 leading-relaxed pt-0.5">
@@ -194,7 +194,7 @@ export const AnalysisPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl space-y-2.5 shadow-xs">
+          <div className="bg-[#081424]/70 p-4 rounded-lg space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Wind className="w-4 h-4 text-amber-400" />
@@ -202,7 +202,7 @@ export const AnalysisPage: React.FC = () => {
               </div>
               <span className="text-xs font-mono font-bold text-amber-400">{env.weatherRiskScore}%</span>
             </div>
-            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-[#040911] rounded-full overflow-hidden">
               <div className="h-full bg-amber-400 rounded-full" style={{ width: `${env.weatherRiskScore || 28}%` }} />
             </div>
             <p className="text-xs text-slate-300 leading-relaxed pt-0.5">
@@ -214,7 +214,7 @@ export const AnalysisPage: React.FC = () => {
         {/* Graphical Analytics (Recharts) */}
         <div className="grid lg:grid-cols-2 gap-4">
           {/* Forecast Trend Chart */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl space-y-3 shadow-xs">
+          <div className="bg-[#081424]/70 p-4 rounded-lg space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-semibold text-slate-200 flex items-center gap-2">
                 <LucideLineChart className="w-4 h-4 text-sky-400" />
@@ -238,7 +238,7 @@ export const AnalysisPage: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis dataKey="horizon" stroke="#64748b" fontSize={11} />
                   <YAxis stroke="#64748b" fontSize={11} />
-                  <Tooltip contentStyle={{ background: '#06111e', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }} />
+                  <Tooltip contentStyle={{ background: '#081424', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }} />
                   <Area type="monotone" dataKey="sic" name="Sea Ice %" stroke="#38bdf8" fillOpacity={1} fill="url(#sicGrad)" strokeWidth={2} />
                   <Area type="monotone" dataKey="overallRisk" name="Risk Score" stroke="#f43f5e" fillOpacity={1} fill="url(#riskGrad)" strokeWidth={2} />
                 </AreaChart>
@@ -247,7 +247,7 @@ export const AnalysisPage: React.FC = () => {
           </div>
 
           {/* Hazard Breakdown Bar Chart */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl space-y-3 shadow-xs">
+          <div className="bg-[#081424]/70 p-4 rounded-lg space-y-3">
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-semibold text-slate-200 flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-sky-400" />
@@ -261,7 +261,7 @@ export const AnalysisPage: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis type="number" stroke="#64748b" fontSize={11} domain={[0, 100]} />
                   <YAxis type="category" dataKey="hazard" stroke="#64748b" fontSize={11} width={120} />
-                  <Tooltip contentStyle={{ background: '#06111e', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }} />
+                  <Tooltip contentStyle={{ background: '#081424', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }} />
                   <Bar dataKey="score" name="Hazard Index" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -270,8 +270,8 @@ export const AnalysisPage: React.FC = () => {
         </div>
 
         {/* IMO POLARIS Reference Matrix */}
-        <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl space-y-3 shadow-xs">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/50 pb-3">
+        <div className="bg-[#081424]/70 p-4 rounded-lg space-y-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/[0.06] pb-3">
             <div>
               <div className="text-xs font-semibold text-slate-200 tracking-wide">
                 IMO POLARIS (Polar Operational Limit Assessment Risk Indexing System)
@@ -285,7 +285,7 @@ export const AnalysisPage: React.FC = () => {
               <select
                 value={selectedVesselId}
                 onChange={(e) => setSelectedVesselId(e.target.value)}
-                className="bg-slate-900/80 border border-slate-800/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
+                className="bg-[#081525] border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500/50"
               >
                 {fleet.map(v => (
                   <option key={v.id} value={v.id}>
@@ -298,22 +298,22 @@ export const AnalysisPage: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead>
-                <tr className="text-slate-400 border-b border-slate-800/50 bg-slate-900/60 text-[11px] uppercase tracking-wider">
+                <tr className="text-slate-400 border-b border-white/[0.04] bg-[#060e18] text-[11px] uppercase tracking-wider">
                   <th className="py-2.5 px-4 font-semibold">Vessel Polar Class</th>
                   <th className="py-2.5 px-4 font-semibold">RIO Threshold</th>
                   <th className="py-2.5 px-4 font-semibold">Status for Route B</th>
                   <th className="py-2.5 px-4 font-semibold">Speed Limit</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/40">
+              <tbody className="divide-y divide-white/[0.04]">
                 {POLAR_CLASS_RIO.map((row) => {
                   const isActive = currentPolarKey.includes(row.key);
                   return (
-                    <tr key={row.class} className={cn("transition-colors", isActive ? "bg-sky-500/10 text-slate-100 font-medium" : "hover:bg-slate-800/30 text-slate-300")}>
+                    <tr key={row.class} className={cn("transition-colors", isActive ? "bg-sky-500/10 text-slate-100 font-medium" : "hover:bg-white/[0.03] text-slate-300")}>
                       <td className="py-2.5 px-4 font-semibold text-slate-200 flex items-center gap-2">
                         <span>{row.class}</span>
                         {isActive && (
-                          <span className="text-[10px] font-medium text-sky-300 bg-sky-500/20 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] font-medium text-sky-300 bg-sky-500/20 px-2 py-0.5 rounded-md">
                             Active Vessel
                           </span>
                         )}
@@ -321,7 +321,7 @@ export const AnalysisPage: React.FC = () => {
                       <td className="py-2.5 px-4 text-slate-400 font-mono">RIO &ge; {row.limit}</td>
                       <td className="py-2.5 px-4">
                         <span className={cn(
-                          "px-2.5 py-0.5 rounded-full text-[10px] font-medium",
+                          "px-2.5 py-0.5 rounded-md text-[10px] font-medium",
                           row.authorized ? "text-emerald-400 bg-emerald-500/15" : "text-rose-400 bg-rose-500/15"
                         )}>
                           {row.authorized ? 'AUTHORIZED' : 'RESTRICTED'}

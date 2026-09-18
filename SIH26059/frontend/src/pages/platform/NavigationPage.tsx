@@ -402,10 +402,10 @@ export const NavigationPage: React.FC = () => {
           <select
             value={selectedVesselId}
             onChange={(e) => setSelectedVesselId(e.target.value)}
-            className="bg-[#06111e] border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-100 font-sans focus:outline-none focus:border-sky-500 max-w-[220px] truncate cursor-pointer shadow-xs"
+            className="bg-[#081525] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-100 font-sans focus:outline-none focus:border-sky-500 max-w-[220px] truncate cursor-pointer"
           >
             {fleet.map(v => (
-              <option key={v.id} value={v.id} className="bg-[#06111e] text-slate-100">
+              <option key={v.id} value={v.id} className="bg-[#081525] text-slate-100">
                 {v.flag} {v.name.replace(' - DEMO', '')} ({v.speed || v.sog} kn · {v.polar_class})
               </option>
             ))}
@@ -415,7 +415,7 @@ export const NavigationPage: React.FC = () => {
           <div className="hidden sm:flex items-center gap-1.5 text-slate-300 font-mono text-xs">
             <Clock className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-400 text-[11px]">SIM</span>
-            <span className="text-slate-100 font-semibold">{currentSimUtcStr}</span>
+            <span className="text-slate-100 font-medium">{currentSimUtcStr}</span>
           </div>
 
           {/* SIMULATION STATUS BADGE */}
@@ -428,12 +428,12 @@ export const NavigationPage: React.FC = () => {
         </div>
       }
     >
-      <div className="flex flex-col h-full bg-[#040B14] text-slate-100 font-sans select-none overflow-y-auto custom-scrollbar">
+      <div className="flex flex-col h-full bg-[#040911] text-slate-100 font-sans select-none overflow-y-auto custom-scrollbar">
         
         {/* ========================================================================= */}
         {/* 1. CLEAN MODERN SIMULATION & VOYAGE CONTROLS BAR                          */}
         {/* ========================================================================= */}
-        <div className="bg-[#06111e]/90 border-b border-slate-800/60 px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-4 shrink-0 text-xs z-20">
+        <div className="bg-[#060e18] border-b border-white/[0.05] px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-4 shrink-0 text-xs z-20">
           
           {/* SIMULATION TRANSPORT & SPEED */}
           <div className="flex items-center gap-2.5">
@@ -441,10 +441,10 @@ export const NavigationPage: React.FC = () => {
               type="button"
               onClick={() => setSimRunning(!simRunning)}
               className={cn(
-                "px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs",
+                "px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 cursor-pointer transition-colors",
                 simRunning
-                  ? "bg-amber-500/20 text-amber-300 hover:bg-amber-500/30"
-                  : "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"
+                  ? "bg-amber-500/15 text-amber-300 hover:bg-amber-500/25"
+                  : "bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25"
               )}
             >
               {simRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
@@ -457,23 +457,23 @@ export const NavigationPage: React.FC = () => {
                 setSimDistanceKm(0);
                 setSimRunning(true);
               }}
-              className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer"
+              className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.05] transition-colors cursor-pointer"
               title="Reset voyage to departure point"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
 
             {/* SPEED SELECTOR PILL */}
-            <div className="flex items-center bg-slate-900/60 rounded-lg p-0.5 border border-slate-800/50">
+            <div className="flex items-center bg-white/[0.04] rounded-lg p-0.5">
               {([1, 2, 5, 10] as const).map(mult => (
                 <button
                   key={mult}
                   type="button"
                   onClick={() => setSimSpeed(mult)}
                   className={cn(
-                    "px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors cursor-pointer",
+                    "px-2.5 py-0.5 rounded-md text-[11px] font-mono transition-colors cursor-pointer",
                     simSpeed === mult
-                      ? "bg-slate-800 text-sky-300 font-bold shadow-xs"
+                      ? "bg-sky-500/20 text-sky-300 font-semibold"
                       : "text-slate-400 hover:text-white"
                   )}
                 >
@@ -489,7 +489,7 @@ export const NavigationPage: React.FC = () => {
               Scenario:
             </span>
 
-            <div className="flex items-center gap-1 bg-slate-900/60 p-1 rounded-lg border border-slate-800/50">
+            <div className="flex items-center gap-1 bg-white/[0.04] p-0.5 rounded-lg">
               {([
                 { id: 'NORMAL', label: 'Normal Voyage' },
                 { id: 'ICEBERG_ENCOUNTER', label: 'Iceberg Encounter' },
@@ -502,10 +502,10 @@ export const NavigationPage: React.FC = () => {
                   type="button"
                   onClick={() => handleSelectScenario(scen.id)}
                   className={cn(
-                    "px-3 py-1 rounded-md text-xs font-medium transition-colors shrink-0 cursor-pointer",
+                    "px-2.5 py-1 rounded-md text-xs font-medium transition-colors shrink-0 cursor-pointer",
                     activeScenario === scen.id
-                      ? "bg-slate-800 text-sky-300 font-semibold shadow-xs"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+                      ? "bg-sky-500/20 text-sky-300 font-semibold"
+                      : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
                   )}
                 >
                   {scen.label}
@@ -519,7 +519,7 @@ export const NavigationPage: React.FC = () => {
             <span className="text-xs text-slate-400 font-medium hidden xl:inline">
               Route:
             </span>
-            <div className="flex items-center gap-1 bg-slate-900/60 p-1 rounded-lg border border-slate-800/50">
+            <div className="flex items-center gap-1 bg-white/[0.04] p-0.5 rounded-lg">
               {routes.map(r => {
                 const isSelected = activeRoute?.id === r.id;
                 const label = r.optimization_mode === 'FASTEST' ? 'Fastest' :
@@ -530,10 +530,10 @@ export const NavigationPage: React.FC = () => {
                     type="button"
                     onClick={() => setActiveRouteId(r.id)}
                     className={cn(
-                      "px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5",
+                      "px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5",
                       isSelected
-                        ? "bg-slate-800 text-sky-300 font-semibold shadow-xs"
-                        : "text-slate-400 hover:text-white hover:bg-slate-800/40"
+                        ? "bg-sky-500/20 text-sky-300 font-semibold"
+                        : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
                     )}
                   >
                     <span>{label}</span>
@@ -546,7 +546,7 @@ export const NavigationPage: React.FC = () => {
                 type="button"
                 onClick={() => recomputeRoutes && recomputeRoutes()}
                 disabled={isComputingRoutes}
-                className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60 cursor-pointer transition-colors"
+                className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.06] cursor-pointer transition-colors"
                 title="Recalculate route corridors"
               >
                 <RefreshCw className={cn("w-3.5 h-3.5 text-slate-300", isComputingRoutes && "animate-spin")} />
@@ -560,7 +560,7 @@ export const NavigationPage: React.FC = () => {
         {/* 2. OPERATIONAL WARNING BANNER (Emergency Event / Collision Alert)          */}
         {/* ========================================================================= */}
         {(emergencyRerouteActive || nearestIceberg?.threatLevel === 'COLLISION_ALERT' || vesselKinematics.polarCodeStatus === 'OPERATION_SUSPENDED') && (
-          <div className="bg-amber-950/40 border-b border-amber-600/40 px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs z-20">
+          <div className="bg-amber-950/40 border-b border-amber-600/30 px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3 text-xs z-20">
             <div className="flex items-center gap-3">
               <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
               <div>
@@ -581,7 +581,7 @@ export const NavigationPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedIcebergId(nearestIceberg.id)}
-                  className="px-3 py-1.5 rounded-lg bg-[#071322] border border-slate-700 text-slate-200 hover:text-white text-xs font-medium cursor-pointer"
+                  className="px-3 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white text-xs font-medium cursor-pointer"
                 >
                   View Hazard
                 </button>
@@ -590,7 +590,7 @@ export const NavigationPage: React.FC = () => {
                 type="button"
                 disabled={isScenarioRerouting}
                 onClick={handleAcceptReroute}
-                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+                className="px-3.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>{isScenarioRerouting ? 'Recalculating...' : 'Recalculate Route'}</span>
@@ -601,7 +601,7 @@ export const NavigationPage: React.FC = () => {
 
         {/* OPERATIONAL ROUTE UPDATED BANNER */}
         {activeRouteId.includes('route-c') && (
-          <div className="bg-emerald-950/40 border-b border-emerald-600/40 px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs z-20">
+          <div className="bg-emerald-950/40 border-b border-emerald-600/30 px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3 text-xs z-20">
             <div className="flex items-center gap-3">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <div>
@@ -620,7 +620,7 @@ export const NavigationPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 3. DOMINANT POLAR MAP CONTAINER (70–80% of View Area)                     */}
         {/* ========================================================================= */}
-        <div className="relative w-full h-[calc(100vh-260px)] min-h-[480px] bg-[#040B14] shrink-0 border-b border-slate-800 overflow-hidden">
+        <div className="relative w-full h-[calc(100vh-260px)] min-h-[480px] bg-[#040911] shrink-0 overflow-hidden">
           
           {/* Tactical Hazard Banner from Fleet Context if active */}
           <TacticalHazardBanner className="absolute top-3 left-1/2 -translate-x-1/2 z-40 max-w-xl w-full px-3 pointer-events-auto" />
@@ -645,7 +645,7 @@ export const NavigationPage: React.FC = () => {
           />
 
           {/* Voyage Scrub Slider Overlay along Map Bottom */}
-          <div className="absolute bottom-4 right-4 z-20 hidden md:flex items-center gap-3 bg-[#06111e]/95 backdrop-blur-xs border border-slate-800/60 px-4 py-2 rounded-xl shadow-lg text-xs font-sans">
+          <div className="absolute bottom-4 right-4 z-20 hidden md:flex items-center gap-3 bg-[#071322]/90 backdrop-blur-md px-3.5 py-1.5 rounded-lg text-xs font-sans">
             <span className="text-slate-400 text-xs font-medium">Progress</span>
             <input
               type="range"
@@ -665,15 +665,15 @@ export const NavigationPage: React.FC = () => {
         </div>
 
         {/* ========================================================================= */}
-        {/* 4. SUPPORTING OPERATIONAL INFORMATION (Clean Dashboard Cards)             */}
+        {/* 4. SUPPORTING OPERATIONAL INFORMATION (Clean Dashboard Dock)              */}
         {/* ========================================================================= */}
-        <div className="p-4 sm:p-6 space-y-4 bg-[#040B14]">
+        <div className="p-4 sm:p-5 bg-[#050c16] border-t border-white/[0.04]">
           
           {/* Navigation Data Panels: 4 Structured Operational Columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 text-xs font-sans">
             
             {/* COLUMN 1: VESSEL STATUS */}
-            <div className="border border-slate-800/50 rounded-xl bg-[#06111e]/90 p-4 space-y-3 shadow-xs">
+            <div className="rounded-xl bg-[#081424]/70 p-4 space-y-3">
               <div className="flex items-center justify-between pb-2 text-xs font-semibold text-slate-200">
                 <span className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-sky-500/10 flex items-center justify-center text-sky-400">
@@ -684,7 +684,7 @@ export const NavigationPage: React.FC = () => {
                 <span className="text-emerald-400 text-[10px] font-mono font-medium">LIVE KINEMATICS</span>
               </div>
 
-              <div className="space-y-2 text-xs divide-y divide-slate-800/40">
+              <div className="space-y-2 text-xs divide-y divide-white/[0.04]">
                 <div className="flex items-center justify-between pt-1.5 first:pt-0">
                   <span className="text-slate-400">Vessel Name</span>
                   <span className="text-slate-100 font-medium">{selectedVessel.name}</span>
@@ -715,7 +715,7 @@ export const NavigationPage: React.FC = () => {
             </div>
 
             {/* COLUMN 2: ROUTE STATUS */}
-            <div className="border border-slate-800/50 rounded-xl bg-[#06111e]/90 p-4 space-y-3 shadow-xs">
+            <div className="rounded-xl bg-[#081424]/70 p-4 space-y-3">
               <div className="flex items-center justify-between pb-2 text-xs font-semibold text-slate-200">
                 <span className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-sky-500/10 flex items-center justify-center text-sky-400">
@@ -733,7 +733,7 @@ export const NavigationPage: React.FC = () => {
                 </span>
               </div>
 
-              <div className="space-y-2 text-xs divide-y divide-slate-800/40">
+              <div className="space-y-2 text-xs divide-y divide-white/[0.04]">
                 <div className="flex items-center justify-between pt-1.5 first:pt-0">
                   <span className="text-slate-400">Active Corridor</span>
                   <span className="text-slate-100 font-medium">{activeRoute?.name || 'Route B'}</span>
@@ -767,7 +767,7 @@ export const NavigationPage: React.FC = () => {
             </div>
 
             {/* COLUMN 3: ENVIRONMENT */}
-            <div className="border border-slate-800/50 rounded-xl bg-[#06111e]/90 p-4 space-y-3 shadow-xs">
+            <div className="rounded-xl bg-[#081424]/70 p-4 space-y-3">
               <div className="flex items-center justify-between pb-2 text-xs font-semibold text-slate-200">
                 <span className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-sky-500/10 flex items-center justify-center text-sky-400">
@@ -778,7 +778,7 @@ export const NavigationPage: React.FC = () => {
                 <span className="text-slate-400 text-[10px] font-mono">NOAA / GLO12</span>
               </div>
 
-              <div className="space-y-2 text-xs divide-y divide-slate-800/40">
+              <div className="space-y-2 text-xs divide-y divide-white/[0.04]">
                 <div className="flex items-center justify-between pt-1.5 first:pt-0">
                   <span className="text-slate-400">Sea Ice (SIC)</span>
                   <span className="text-sky-300 font-bold font-mono">{climaticConditions.sicPct}%</span>
@@ -807,7 +807,7 @@ export const NavigationPage: React.FC = () => {
             </div>
 
             {/* COLUMN 4: AI / ML RISK PREDICTION */}
-            <div className="border border-slate-800/50 rounded-xl bg-[#06111e]/90 p-4 space-y-3 shadow-xs">
+            <div className="rounded-xl bg-[#081424]/70 p-4 space-y-3">
               <div className="flex items-center justify-between pb-2 text-xs font-semibold text-slate-200">
                 <span className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-sky-500/10 flex items-center justify-center text-sky-400">
@@ -818,7 +818,7 @@ export const NavigationPage: React.FC = () => {
                 <span className="text-slate-400 text-[10px] font-mono">XGBoost</span>
               </div>
 
-              <div className="space-y-2 text-xs divide-y divide-slate-800/40">
+              <div className="space-y-2 text-xs divide-y divide-white/[0.04]">
                 <div className="flex items-center justify-between pt-1.5 first:pt-0">
                   <span className="text-slate-400">Predicted Risk Score</span>
                   <span className="text-slate-100 font-bold font-mono">

@@ -97,7 +97,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       {/* ========================================================================= */}
       {/* 1. CLEAN MODERN MARITIME NAVBAR                                          */}
       {/* ========================================================================= */}
-      <header className="h-12 bg-[#06111e]/95 backdrop-blur-xs border-b border-slate-800/50 flex items-center justify-between px-4 sm:px-6 z-40 shrink-0 font-sans text-xs">
+      <header className="h-12 bg-[#060e18] border-b border-white/[0.04] flex items-center justify-between px-4 sm:px-6 z-40 shrink-0 font-sans text-xs">
         
         {/* LEFT: Brand + Clean Primary Horizontal Navigation */}
         <div className="flex items-center gap-6 lg:gap-8">
@@ -124,8 +124,8 @@ export const AppShell: React.FC<AppShellProps> = ({
                   cn(
                     "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-slate-800/70 text-sky-300 font-semibold shadow-xs"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+                      ? "bg-white/[0.08] text-sky-300 font-semibold"
+                      : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
                   )
                 }
               >
@@ -142,8 +142,8 @@ export const AppShell: React.FC<AppShellProps> = ({
                 className={cn(
                   "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer",
                   isIntelActive || intelDropdownOpen
-                    ? "bg-slate-800/70 text-sky-300 font-semibold shadow-xs"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
+                    ? "bg-white/[0.08] text-sky-300 font-semibold"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
                 )}
               >
                 <Layers className="w-3.5 h-3.5 opacity-80" />
@@ -153,7 +153,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
               {intelDropdownOpen && (
                 <div 
-                  className="absolute left-0 mt-1.5 w-60 bg-[#071322] border border-slate-800/80 rounded-lg shadow-xl py-1.5 z-50 font-sans"
+                  className="absolute left-0 mt-1.5 w-60 bg-[#081424] border border-white/10 rounded-md py-1.5 z-50 font-sans"
                   onMouseLeave={() => setIntelDropdownOpen(false)}
                 >
                   <div className="px-3.5 py-1 text-[10px] text-slate-400 uppercase font-semibold tracking-wider">
@@ -166,8 +166,8 @@ export const AppShell: React.FC<AppShellProps> = ({
                       onClick={() => setIntelDropdownOpen(false)}
                       className={({ isActive }) =>
                         cn(
-                          "flex items-center justify-between px-3.5 py-2 text-xs transition-colors hover:bg-slate-800/50",
-                          isActive ? "text-sky-300 font-medium bg-slate-800/60" : "text-slate-300"
+                          "flex items-center justify-between px-3.5 py-2 text-xs transition-colors hover:bg-white/[0.04]",
+                          isActive ? "text-sky-300 font-medium bg-white/[0.06]" : "text-slate-300"
                         )
                       }
                     >
@@ -193,7 +193,7 @@ export const AppShell: React.FC<AppShellProps> = ({
             className="flex items-center gap-2 px-2.5 py-1 rounded-md text-slate-300 hover:text-white transition-colors cursor-pointer"
             title="System Provider & Sensor Health Audit"
           >
-            <span className={cn('w-2 h-2 rounded-full', isSystemHealthy ? 'bg-emerald-400 shadow-xs' : 'bg-amber-400')} />
+            <span className={cn('w-2 h-2 rounded-full', isSystemHealthy ? 'bg-emerald-400' : 'bg-amber-400')} />
             <span className="text-xs font-medium text-slate-300">
               {isSystemHealthy ? 'Online' : 'Degraded'}
             </span>
@@ -211,7 +211,7 @@ export const AppShell: React.FC<AppShellProps> = ({
           <Link
             to="/alerts"
             className={cn(
-              'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer',
+              'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer',
               activeAlertsCount > 0
                 ? 'bg-amber-950/40 text-amber-300 hover:bg-amber-900/50'
                 : 'text-slate-400 hover:text-slate-200'
@@ -228,7 +228,7 @@ export const AppShell: React.FC<AppShellProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/60"
+            className="md:hidden p-1.5 rounded-md text-slate-300 hover:text-white hover:bg-white/[0.04]"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -239,7 +239,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       {/* MOBILE DROPDOWN MENU */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#06111e] border-b border-slate-800 p-2.5 space-y-1 z-50 font-mono text-xs">
+        <div className="md:hidden bg-[#060e18] border-b border-white/[0.04] p-2.5 space-y-1 z-50 font-sans text-xs">
           {PRIMARY_NAV.map((item) => (
             <NavLink
               key={item.id}
@@ -247,8 +247,8 @@ export const AppShell: React.FC<AppShellProps> = ({
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-xs",
-                  isActive ? "bg-[#12283e] text-sky-300 font-semibold border border-[#214972]" : "text-slate-300 hover:text-white"
+                  "flex items-center gap-2 px-3 py-1.5 rounded-md",
+                  isActive ? "bg-white/[0.08] text-sky-300 font-semibold" : "text-slate-300 hover:text-white"
                 )
               }
             >
@@ -256,7 +256,7 @@ export const AppShell: React.FC<AppShellProps> = ({
               <span>{item.label}</span>
             </NavLink>
           ))}
-          <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-500 px-3 uppercase font-bold">
+          <div className="pt-2 border-t border-white/[0.04] text-[10px] text-slate-500 px-3 uppercase font-bold">
             Intelligence Modules
           </div>
           {SECONDARY_NAV.map((item) => (
@@ -266,8 +266,8 @@ export const AppShell: React.FC<AppShellProps> = ({
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-2 px-3 py-1.5 rounded-xs",
-                  isActive ? "bg-[#12283e] text-sky-300 font-semibold border border-[#214972]" : "text-slate-300 hover:text-white"
+                  "flex items-center gap-2 px-3 py-1.5 rounded-md",
+                  isActive ? "bg-white/[0.08] text-sky-300 font-semibold" : "text-slate-300 hover:text-white"
                 )
               }
             >
@@ -278,11 +278,12 @@ export const AppShell: React.FC<AppShellProps> = ({
         </div>
       )}
 
+
       {/* ========================================================================= */}
       {/* 2. STANDARDIZED PAGE HEADER BAR (If title is provided)                    */}
       {/* ========================================================================= */}
       {title && (
-        <div className="h-9 bg-[#071322] border-b border-slate-800/80 px-3 sm:px-4 flex items-center justify-between shrink-0 font-sans text-xs z-30">
+        <div className="h-9 bg-[#060e18] border-b border-white/[0.04] px-3 sm:px-4 flex items-center justify-between shrink-0 font-sans text-xs z-30">
           <div className="flex items-center gap-3 truncate">
             <h1 className="text-xs font-bold uppercase tracking-wider text-slate-100 shrink-0">
               {title}
@@ -314,9 +315,9 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       {/* DATA AUDIT & PROVENANCE MODAL */}
       {provenanceModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 font-mono">
-          <div className="bg-[#06111e] border border-slate-700 rounded-xs shadow-xl max-w-lg w-full p-4 space-y-3 text-xs">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 font-sans">
+          <div className="bg-[#081424] border border-white/10 rounded-lg max-w-lg w-full p-4 space-y-3 text-xs">
+            <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
               <span className="font-bold text-slate-100 flex items-center gap-1.5">
                 <Radio className="w-4 h-4 text-sky-400" />
                 SYSTEM &amp; SENSOR DATA AUDIT
@@ -331,33 +332,33 @@ export const AppShell: React.FC<AppShellProps> = ({
             </div>
 
             <div className="space-y-1.5 text-[11px] text-slate-300">
-              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
+              <div className="flex items-center justify-between p-2 bg-[#060e18] rounded-md">
                 <span className="text-slate-400">Tracked Icebergs</span>
                 <span className="text-slate-200 font-bold">85 Records (BYU MERS / US NIC)</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
+              <div className="flex items-center justify-between p-2 bg-[#060e18] rounded-md">
                 <span className="text-slate-400">Sea Ice Concentration</span>
                 <span className="text-slate-200 font-bold">NOAA CoastWatch CDR V4 AMSR2</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
+              <div className="flex items-center justify-between p-2 bg-[#060e18] rounded-md">
                 <span className="text-slate-400">Radar Imagery</span>
                 <span className="text-slate-200 font-bold">ESA Sentinel-1 SAR C-Band</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
+              <div className="flex items-center justify-between p-2 bg-[#060e18] rounded-md">
                 <span className="text-slate-400">Marine Meteorological</span>
                 <span className="text-slate-200 font-bold">ECMWF ERA5 / CMEMS</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
+              <div className="flex items-center justify-between p-2 bg-[#060e18] rounded-md">
                 <span className="text-slate-400">Polar Code Compliance</span>
                 <span className="text-slate-200 font-bold">IMO POLARIS Res. MSC.385(94)</span>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-slate-800 flex justify-end">
+            <div className="pt-2 border-t border-white/[0.06] flex justify-end">
               <button
                 type="button"
                 onClick={() => setProvenanceModalOpen(false)}
-                className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xs text-xs cursor-pointer font-semibold"
+                className="px-3 py-1 bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 rounded-md text-xs cursor-pointer font-semibold"
               >
                 Close Audit
               </button>

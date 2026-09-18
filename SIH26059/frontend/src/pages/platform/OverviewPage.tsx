@@ -102,7 +102,7 @@ export const OverviewPage: React.FC = () => {
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-4 sm:p-6 space-y-4 bg-[#040B14] text-slate-200 font-sans select-none">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 sm:p-6 space-y-4 bg-[#040911] text-slate-200 font-sans select-none">
         
         {/* ========================================================================= */}
         {/* 1. OPERATIONAL STATUS — 4 CLEAN CARDS                                    */}
@@ -110,7 +110,7 @@ export const OverviewPage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-sans">
           
           {/* Card 1: Sea Ice */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl shadow-xs flex flex-col justify-between">
+          <div className="bg-[#081424]/70 p-4 rounded-lg flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span className="flex items-center gap-2 font-semibold text-slate-200">
@@ -119,7 +119,7 @@ export const OverviewPage: React.FC = () => {
                   </div>
                   Sea Ice Concentration
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.06] text-slate-300 font-mono">
                   NOAA CDR
                 </span>
               </div>
@@ -130,14 +130,14 @@ export const OverviewPage: React.FC = () => {
                 Marginal Ice Zone / Pack corridor with 0.31 m/s drift rate.
               </p>
             </div>
-            <div className="pt-2.5 mt-3 border-t border-slate-800/40 text-xs text-slate-400 flex justify-between">
+            <div className="pt-2.5 mt-3 border-t border-white/[0.06] text-xs text-slate-400 flex justify-between">
               <span>Thickness: 0.8 - 1.4 m</span>
               <span className="text-emerald-400 font-medium">Passable</span>
             </div>
           </div>
 
           {/* Card 2: Iceberg Alerts */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl shadow-xs flex flex-col justify-between">
+          <div className="bg-[#081424]/70 p-4 rounded-lg flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span className="flex items-center gap-2 font-semibold text-slate-200">
@@ -146,7 +146,7 @@ export const OverviewPage: React.FC = () => {
                   </div>
                   Iceberg Targets
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 font-sans font-medium">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 font-sans font-medium">
                   2 Caution
                 </span>
               </div>
@@ -157,14 +157,14 @@ export const OverviewPage: React.FC = () => {
                 2 charted bergs within 18 km corridor CPA buffer.
               </p>
             </div>
-            <div className="pt-2.5 mt-3 border-t border-slate-800/40 text-xs text-slate-400 flex justify-between">
+            <div className="pt-2.5 mt-3 border-t border-white/[0.06] text-xs text-slate-400 flex justify-between">
               <span>US NIC + S1 SAR</span>
               <span className="text-amber-400 font-medium">Monitored</span>
             </div>
           </div>
 
           {/* Card 3: Route Risk */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl shadow-xs flex flex-col justify-between">
+          <div className="bg-[#081424]/70 p-4 rounded-lg flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span className="flex items-center gap-2 font-semibold text-slate-200">
@@ -173,7 +173,7 @@ export const OverviewPage: React.FC = () => {
                   </div>
                   Route POLARIS Risk
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 font-sans font-medium">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 font-sans font-medium">
                   Safe
                 </span>
               </div>
@@ -184,14 +184,14 @@ export const OverviewPage: React.FC = () => {
                 IMO POLARIS compliant for {selectedVessel.polar_class ? selectedVessel.polar_class.split(' ')[0] : 'PC5'} ice class.
               </p>
             </div>
-            <div className="pt-2.5 mt-3 border-t border-slate-800/40 text-xs text-slate-400 flex justify-between">
+            <div className="pt-2.5 mt-3 border-t border-white/[0.06] text-xs text-slate-400 flex justify-between">
               <span>Active: {currentRoute.name?.split(' ')[0] || 'Route B'}</span>
               <span className="text-slate-300 font-mono">{currentRoute.distance} km</span>
             </div>
           </div>
 
           {/* Card 4: Vessel Status */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 rounded-xl shadow-xs flex flex-col justify-between">
+          <div className="bg-[#081424]/70 p-4 rounded-lg flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span className="flex items-center gap-2 font-semibold text-slate-200">
@@ -200,7 +200,7 @@ export const OverviewPage: React.FC = () => {
                   </div>
                   Vessel Status
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono">
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.06] text-slate-300 font-mono">
                   {selectedVessel.data_status === 'LIVE' ? 'LIVE AIS' : 'SIMULATION'}
                 </span>
               </div>
@@ -211,7 +211,7 @@ export const OverviewPage: React.FC = () => {
                 {Math.abs(selectedVessel.latitude || 0).toFixed(2)}°S, {Math.abs(selectedVessel.longitude || 0).toFixed(2)}°{(selectedVessel.longitude || 0) >= 0 ? 'E' : 'W'}
               </p>
             </div>
-            <div className="pt-2.5 mt-3 border-t border-slate-800/40 text-xs text-slate-400 flex justify-between">
+            <div className="pt-2.5 mt-3 border-t border-white/[0.06] text-xs text-slate-400 flex justify-between">
               <span>Speed: {selectedVessel.speed || selectedVessel.sog || 12.0} kn</span>
               <span className="text-slate-300 font-mono">Hdg: {selectedVessel.heading || 180}°T</span>
             </div>
@@ -222,9 +222,9 @@ export const OverviewPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 2. OPERATIONAL MAP / REGIONAL OVERVIEW                                   */}
         {/* ========================================================================= */}
-        <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl overflow-hidden flex flex-col shadow-sm">
+        <div className="bg-[#060e18] rounded-lg overflow-hidden flex flex-col border border-white/[0.04]">
           {/* Map Sub-Header & Controls */}
-          <div className="px-4 py-3 bg-[#071322] border-b border-slate-800/60 flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
+          <div className="px-4 py-2.5 bg-[#060e18] border-b border-white/[0.04] flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
             <div className="flex items-center gap-3">
               <span className="text-slate-100 font-semibold">Regional Operational Overview</span>
               <span className="text-slate-600 hidden sm:inline">•</span>
@@ -239,7 +239,7 @@ export const OverviewPage: React.FC = () => {
                 onClick={() => setLayers(l => ({ ...l, seaIce: !l.seaIce }))}
                 className={cn(
                   "px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer",
-                  layers.seaIce ? "bg-slate-800 text-sky-300 font-semibold shadow-xs" : "text-slate-400 hover:text-white"
+                  layers.seaIce ? "bg-white/[0.1] text-sky-300 font-semibold" : "text-slate-400 hover:text-white"
                 )}
               >
                 Sea Ice
@@ -249,7 +249,7 @@ export const OverviewPage: React.FC = () => {
                 onClick={() => setLayers(l => ({ ...l, icebergs: !l.icebergs }))}
                 className={cn(
                   "px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer",
-                  layers.icebergs ? "bg-slate-800 text-sky-300 font-semibold shadow-xs" : "text-slate-400 hover:text-white"
+                  layers.icebergs ? "bg-white/[0.1] text-sky-300 font-semibold" : "text-slate-400 hover:text-white"
                 )}
               >
                 85 Icebergs
@@ -259,7 +259,7 @@ export const OverviewPage: React.FC = () => {
                 onClick={() => setLayers(l => ({ ...l, route: !l.route }))}
                 className={cn(
                   "px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer",
-                  layers.route ? "bg-slate-800 text-sky-300 font-semibold shadow-xs" : "text-slate-400 hover:text-white"
+                  layers.route ? "bg-white/[0.1] text-sky-300 font-semibold" : "text-slate-400 hover:text-white"
                 )}
               >
                 Corridor
@@ -268,7 +268,7 @@ export const OverviewPage: React.FC = () => {
           </div>
 
           {/* Map Viewport */}
-          <div className="relative w-full h-[460px] lg:h-[520px] bg-[#040B14]">
+          <div className="relative w-full h-[460px] lg:h-[520px] bg-[#040911]">
             <PolarMap
               section="overview"
               activeHorizon={activeHorizonLabel}
@@ -305,16 +305,16 @@ export const OverviewPage: React.FC = () => {
           </div>
 
           {/* Quick Mission Selector Strip */}
-          <div className="px-4 py-3 bg-[#071322] border-t border-slate-800/60 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs font-sans">
+          <div className="px-4 py-3 bg-[#060e18] border-t border-white/[0.04] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs font-sans">
             <div>
               <span className="text-[11px] font-medium text-slate-400 block mb-1">Active Vessel</span>
               <select
                 value={selectedVesselId}
                 onChange={(e) => setSelectedVesselId(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 font-sans focus:outline-none focus:border-sky-500 cursor-pointer shadow-xs"
+                className="w-full bg-[#081525] border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-slate-100 font-sans focus:outline-none focus:border-sky-500 cursor-pointer"
               >
                 {fleet.map(v => (
-                  <option key={v.id} value={v.id} className="bg-[#06111e]">
+                  <option key={v.id} value={v.id}>
                     {v.flag} {v.name} ({v.speed || v.sog} kn)
                   </option>
                 ))}
@@ -325,10 +325,10 @@ export const OverviewPage: React.FC = () => {
               <select
                 value={selectedDestinationId}
                 onChange={(e) => setSelectedDestinationId(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 font-sans focus:outline-none focus:border-sky-500 cursor-pointer shadow-xs"
+                className="w-full bg-[#081525] border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-slate-100 font-sans focus:outline-none focus:border-sky-500 cursor-pointer"
               >
                 {stations.map(s => (
-                  <option key={s.id} value={s.id} className="bg-[#06111e]">
+                  <option key={s.id} value={s.id}>
                     {s.name} ({Math.abs(s.latitude).toFixed(1)}°S)
                   </option>
                 ))}
@@ -355,17 +355,17 @@ export const OverviewPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 font-sans text-xs">
           
           {/* Panel 1: Recent Alerts */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl p-4 flex flex-col justify-between shadow-xs">
+          <div className="bg-[#081424]/70 rounded-lg p-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5 mb-3">
+              <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5 mb-3">
                 <span className="text-xs font-semibold text-slate-100 flex items-center gap-2">
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
                   Recent Operational Warnings
                 </span>
-                <span className="text-[10px] text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded-full font-medium">2 Active</span>
+                <span className="text-[10px] text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded-md font-medium">2 Active</span>
               </div>
               <div className="space-y-2">
-                <div className="p-3 bg-slate-900/50 border border-amber-600/30 rounded-lg space-y-1">
+                <div className="p-3 bg-[#081525]/60 rounded-md space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-amber-300 font-semibold">Iceberg Proximity Alert</span>
                     <span className="text-slate-400 font-mono text-[10px]">14:12 UTC</span>
@@ -374,7 +374,7 @@ export const OverviewPage: React.FC = () => {
                     Tracked berg A-84C drifted within 14.8 km of corridor waypoint 04. CPA clearance confirmed safe.
                   </p>
                 </div>
-                <div className="p-3 bg-slate-900/50 border border-slate-800/40 rounded-lg space-y-1">
+                <div className="p-3 bg-[#081525]/60 rounded-md space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-200 font-semibold">Sea Ice Thickness Update</span>
                     <span className="text-slate-400 font-mono text-[10px]">13:45 UTC</span>
@@ -387,7 +387,7 @@ export const OverviewPage: React.FC = () => {
             </div>
             <Link
               to="/alerts"
-              className="mt-4 pt-2.5 border-t border-slate-800/40 text-xs text-sky-400 hover:text-white flex items-center justify-between transition-colors font-medium"
+              className="mt-4 pt-2.5 border-t border-white/[0.06] text-xs text-sky-400 hover:text-white flex items-center justify-between transition-colors font-medium"
             >
               <span>View all operational alerts</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -395,9 +395,9 @@ export const OverviewPage: React.FC = () => {
           </div>
 
           {/* Panel 2: Recent Events */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl p-4 flex flex-col justify-between shadow-xs">
+          <div className="bg-[#081424]/70 rounded-lg p-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5 mb-3">
+              <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5 mb-3">
                 <span className="text-xs font-semibold text-slate-100 flex items-center gap-2">
                   <Activity className="w-3.5 h-3.5 text-sky-400" />
                   Chronological Navigation Events
@@ -405,7 +405,7 @@ export const OverviewPage: React.FC = () => {
                 <span className="text-[10px] text-slate-400">Live Log</span>
               </div>
               <div className="space-y-2">
-                <div className="p-3 bg-slate-900/50 border border-slate-800/40 rounded-lg space-y-1">
+                <div className="p-3 bg-[#081525]/60 rounded-md space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-200 font-semibold">Waypoint Transit</span>
                     <span className="text-slate-400 font-mono text-[10px]">14:20 UTC</span>
@@ -414,7 +414,7 @@ export const OverviewPage: React.FC = () => {
                     {selectedVessel.name} cleared Waypoint 03 (64.2°S, 38.4°E) at 12.4 kn SOG.
                   </p>
                 </div>
-                <div className="p-3 bg-slate-900/50 border border-slate-800/40 rounded-lg space-y-1">
+                <div className="p-3 bg-[#081525]/60 rounded-md space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-200 font-semibold">SAR Radar Ingestion</span>
                     <span className="text-slate-400 font-mono text-[10px]">12:00 UTC</span>
@@ -427,7 +427,7 @@ export const OverviewPage: React.FC = () => {
             </div>
             <Link
               to="/intelligence"
-              className="mt-4 pt-2.5 border-t border-slate-800/40 text-xs text-sky-400 hover:text-white flex items-center justify-between transition-colors font-medium"
+              className="mt-4 pt-2.5 border-t border-white/[0.06] text-xs text-sky-400 hover:text-white flex items-center justify-between transition-colors font-medium"
             >
               <span>View intelligence logs</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -435,38 +435,38 @@ export const OverviewPage: React.FC = () => {
           </div>
 
           {/* Panel 3: System Status & Data Integrity */}
-          <div className="bg-[#06111e]/90 border border-slate-800/50 rounded-xl p-4 flex flex-col justify-between shadow-xs">
+          <div className="bg-[#081424]/70 rounded-lg p-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5 mb-3">
+              <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5 mb-3">
                 <span className="text-xs font-semibold text-slate-100 flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                   Sensors &amp; Data Pipeline
                 </span>
-                <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded-full font-medium">All Healthy</span>
+                <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded-md font-medium">All Healthy</span>
               </div>
               <div className="space-y-1.5 text-xs">
-                <div className="flex justify-between items-center p-2 bg-slate-900/50 border border-slate-800/30 rounded-lg">
+                <div className="flex justify-between items-center p-2 bg-[#081525]/60 rounded-md">
                   <span className="text-slate-300">NOAA CDR Sea Ice Grid</span>
                   <span className="text-emerald-400 font-medium flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     Online (25 km)
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-slate-900/50 border border-slate-800/30 rounded-lg">
+                <div className="flex justify-between items-center p-2 bg-[#081525]/60 rounded-md">
                   <span className="text-slate-300">US NIC 85 Iceberg Dataset</span>
                   <span className="text-emerald-400 font-medium flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     Synchronized
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-slate-900/50 border border-slate-800/30 rounded-lg">
+                <div className="flex justify-between items-center p-2 bg-[#081525]/60 rounded-md">
                   <span className="text-slate-300">Sentinel-1 SAR C-Band</span>
                   <span className="text-emerald-400 font-medium flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     Active Pipeline
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-slate-900/50 border border-slate-800/30 rounded-lg">
+                <div className="flex justify-between items-center p-2 bg-[#081525]/60 rounded-md">
                   <span className="text-slate-300">IMO POLARIS Risk Engine</span>
                   <span className="text-emerald-400 font-medium flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -475,7 +475,7 @@ export const OverviewPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-4 pt-2.5 border-t border-slate-800/40 text-xs text-slate-400 flex justify-between font-mono text-[11px]">
+            <div className="mt-4 pt-2.5 border-t border-white/[0.06] text-xs text-slate-400 flex justify-between font-mono text-[11px]">
               <span>FastAPI Backend: Online</span>
               <span>Vite Client: Online</span>
             </div>

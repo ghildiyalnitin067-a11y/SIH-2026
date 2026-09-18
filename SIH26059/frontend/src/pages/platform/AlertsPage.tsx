@@ -100,41 +100,43 @@ export const AlertsPage: React.FC = () => {
   return (
     <AppShell
       title="TACTICAL ALERTS"
-      subtitle={`Real-Time Proximity Warnings & Incident Mitigation • Fleet Context: ${selectedVessel.name}`}
+      subtitle={`Real-time proximity warnings & incident mitigation • Fleet context: ${selectedVessel.name}`}
       actions={
-        <div className="flex items-center gap-2 text-xs font-mono">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#06111e] border border-slate-800 rounded-xs text-slate-300">
+        <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
             <Ship className="w-3.5 h-3.5 text-sky-400" />
-            <span className="text-slate-400">VESSEL:</span>
-            <span className="text-slate-200 font-semibold">{selectedVessel.name.split(' ')[0]}</span>
+            <span className="text-slate-400">Vessel:</span>
+            <span className="text-slate-200 font-medium">{selectedVessel.name.split(' ')[0]}</span>
           </div>
-          <span className="text-slate-400">STATUS:</span>
-          <span className={cn("font-semibold", activeCriticalCount > 0 ? "text-red-400" : "text-emerald-400")}>
-            {activeCriticalCount > 0 ? `${activeCriticalCount} ACTIVE THREATS` : "ALL HAZARDS MITIGATED"}
-          </span>
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg">
+            <span className="text-slate-400">Status:</span>
+            <span className={cn("font-medium", activeCriticalCount > 0 ? "text-rose-400" : "text-emerald-400")}>
+              {activeCriticalCount > 0 ? `${activeCriticalCount} Active Threats` : "All Hazards Mitigated"}
+            </span>
+          </div>
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-3 md:p-4 max-w-5xl mx-auto space-y-3 bg-[#040B14]">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-6 max-w-5xl mx-auto space-y-4 bg-[#040B14] font-sans">
         
         {/* Top Header & Filter Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/50 pb-3">
           <div>
-            <h3 className="font-bold text-sm text-slate-200 font-mono uppercase tracking-wider">Active Navigation Hazards</h3>
-            <p className="text-[11px] text-slate-400 mt-0.5 font-sans">{activeCriticalCount > 0 ? `${activeCriticalCount} unacknowledged — immediate attention required` : 'All hazards acknowledged or resolved'}</p>
+            <h3 className="font-semibold text-sm text-slate-200 tracking-wide">Active Navigation Hazards</h3>
+            <p className="text-xs text-slate-400 mt-0.5">{activeCriticalCount > 0 ? `${activeCriticalCount} unacknowledged — immediate attention required` : 'All hazards acknowledged or resolved'}</p>
           </div>
 
-          <div className="flex items-center gap-1 font-mono text-xs bg-[#06111e] p-0.5 rounded-xs border border-slate-800">
+          <div className="flex items-center gap-1 text-xs bg-slate-900/80 p-1 rounded-lg border border-slate-800/60">
             {(['ALL', 'ACTIVE', 'HIGH', 'CAUTION', 'RESOLVED'] as const).map((sev) => (
               <button
                 key={sev}
                 type="button"
                 onClick={() => setFilterSeverity(sev)}
                 className={cn(
-                  "px-2.5 py-1 rounded-xs text-[10px] transition-colors uppercase",
+                  "px-3 py-1 rounded-md text-xs font-medium transition-colors uppercase",
                   filterSeverity === sev
-                    ? "bg-[#12283e] text-sky-300 border border-[#214972] font-semibold"
-                    : "text-slate-400 hover:text-slate-200"
+                    ? "bg-sky-500/20 text-sky-300 font-semibold"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
                 )}
               >
                 {sev}
@@ -144,7 +146,7 @@ export const AlertsPage: React.FC = () => {
         </div>
 
         {/* Alert Cards */}
-        <div className="space-y-2.5 font-mono">
+        <div className="space-y-3">
           {filteredAlerts.map((alert) => {
             const isHigh = alert.severity === 'HIGH';
             const isCaution = alert.severity === 'CAUTION';
@@ -153,64 +155,64 @@ export const AlertsPage: React.FC = () => {
               <div
                 key={alert.id}
                 className={cn(
-                  "border rounded-xs p-3 space-y-2.5 transition-colors",
+                  "border rounded-xl p-4 lg:p-5 space-y-3 transition-colors shadow-xs",
                   alert.acknowledged
-                    ? "bg-[#06111e]/60 border-slate-800 opacity-60"
+                    ? "bg-[#06111e]/60 border-slate-800/40 opacity-60"
                     : isHigh
-                    ? "bg-[#081524] border-red-500/30"
+                    ? "bg-[#06111e]/90 border-rose-500/30"
                     : isCaution
-                    ? "bg-[#081524] border-amber-500/30"
-                    : "bg-[#06111e] border-slate-800"
+                    ? "bg-[#06111e]/90 border-amber-500/30"
+                    : "bg-[#06111e]/90 border-slate-800/50"
                 )}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-3.5">
                     <div className={cn(
-                      "p-1.5 rounded-xs mt-0.5 border",
-                      isHigh ? "bg-red-500/10 text-red-400 border-red-500/30" : isCaution ? "bg-amber-500/10 text-amber-400 border-amber-500/30" : "bg-sky-500/10 text-sky-400 border-sky-500/30"
+                      "p-2 rounded-lg mt-0.5",
+                      isHigh ? "bg-rose-500/15 text-rose-400" : isCaution ? "bg-amber-500/15 text-amber-400" : "bg-sky-500/15 text-sky-400"
                     )}>
                       {isHigh ? <ShieldAlert className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-400">{alert.id}</span>
+                        <span className="text-xs text-slate-400 font-mono">{alert.id}</span>
                         <span className={cn(
-                          "px-1.5 py-0.5 rounded-xs text-[9px] font-semibold border",
-                          isHigh ? "text-red-400 border-red-500/30 bg-red-500/10" : isCaution ? "text-amber-400 border-amber-500/30 bg-amber-500/10" : "text-emerald-400 border-emerald-500/30 bg-emerald-500/10"
+                          "px-2 py-0.5 rounded-full text-[10px] font-medium",
+                          isHigh ? "text-rose-400 bg-rose-500/15" : isCaution ? "text-amber-400 bg-amber-500/15" : "text-emerald-400 bg-emerald-500/15"
                         )}>
                           {alert.severity}
                         </span>
                         {alert.acknowledged && (
-                          <span className="text-[9px] text-emerald-400 flex items-center gap-1 font-semibold">
-                            <CheckCircle2 className="w-3 h-3" /> ACKNOWLEDGED
+                          <span className="text-xs text-emerald-400 flex items-center gap-1 font-medium">
+                            <CheckCircle2 className="w-3.5 h-3.5" /> Acknowledged
                           </span>
                         )}
                       </div>
-                      <h4 className="font-bold text-sm text-slate-100 mt-1 font-sans">{alert.title}</h4>
-                      <p className="text-xs text-slate-300 mt-0.5 leading-relaxed font-sans">{alert.description}</p>
+                      <h4 className="font-semibold text-sm text-slate-100 mt-1">{alert.title}</h4>
+                      <p className="text-xs text-slate-300 mt-0.5 leading-relaxed">{alert.description}</p>
                     </div>
                   </div>
 
-                  <span className="text-xs text-slate-400 shrink-0">{alert.timestamp}</span>
+                  <span className="text-xs text-slate-400 font-mono shrink-0">{alert.timestamp}</span>
                 </div>
 
-                <div className="bg-[#040B14] p-2.5 rounded-xs border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="bg-slate-900/60 p-3.5 rounded-lg border border-slate-800/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="space-y-0.5">
-                    <div className="text-slate-400 text-[10px] uppercase font-semibold">RECOMMENDED MITIGATION:</div>
-                    <div className="text-sky-400 font-sans text-xs">{alert.recommendedAction}</div>
+                    <div className="text-slate-400 text-[11px] font-medium uppercase tracking-wide">Recommended Mitigation</div>
+                    <div className="text-sky-400 text-xs">{alert.recommendedAction}</div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       type="button"
                       onClick={() => toggleAcknowledge(alert.id)}
-                      className="px-2.5 py-1 rounded-xs border border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-[#081524] transition-colors text-xs"
+                      className="px-3 py-1.5 rounded-lg border border-slate-800/60 bg-slate-900/80 text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 transition-colors text-xs font-medium"
                     >
                       {alert.acknowledged ? "Unmark" : "Acknowledge"}
                     </button>
                     <Link
                       to="/navigation"
-                      className="flex items-center gap-1.5 bg-[#12283e] hover:bg-[#1a3857] text-sky-300 border border-[#214972] font-semibold px-3 py-1 rounded-xs text-xs transition-colors"
+                      className="flex items-center gap-1.5 bg-sky-600 hover:bg-sky-500 text-white font-medium px-3.5 py-1.5 rounded-lg text-xs transition-colors"
                     >
                       <RouteIcon className="w-3.5 h-3.5" />
                       <span>Mitigate Route</span>

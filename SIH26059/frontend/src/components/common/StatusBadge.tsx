@@ -50,42 +50,42 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   switch (normStatus) {
     case 'LIVE':
       dotColor = 'bg-emerald-400';
-      textColor = 'text-emerald-400';
-      bgColor = 'bg-emerald-950/40';
-      borderColor = 'border-emerald-500/40';
+      textColor = 'text-emerald-300';
+      bgColor = 'bg-emerald-500/15';
+      borderColor = 'border-emerald-500/30';
       label = 'LIVE';
       symbol = '●';
       break;
     case 'RECENT':
       dotColor = 'bg-cyan-400';
-      textColor = 'text-cyan-400';
-      bgColor = 'bg-cyan-950/40';
-      borderColor = 'border-cyan-500/40';
+      textColor = 'text-cyan-300';
+      bgColor = 'bg-cyan-500/15';
+      borderColor = 'border-cyan-500/30';
       label = 'RECENT';
       symbol = '●';
       break;
     case 'CACHED':
       dotColor = 'bg-sky-400';
       textColor = 'text-sky-300';
-      bgColor = 'bg-sky-950/40';
-      borderColor = 'border-sky-500/40';
+      bgColor = 'bg-sky-500/15';
+      borderColor = 'border-sky-500/30';
       label = 'CACHED';
       symbol = '●';
       break;
     case 'SIMULATED':
     case 'SIMULATION':
       dotColor = 'bg-amber-400';
-      textColor = 'text-amber-400';
-      bgColor = 'bg-amber-950/40';
-      borderColor = 'border-amber-500/40';
+      textColor = 'text-amber-300';
+      bgColor = 'bg-amber-500/15';
+      borderColor = 'border-amber-500/30';
       label = 'SIMULATION';
       symbol = '●';
       break;
     case 'STALE':
       dotColor = 'bg-amber-500';
-      textColor = 'text-amber-400';
-      bgColor = 'bg-amber-950/50';
-      borderColor = 'border-amber-500/50';
+      textColor = 'text-amber-300';
+      bgColor = 'bg-amber-500/20';
+      borderColor = 'border-amber-500/40';
       label = 'STALE';
       symbol = '⚠';
       break;
@@ -93,17 +93,17 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     case 'OFFLINE':
       dotColor = 'bg-slate-500';
       textColor = 'text-slate-400';
-      bgColor = 'bg-slate-900/50';
-      borderColor = 'border-slate-700/40';
+      bgColor = 'bg-slate-800/40';
+      borderColor = 'border-slate-700/30';
       label = 'UNAVAILABLE';
       symbol = '○';
       break;
     case 'ERROR':
     case 'CRITICAL':
       dotColor = 'bg-rose-500';
-      textColor = 'text-rose-400';
-      bgColor = 'bg-rose-950/50';
-      borderColor = 'border-rose-500/50';
+      textColor = 'text-rose-300';
+      bgColor = 'bg-rose-500/20';
+      borderColor = 'border-rose-500/40';
       label = 'ERROR';
       symbol = '✕';
       break;
@@ -113,15 +113,15 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   }
 
   const sizeClasses = {
-    xs: 'px-1.5 py-0.5 text-[9px] gap-1',
-    sm: 'px-2 py-0.5 text-[10px] gap-1.5',
-    md: 'px-2.5 py-1 text-xs gap-2',
+    xs: 'px-2 py-0.5 text-[10px] gap-1',
+    sm: 'px-2.5 py-0.5 text-[11px] gap-1.5',
+    md: 'px-3 py-1 text-xs gap-2',
   }[size];
 
   return (
     <span
       className={cn(
-        'inline-flex items-center font-mono font-semibold tracking-wider rounded border select-none transition-colors',
+        'inline-flex items-center font-sans font-medium rounded-full border select-none transition-colors',
         sizeClasses,
         bgColor,
         borderColor,
@@ -137,7 +137,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
       )}
       <span>{label}</span>
       {provenance && (
-        <span className="text-slate-500 text-[9px] font-normal border-l border-slate-700/60 pl-1.5 ml-0.5">
+        <span className="text-slate-400 text-[10px] font-normal border-l border-slate-700/60 pl-1.5 ml-0.5">
           {provenance}
         </span>
       )}

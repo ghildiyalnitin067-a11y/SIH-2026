@@ -66,49 +66,49 @@ export const IntelligencePage: React.FC = () => {
       title="INTELLIGENCE & LOGS"
       subtitle="Decision explanation, tactical alert history, and environmental provenance"
       actions={
-        <div className="flex items-center gap-2 font-mono text-xs">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#06111e] border border-slate-800 rounded-xs text-slate-300">
+        <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
             <Ship className="w-3.5 h-3.5 text-sky-400" />
-            <span className="text-slate-400">VESSEL:</span>
+            <span className="text-slate-400">Vessel:</span>
             <select
               value={selectedVessel.id}
               onChange={(e) => setSelectedVesselId(e.target.value)}
-              className="bg-transparent text-slate-200 font-semibold text-xs border-none focus:outline-none cursor-pointer"
+              className="bg-transparent text-slate-200 font-medium text-xs border-none focus:outline-none cursor-pointer"
             >
               {fleet.map((v) => (
-                <option key={v.id} value={v.id} className="bg-[#040B14] text-slate-200 font-mono">
+                <option key={v.id} value={v.id} className="bg-slate-900 text-slate-200">
                   {v.name} ({v.polar_class ? v.polar_class.split(' ')[0] : 'PC5'})
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-[#06111e] border border-slate-800 rounded-xs text-slate-300">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span className="text-slate-400">STATUS:</span>
-            <span className="text-slate-200 font-semibold">VALIDATED</span>
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 border border-slate-800/60 rounded-lg text-slate-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="text-slate-400">Status:</span>
+            <span className="text-slate-200 font-medium">Validated</span>
           </div>
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-3 md:p-4 space-y-3 bg-[#040B14] text-slate-200 font-mono">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-6 space-y-4 bg-[#040B14] text-slate-200 font-sans">
         
         {/* ========================================================================= */}
         {/* 1. DECISION EXPLANATION (MARITIME DECISION SUPPORT)                      */}
         {/* ========================================================================= */}
-        <div className="bg-[#06111e] border border-slate-800 p-3.5 rounded-xs space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-2">
-            <div className="flex items-center gap-2">
+        <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 lg:p-5 rounded-xl space-y-4 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/50 pb-3">
+            <div className="flex items-center gap-2.5">
               <Compass className="w-4 h-4 text-sky-400" />
-              <span className="text-slate-200 font-bold text-xs uppercase tracking-wider">
+              <span className="text-slate-200 font-semibold text-xs tracking-wide">
                 Decision Explanation
               </span>
               <span className="text-slate-600">|</span>
-              <span className="text-slate-400 text-xs">{currentRoute?.name || 'Route B (Optimal)'}</span>
+              <span className="text-slate-400 text-xs font-mono">{currentRoute?.name || 'Route B (Optimal)'}</span>
             </div>
 
             {/* Corridor Tabs */}
-            <div className="flex items-center gap-1 bg-[#040B14] p-0.5 rounded-xs border border-slate-800">
+            <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-lg border border-slate-800/60">
               {routes.map((r) => {
                 const isSelected = currentRoute?.id === r.id;
                 const tabLabel = r.optimization_mode === 'BALANCED' ? 'Route B (Optimal)' :
@@ -122,10 +122,10 @@ export const IntelligencePage: React.FC = () => {
                     type="button"
                     onClick={() => setActiveRouteId(r.id)}
                     className={cn(
-                      "px-2.5 py-1 rounded-xs text-[10px] font-mono transition-colors",
+                      "px-3 py-1 rounded-md text-xs font-medium transition-colors",
                       isSelected
-                        ? "bg-[#12283e] text-sky-300 font-bold border border-[#214972]"
-                        : "text-slate-400 hover:text-slate-200"
+                        ? "bg-sky-500/20 text-sky-300 font-semibold"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
                     )}
                   >
                     {tabLabel}
@@ -135,52 +135,52 @@ export const IntelligencePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-3 bg-[#081524] border border-slate-800 rounded-xs">
-            <span className="text-slate-400 text-[10px] uppercase tracking-wider block mb-1">
+          <div className="p-4 bg-slate-900/60 border border-slate-800/50 rounded-xl space-y-1.5">
+            <span className="text-slate-400 text-xs font-medium block">
               Operational Recommendation Narrative
             </span>
-            <p className="text-xs text-slate-200 font-sans leading-relaxed">
+            <p className="text-xs text-slate-200 leading-relaxed">
               {explanation}
             </p>
           </div>
 
           {/* Environmental Cost Component Score Breakdown */}
-          <div className="pt-2">
-            <span className="text-slate-400 text-[10px] uppercase tracking-wider block mb-2 font-bold">
+          <div className="pt-1">
+            <span className="text-slate-400 text-xs block mb-2.5 font-medium">
               Multi-Objective Cost Breakdown (Antarctic Dynamic A*)
             </span>
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 text-center text-xs">
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">DISTANCE</span>
-                <span className="font-bold text-slate-200 mt-0.5 block">{costBreakdown.distance_cost ?? 0}</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 text-center text-xs">
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Distance</span>
+                <span className="font-semibold font-mono text-slate-200 mt-1 block">{costBreakdown.distance_cost ?? 0}</span>
               </div>
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">SEA-ICE DRAG</span>
-                <span className="font-bold text-sky-400 mt-0.5 block">{costBreakdown.ice_cost ?? 0}</span>
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Sea-Ice Drag</span>
+                <span className="font-semibold font-mono text-sky-400 mt-1 block">{costBreakdown.ice_cost ?? 0}</span>
               </div>
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">ICEBERG CPA</span>
-                <span className="font-bold text-slate-200 mt-0.5 block">{costBreakdown.iceberg_cost ?? 0}</span>
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Iceberg CPA</span>
+                <span className="font-semibold font-mono text-slate-200 mt-1 block">{costBreakdown.iceberg_cost ?? 0}</span>
               </div>
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">OCEAN DRIFT</span>
-                <span className="font-bold text-slate-200 mt-0.5 block">{costBreakdown.current_cost ?? 0}</span>
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Ocean Drift</span>
+                <span className="font-semibold font-mono text-slate-200 mt-1 block">{costBreakdown.current_cost ?? 0}</span>
               </div>
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">WIND DRAG</span>
-                <span className="font-bold text-slate-200 mt-0.5 block">{costBreakdown.weather_cost ?? 0}</span>
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Wind Drag</span>
+                <span className="font-semibold font-mono text-slate-200 mt-1 block">{costBreakdown.weather_cost ?? 0}</span>
               </div>
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">BATHYMETRY</span>
-                <span className="font-bold text-emerald-400 mt-0.5 block">{costBreakdown.bathymetry_cost ?? 0}</span>
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Bathymetry</span>
+                <span className="font-semibold font-mono text-emerald-400 mt-1 block">{costBreakdown.bathymetry_cost ?? 0}</span>
               </div>
-              <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
-                <span className="text-slate-400 text-[9px] block">FUEL CONSUMPTION</span>
-                <span className="font-bold text-slate-200 mt-0.5 block">{costBreakdown.fuel_cost ?? 0}</span>
+              <div className="bg-slate-900/60 border border-slate-800/50 p-2.5 rounded-lg">
+                <span className="text-slate-400 text-[11px] block">Fuel Cost</span>
+                <span className="font-semibold font-mono text-slate-200 mt-1 block">{costBreakdown.fuel_cost ?? 0}</span>
               </div>
-              <div className="bg-[#0c1c2e] border border-sky-500/40 p-2 rounded-xs">
-                <span className="text-sky-400 text-[9px] font-bold block">TOTAL SCORE</span>
-                <span className="font-bold text-emerald-400 mt-0.5 block">{costBreakdown.total_cost ?? 0}</span>
+              <div className="bg-sky-500/10 border border-sky-500/30 p-2.5 rounded-lg">
+                <span className="text-sky-300 text-[11px] font-medium block">Total Score</span>
+                <span className="font-bold font-mono text-emerald-400 mt-1 block">{costBreakdown.total_cost ?? 0}</span>
               </div>
             </div>
           </div>
@@ -189,40 +189,40 @@ export const IntelligencePage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 2. CHRONOLOGICAL LOGS & HAZARDS TIMELINE                                  */}
         {/* ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 text-xs">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
           
           {/* Active Hazard Logs */}
-          <div className="bg-[#06111e] border border-slate-800 p-3.5 rounded-xs space-y-3 flex flex-col justify-between">
+          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 lg:p-5 rounded-xl space-y-3 flex flex-col justify-between shadow-xs">
             <div>
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+              <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5 mb-3">
+                <span className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-400" />
                   Tactical Hazard Log ({alerts.length})
                 </span>
-                <span className="text-[10px] text-slate-400">Chronological</span>
+                <span className="text-[11px] text-slate-400">Chronological</span>
               </div>
               
-              <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar">
+              <div className="space-y-2.5 max-h-72 overflow-y-auto custom-scrollbar">
                 {alerts.map((a: any, idx: number) => {
                   const isHigh = a.severity === 'HIGH' || a.severity === 'CRITICAL';
                   return (
                     <div 
                       key={a.id || idx}
                       className={cn(
-                        "p-2.5 rounded-xs border text-[11px] space-y-1",
-                        isHigh ? "bg-[#081524] border-red-500/30" : "bg-[#081524] border-slate-800"
+                        "p-3 rounded-lg border text-xs space-y-1.5 transition-colors",
+                        isHigh ? "bg-rose-500/10 border-rose-500/30" : "bg-slate-900/50 border-slate-800/50"
                       )}
                     >
                       <div className="flex items-center justify-between">
-                        <span className={cn("font-bold text-xs", isHigh ? "text-red-400" : "text-amber-400")}>
+                        <span className={cn("font-semibold text-xs", isHigh ? "text-rose-400" : "text-amber-400")}>
                           {a.title}
                         </span>
-                        <span className="text-[10px] text-slate-400">{a.timeRelative || '14:12 UTC'}</span>
+                        <span className="text-[11px] text-slate-400 font-mono">{a.timeRelative || '14:12 UTC'}</span>
                       </div>
-                      <p className="text-slate-300 font-sans text-xs">{a.description}</p>
-                      <div className="flex justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800">
-                        <span>Source: {a.source || 'Polar Sensor Fusion'}</span>
-                        <span className="text-sky-400 font-semibold">Action: {a.recommendedAction || 'Monitor CPA'}</span>
+                      <p className="text-slate-300 text-xs leading-relaxed">{a.description}</p>
+                      <div className="flex justify-between text-[11px] text-slate-400 pt-1.5 border-t border-slate-800/40">
+                        <span>Source: <strong className="text-slate-300 font-normal">{a.source || 'Polar Sensor Fusion'}</strong></span>
+                        <span className="text-sky-400 font-medium">Action: {a.recommendedAction || 'Monitor CPA'}</span>
                       </div>
                     </div>
                   );
@@ -232,25 +232,28 @@ export const IntelligencePage: React.FC = () => {
 
             <Link
               to="/alerts"
-              className="pt-2 border-t border-slate-800 text-[10px] text-sky-400 hover:text-slate-100 flex items-center justify-between transition-colors"
+              className="pt-3 border-t border-slate-800/50 text-xs text-sky-400 hover:text-sky-300 flex items-center justify-between transition-colors font-medium"
             >
               <span>Manage active alerts</span>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* System Events & Decisions */}
-          <div className="bg-[#06111e] border border-slate-800 p-3.5 rounded-xs space-y-3 flex flex-col justify-between">
+          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 lg:p-5 rounded-xl space-y-3 flex flex-col justify-between shadow-xs">
             <div>
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-sky-400" />
+              <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5 mb-3">
+                <span className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-sky-400" />
                   Navigation Events &amp; Waypoint Log
                 </span>
-                <span className="text-[10px] text-emerald-400 font-bold">● RECORDER ACTIVE</span>
+                <span className="text-xs text-emerald-400 font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Recorder Active
+                </span>
               </div>
 
-              <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar">
+              <div className="space-y-2.5 max-h-72 overflow-y-auto custom-scrollbar">
                 {[
                   { time: '14:32:00 UTC', event: 'Simulated kinematic tick: SOG 12.4 kn, HDG 184°T, CPA clearance 14.8 km' },
                   { time: '14:20:15 UTC', event: 'Waypoint WP-03 cleared. Transitioning to open lead sector SEC-02' },
@@ -258,12 +261,12 @@ export const IntelligencePage: React.FC = () => {
                   { time: '12:00:30 UTC', event: 'Sentinel-1A SAR scene ingested. 6 CFAR point-targets verified and mapped' },
                   { time: '11:15:00 UTC', event: 'POLARIS RIO safety verification passed: RIO +8.4 for PC5 ice class vessel' }
                 ].map((ev, i) => (
-                  <div key={i} className="p-2 bg-[#081524] border border-slate-800 rounded-xs text-[11px] space-y-0.5">
-                    <div className="flex justify-between text-[10px] text-slate-400">
-                      <span className="font-semibold text-sky-400">{ev.time}</span>
-                      <span>OPERATIONAL</span>
+                  <div key={i} className="p-2.5 bg-slate-900/50 border border-slate-800/50 rounded-lg text-xs space-y-1">
+                    <div className="flex justify-between text-[11px] text-slate-400">
+                      <span className="font-semibold text-sky-400 font-mono">{ev.time}</span>
+                      <span className="text-slate-400">Operational</span>
                     </div>
-                    <p className="text-slate-300 font-sans text-xs">{ev.event}</p>
+                    <p className="text-slate-300 text-xs">{ev.event}</p>
                   </div>
                 ))}
               </div>
@@ -271,10 +274,10 @@ export const IntelligencePage: React.FC = () => {
 
             <Link
               to="/reports"
-              className="pt-2 border-t border-slate-800 text-[10px] text-sky-400 hover:text-slate-100 flex items-center justify-between transition-colors"
+              className="pt-3 border-t border-slate-800/50 text-xs text-sky-400 hover:text-sky-300 flex items-center justify-between transition-colors font-medium"
             >
               <span>Generate IMO compliance report</span>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
@@ -283,66 +286,66 @@ export const IntelligencePage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 3. ML MODEL BENCHMARKS & ENVIRONMENTAL SENSOR PROVENANCE                  */}
         {/* ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 text-xs">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
           
           {/* Model Benchmarks */}
-          <div className="bg-[#06111e] border border-slate-800 p-3.5 rounded-xs space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                ML Prediction Models &amp; Evaluation Benchmarks
+          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 lg:p-5 rounded-xl space-y-3.5 shadow-xs">
+            <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5">
+              <span className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                ML Prediction Models &amp; Benchmarks
               </span>
-              <span className="text-[10px] text-emerald-400 font-bold">4 MODULES</span>
+              <span className="text-xs text-emerald-400 font-medium font-mono">4 Modules</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
-              <div className="p-2.5 bg-[#081524] border border-slate-800 rounded-xs space-y-1">
-                <div className="text-sky-400 font-bold text-[10px]">SEA ICE PREDICTOR</div>
-                <div className="text-slate-200 font-semibold">{aiModels?.modules?.module_1_sea_ice?.model_type || 'RandomForest'} (CDR V4)</div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+              <div className="p-3 bg-slate-900/60 border border-slate-800/50 rounded-lg space-y-1.5">
+                <div className="text-sky-400 font-semibold text-xs">Sea Ice Predictor</div>
+                <div className="text-slate-200 font-medium">{aiModels?.modules?.module_1_sea_ice?.model_type || 'RandomForest'} (CDR V4)</div>
+                <div className="flex justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/40">
                   <span>Test R²:</span>
-                  <span className="text-emerald-400 font-bold">{aiModels?.modules?.module_1_sea_ice?.test_r2 ?? 0.8861}</span>
+                  <span className="text-emerald-400 font-bold font-mono">{aiModels?.modules?.module_1_sea_ice?.test_r2 ?? 0.8861}</span>
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-[11px] text-slate-400">
                   <span>Test MAE:</span>
-                  <span className="text-slate-200">{aiModels?.modules?.module_1_sea_ice?.test_mae ?? 0.0401}</span>
+                  <span className="text-slate-200 font-mono">{aiModels?.modules?.module_1_sea_ice?.test_mae ?? 0.0401}</span>
                 </div>
               </div>
 
-              <div className="p-2.5 bg-[#081524] border border-slate-800 rounded-xs space-y-1">
-                <div className="text-sky-400 font-bold text-[10px]">ICEBERG TRAJECTORY MODEL</div>
-                <div className="text-slate-200 font-semibold">Kinematic RF (85 BYU Bergs)</div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+              <div className="p-3 bg-slate-900/60 border border-slate-800/50 rounded-lg space-y-1.5">
+                <div className="text-sky-400 font-semibold text-xs">Iceberg Drift Model</div>
+                <div className="text-slate-200 font-medium">Kinematic RF (85 BYU Bergs)</div>
+                <div className="flex justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/40">
                   <span>Mean Error:</span>
-                  <span className="text-emerald-400 font-bold">{aiModels?.modules?.module_2_iceberg_drift?.mean_position_error_km ?? 1.7} km</span>
+                  <span className="text-emerald-400 font-bold font-mono">{aiModels?.modules?.module_2_iceberg_drift?.mean_position_error_km ?? 1.7} km</span>
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-[11px] text-slate-400">
                   <span>Median Error:</span>
-                  <span className="text-slate-200">{aiModels?.modules?.module_2_iceberg_drift?.median_position_error_km ?? 0.12} km</span>
+                  <span className="text-slate-200 font-mono">{aiModels?.modules?.module_2_iceberg_drift?.median_position_error_km ?? 0.12} km</span>
                 </div>
               </div>
 
-              <div className="p-2.5 bg-[#081524] border border-slate-800 rounded-xs space-y-1">
-                <div className="text-sky-400 font-bold text-[10px]">SENTINEL-1 SAR DETECTOR</div>
-                <div className="text-slate-200 font-semibold">CFAR + Lee Speckle Filter</div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+              <div className="p-3 bg-slate-900/60 border border-slate-800/50 rounded-lg space-y-1.5">
+                <div className="text-sky-400 font-semibold text-xs">Sentinel-1 SAR Detector</div>
+                <div className="text-slate-200 font-medium">CFAR + Lee Speckle Filter</div>
+                <div className="flex justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/40">
                   <span>Test Accuracy:</span>
-                  <span className="text-emerald-400 font-bold">{aiModels?.modules?.module_3_sentinel_sar?.test_accuracy ?? 98.47}%</span>
+                  <span className="text-emerald-400 font-bold font-mono">{aiModels?.modules?.module_3_sentinel_sar?.test_accuracy ?? 98.47}%</span>
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-[11px] text-slate-400">
                   <span>Weighted F1:</span>
-                  <span className="text-slate-200">{aiModels?.modules?.module_3_sentinel_sar?.weighted_f1 ?? 98.48}%</span>
+                  <span className="text-slate-200 font-mono">{aiModels?.modules?.module_3_sentinel_sar?.weighted_f1 ?? 98.48}%</span>
                 </div>
               </div>
 
-              <div className="p-2.5 bg-[#081524] border border-slate-800 rounded-xs space-y-1">
-                <div className="text-sky-400 font-bold text-[10px]">POLAR DYNAMIC ROUTING</div>
-                <div className="text-slate-200 font-semibold">EPSG:3031 Conformal A*</div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+              <div className="p-3 bg-slate-900/60 border border-slate-800/50 rounded-lg space-y-1.5">
+                <div className="text-sky-400 font-semibold text-xs">Polar Conformal A*</div>
+                <div className="text-slate-200 font-medium">EPSG:3031 Dynamic Grid</div>
+                <div className="flex justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/40">
                   <span>Cost Objectives:</span>
-                  <span className="text-emerald-400 font-bold">7 Surfaces</span>
+                  <span className="text-emerald-400 font-bold font-mono">7 Surfaces</span>
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-[11px] text-slate-400">
                   <span>Standard:</span>
                   <span className="text-slate-200">IMO POLARIS</span>
                 </div>
@@ -351,52 +354,52 @@ export const IntelligencePage: React.FC = () => {
           </div>
 
           {/* Sensor Provenance */}
-          <div className="bg-[#06111e] border border-slate-800 p-3.5 rounded-xs space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-sky-400" />
+          <div className="bg-[#06111e]/90 border border-slate-800/50 p-4 lg:p-5 rounded-xl space-y-3.5 shadow-xs">
+            <div className="flex items-center justify-between border-b border-slate-800/50 pb-2.5">
+              <span className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+                <Database className="w-4 h-4 text-sky-400" />
                 Sensor Pipeline &amp; Data Provenance
               </span>
-              <span className="text-[10px] text-emerald-400 font-bold">SYNCHRONIZED</span>
+              <span className="text-xs text-emerald-400 font-medium">Synchronized</span>
             </div>
 
-            <div className="space-y-1.5 text-[11px]">
-              <div className="p-2 bg-[#081524] border border-slate-800 rounded-xs flex items-center justify-between">
+            <div className="space-y-2 text-xs">
+              <div className="p-2.5 bg-slate-900/60 border border-slate-800/50 rounded-lg flex items-center justify-between">
                 <div>
-                  <div className="text-slate-200 font-semibold">NOAA / NSIDC CDR V4</div>
-                  <div className="text-[10px] text-slate-400">Daily 25km passive microwave grid for sea ice concentration</div>
+                  <div className="text-slate-200 font-medium">NOAA / NSIDC CDR V4</div>
+                  <div className="text-[11px] text-slate-400">Daily 25km passive microwave grid for sea ice concentration</div>
                 </div>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-medium">
                   SATELLITE
                 </span>
               </div>
 
-              <div className="p-2 bg-[#081524] border border-slate-800 rounded-xs flex items-center justify-between">
+              <div className="p-2.5 bg-slate-900/60 border border-slate-800/50 rounded-lg flex items-center justify-between">
                 <div>
-                  <div className="text-slate-200 font-semibold">US NIC + BYU Antarctic Iceberg Database</div>
-                  <div className="text-[10px] text-slate-400">85 authenticated iceberg records with dimensions &amp; historical drift</div>
+                  <div className="text-slate-200 font-medium">US NIC + BYU Antarctic Iceberg Database</div>
+                  <div className="text-[11px] text-slate-400">85 authenticated iceberg records with dimensions &amp; historical drift</div>
                 </div>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-400 font-medium">
                   RADAR
                 </span>
               </div>
 
-              <div className="p-2 bg-[#081524] border border-slate-800 rounded-xs flex items-center justify-between">
+              <div className="p-2.5 bg-slate-900/60 border border-slate-800/50 rounded-lg flex items-center justify-between">
                 <div>
-                  <div className="text-slate-200 font-semibold">Copernicus Marine GLO12 + ECMWF ERA5</div>
-                  <div className="text-[10px] text-slate-400">Surface currents (uo, vo) &amp; 10m wind vector forcing</div>
+                  <div className="text-slate-200 font-medium">Copernicus Marine GLO12 + ECMWF ERA5</div>
+                  <div className="text-[11px] text-slate-400">Surface currents (uo, vo) &amp; 10m wind vector forcing</div>
                 </div>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 font-medium">
                   HYDRO/MET
                 </span>
               </div>
 
-              <div className="p-2 bg-[#081524] border border-slate-800 rounded-xs flex items-center justify-between">
+              <div className="p-2.5 bg-slate-900/60 border border-slate-800/50 rounded-lg flex items-center justify-between">
                 <div>
-                  <div className="text-slate-200 font-semibold">NOAA NGDC ETOPO 2022 Bathymetry</div>
-                  <div className="text-[10px] text-slate-400">1 arc-minute global seabed relief with 20m keel collision avoidance</div>
+                  <div className="text-slate-200 font-medium">NOAA NGDC ETOPO 2022 Bathymetry</div>
+                  <div className="text-[11px] text-slate-400">1 arc-minute global seabed relief with 20m keel collision avoidance</div>
                 </div>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-400 font-medium">
                   BATHYMETRY
                 </span>
               </div>

@@ -11,7 +11,7 @@ Configure in Render Dashboard -> Environment:
 ```ini
 PYTHON_VERSION=3.11.9
 PORT=8000
-GEMINI_API_KEY=AIzaSy...your_gemini_key
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
 LLM_PROVIDER=gemini
 GEMINI_MODEL=gemini-flash-lite-latest
 CORS_ORIGINS=*

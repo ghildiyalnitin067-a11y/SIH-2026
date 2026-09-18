@@ -68,3 +68,47 @@ Where:
 * $C_{\text{bathy}}$: Infinite barrier penalty for bathymetric depths shallower than the vessel's required keel clearance ($\text{draft} + 2.0\text{m}$).
 * $C_{\text{current}}$: Dot-product hydrodynamic resistance ($-\vec{v}_{\text{vessel}} \cdot \vec{v}_{\text{current}}$).
 * $C_{\text{fuel}}$: Specific fuel consumption function based on vessel speed through water and ice friction.
+
+---
+
+## 6. Routing Engine Cost Formulation
+
+PolarNav uses a 7-factor conformal Polar Stereographic A* pathfinder (EPSG:3031):
+
+### 6.1 Grid Mesh
+- **50 km resolution** isotropic Cartesian grid over the Southern Ocean operating envelope.
+- **8-directional** neighbor exploration with Euclidean heuristic.
+- **Land as hard obstacle**: Antarctica + ice shelves indexed via shapely.prepared. Cost = 8 if land.
+
+### 6.2 Multi-Objective Corridor Profiles
+Three distinct corridors are generated per voyage:
+1. **Route B — Balanced/Fastest**: Pareto-optimal corridor minimising clock transit time with safe iceberg clearance.
+2. **Route C — Safest Ice Margin**: Maximum safety buffer skirting the Marginal Ice Zone (lowest ice exposure).
+3. **Route A — Direct Baseline**: Geometrically shortest track through pack ice — serves as the comparative baseline.
+
+### 6.3 Antimeridian Handling
+At the API rendering boundary, split_antimeridian_segments detects longitude delta exceeding 180° and splits the polyline into clean MultiLineString segments, preventing horizontal wrap artefacts in MapLibre.
+
+---
+
+## 7. AI Navigation Copilot (Gemini)
+
+Gemini operates strictly as an **Explanation and Advisory Layer** — it never independently computes routes or risk scores.
+
+`
+Real Data / Sensors / ML
+        ?
+  Polar Risk Engine
+        ?
+Polar A* Route Optimizer
+        ?
+Structured Decision Context JSON
+        ?
+   Gemini Copilot
+        ?
+Grounded Human Explanation
+`
+
+- **Model**: gemini-flash-lite-latest — benchmark latency 2.18 seconds.
+- **Security**: GEMINI_API_KEY is stored only on the Render backend. The Vercel frontend has zero knowledge of the key.
+- **Fallback**: FallbackProvider generates structured algorithmic explainability directly from the routing engine metrics if Gemini is unavailable.

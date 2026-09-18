@@ -77,3 +77,27 @@ Polar navigation requires rigorous mathematical handling to avoid polar coordina
 PolarNav strictly adheres to the following production data integrity standards:
 * **No Synthetic Mockups**: Unknown or missing observations default to conservative safety advisories rather than fabricated synthetic numbers.
 * **Transparent Provenance**: Every telemetry payload returned by the API includes a `data_source` and `provenance` field indicating whether the value was `LIVE_API`, `LOCAL_REANALYSIS`, `HISTORICAL_BENCHMARK`, or `DETERMINISTIC_FALLBACK`.
+
+---
+
+## 6. Real Satellite Monitoring
+
+PolarNav interfaces with the following Earth Observation (EO) catalogs for real satellite imagery:
+
+| Provider | Infrastructure | Primary Collections |
+| :--- | :--- | :--- |
+| **ESA Copernicus Data Space** | ESA Open Access Hub | SENTINEL-1 GRD EW/IW, SENTINEL-2 L2A MSI |
+| **Microsoft Planetary Computer** | Azure STAC v1.0.0 | Cloud-Optimized GeoTIFFs (COG) |
+| **NOAA / NSIDC** | National Snow & Ice Data Center | G02202 AMSR2/SSMIS CDR v4 (12.5 km SIC) |
+
+### Freshness Tiers
+Every satellite observation is bound to an acquisition timestamp (UTC) and graded:
+- LIVE — acquired < 6 hours ago
+- RECENT — 6–24 hours
+- STALE — 24–72 hours
+- UNAVAILABLE — no coverage or acquisition failure
+
+### Sensor Priority
+1. **Priority 1**: Sentinel-1 SAR (all-weather, day/night C-Band active microwave)
+2. **Priority 2**: Sentinel-2 MSI (daylight / low-cloud only; disabled during polar night)
+3. **Priority 3**: Passive microwave SIC (AMSR2 / SSMIS 12.5 km grid)

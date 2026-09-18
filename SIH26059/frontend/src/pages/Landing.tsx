@@ -60,30 +60,30 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
           {/* Brand */}
           <NavLink to="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center group-hover:border-sky-500/50 transition-colors">
-              <Anchor className="w-4 h-4 text-sky-400 group-hover:text-white transition-colors" />
+            <div className="w-7 h-7 rounded-lg bg-sky-500/10 flex items-center justify-center text-sky-400">
+              <Anchor className="w-4 h-4" />
             </div>
             <span className="font-bold tracking-wider text-sm sm:text-base text-slate-100 font-mono uppercase">
               POLAR<span className="text-sky-400">NAV</span>
             </span>
           </NavLink>
 
-          {/* Desktop Streamlined Capsule Nav */}
-          <div className="hidden md:flex items-center gap-1 bg-slate-900/80 p-1 rounded-lg border border-slate-800/60">
+          {/* Desktop Navigation Links (No border box) */}
+          <div className="hidden md:flex items-center gap-1">
             {primaryNav.map((item) => (
               <NavLink
                 key={item.id}
                 to={item.path}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-sky-500/20 text-sky-300 font-semibold"
-                      : "text-slate-300 hover:text-white hover:bg-slate-800/40"
+                      ? "bg-white/[0.08] text-sky-300 font-semibold"
+                      : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
                   )
                 }
               >
-                <item.icon className="w-3.5 h-3.5" />
+                <item.icon className="w-3.5 h-3.5 opacity-80" />
                 <span>{item.label}</span>
               </NavLink>
             ))}
@@ -94,24 +94,24 @@ const Landing = () => {
                 type="button"
                 onClick={() => setToolsDropdownOpen(!toolsDropdownOpen)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer",
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer",
                   toolsDropdownOpen 
-                    ? "bg-sky-500/20 text-sky-300 font-semibold" 
-                    : "text-slate-300 hover:text-white hover:bg-slate-800/40"
+                    ? "bg-white/[0.08] text-sky-300 font-semibold" 
+                    : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
                 )}
               >
-                <Layers className="w-3.5 h-3.5" />
+                <Layers className="w-3.5 h-3.5 opacity-80" />
                 <span>More</span>
                 <ChevronDown className={cn("w-3.5 h-3.5 transition-transform opacity-70", toolsDropdownOpen && "rotate-180")} />
               </button>
 
               {toolsDropdownOpen && (
                 <div 
-                  className="absolute right-0 mt-2 w-64 bg-[#06111e]/95 backdrop-blur-md border border-slate-800/80 rounded-xl shadow-xl py-2 z-50 animate-in fade-in"
+                  className="absolute right-0 mt-2 w-64 bg-[#06111e]/95 backdrop-blur-md border border-slate-800 rounded-lg shadow-xl py-2 z-50 animate-in fade-in"
                   onMouseLeave={() => setToolsDropdownOpen(false)}
                 >
                   <div className="px-3 pb-2 mb-1 border-b border-slate-800/60 text-[11px] text-slate-400 font-medium">
-                    Analytical & Safety Modules
+                    Analytical &amp; Safety Modules
                   </div>
                   {secondaryNav.map((item) => (
                     <NavLink
@@ -170,7 +170,7 @@ const Landing = () => {
                   key={item.id}
                   to={item.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/40 border border-slate-800/60 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/40 transition-colors"
                 >
                   <item.icon className="w-3.5 h-3.5 text-sky-400 shrink-0" />
                   <span className="truncate">{item.label}</span>

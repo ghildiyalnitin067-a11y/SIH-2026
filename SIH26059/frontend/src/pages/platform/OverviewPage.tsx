@@ -102,7 +102,7 @@ export const OverviewPage: React.FC = () => {
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-4 sm:p-6 space-y-4 bg-[#040911] text-slate-200 font-sans select-none">
+      <div className="min-h-full overflow-y-auto custom-scrollbar p-4 sm:p-6 pb-12 space-y-4 bg-[#040911] text-slate-200 font-sans select-none">
         
         {/* ========================================================================= */}
         {/* 1. OPERATIONAL STATUS — 4 CLEAN CARDS                                    */}
@@ -268,7 +268,7 @@ export const OverviewPage: React.FC = () => {
           </div>
 
           {/* Map Viewport */}
-          <div className="relative w-full h-[460px] lg:h-[520px] bg-[#040911]">
+          <div className="relative w-full h-[600px] lg:h-[700px] min-h-[520px] bg-[#040911]">
             <PolarMap
               section="overview"
               activeHorizon={activeHorizonLabel}

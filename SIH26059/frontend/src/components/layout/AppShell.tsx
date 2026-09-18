@@ -95,43 +95,41 @@ export const AppShell: React.FC<AppShellProps> = ({
     <div className="flex flex-col h-screen bg-[#040B14] text-slate-100 font-sans overflow-hidden select-none">
       
       {/* ========================================================================= */}
-      {/* 1. UNIFIED HORIZONTAL MARITIME NAVBAR                                    */}
+      {/* 1. CLEAN MODERN MARITIME NAVBAR                                          */}
       {/* ========================================================================= */}
-      <header className="h-11 bg-[#06111e] border-b border-slate-800/80 flex items-center justify-between px-3 sm:px-4 z-40 shrink-0 font-sans text-xs">
+      <header className="h-12 bg-[#06111e]/95 backdrop-blur-xs border-b border-slate-800/50 flex items-center justify-between px-4 sm:px-6 z-40 shrink-0 font-sans text-xs">
         
-        {/* LEFT: Brand + Primary Horizontal Navigation */}
-        <div className="flex items-center gap-3 sm:gap-5">
+        {/* LEFT: Brand + Clean Primary Horizontal Navigation */}
+        <div className="flex items-center gap-6 lg:gap-8">
           <Link
             to="/"
-            className="flex items-center gap-2 group transition-opacity hover:opacity-90"
+            className="flex items-center gap-2.5 group transition-opacity hover:opacity-90"
             title="Return to PolarNav Landing Briefing"
           >
-            <div className="w-5 h-5 rounded bg-slate-900 border border-slate-700 flex items-center justify-center">
-              <Anchor className="w-3 h-3 text-sky-400" />
+            <div className="w-6 h-6 rounded-md bg-sky-500/10 flex items-center justify-center text-sky-400">
+              <Anchor className="w-3.5 h-3.5" />
             </div>
-            <span className="font-bold tracking-wider text-xs sm:text-sm text-slate-100 font-mono uppercase">
+            <span className="font-bold tracking-wider text-sm text-slate-100 font-sans uppercase">
               POLAR<span className="text-sky-400">NAV</span>
             </span>
           </Link>
 
-          <span className="text-slate-700 hidden lg:inline">|</span>
-
           {/* DESKTOP HORIZONTAL MENU */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#050e18] p-0.5 rounded-md border border-slate-800/80">
+          <nav className="hidden md:flex items-center gap-1">
             {PRIMARY_NAV.map((item) => (
               <NavLink
                 key={item.id}
                 to={item.path}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-1.5 px-3 py-1 rounded text-xs font-sans transition-colors",
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-[#13283f] text-sky-300 font-medium border border-[#214368]"
-                      : "text-slate-400 hover:text-slate-100 hover:bg-slate-900/60 border border-transparent"
+                      ? "bg-slate-800/70 text-sky-300 font-semibold shadow-xs"
+                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
                   )
                 }
               >
-                <item.icon className="w-3.5 h-3.5" />
+                <item.icon className="w-3.5 h-3.5 opacity-80" />
                 <span>{item.label}</span>
               </NavLink>
             ))}
@@ -142,23 +140,23 @@ export const AppShell: React.FC<AppShellProps> = ({
                 type="button"
                 onClick={() => setIntelDropdownOpen(!intelDropdownOpen)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1 rounded text-xs font-sans transition-colors cursor-pointer",
+                  "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer",
                   isIntelActive || intelDropdownOpen
-                    ? "bg-[#13283f] text-sky-300 font-medium border border-[#214368]"
-                    : "text-slate-400 hover:text-slate-100 hover:bg-slate-900/60 border border-transparent"
+                    ? "bg-slate-800/70 text-sky-300 font-semibold shadow-xs"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40"
                 )}
               >
-                <Layers className="w-3.5 h-3.5" />
+                <Layers className="w-3.5 h-3.5 opacity-80" />
                 <span>Intelligence &amp; Logs</span>
-                <ChevronDown className={cn("w-3 h-3 transition-transform opacity-70", intelDropdownOpen && "rotate-180")} />
+                <ChevronDown className={cn("w-3 h-3 transition-transform opacity-60", intelDropdownOpen && "rotate-180")} />
               </button>
 
               {intelDropdownOpen && (
                 <div 
-                  className="absolute left-0 mt-1 w-60 bg-[#06111e] border border-slate-800 rounded-md shadow-lg py-1 z-50 font-sans"
+                  className="absolute left-0 mt-1.5 w-60 bg-[#071322] border border-slate-800/80 rounded-lg shadow-xl py-1.5 z-50 font-sans"
                   onMouseLeave={() => setIntelDropdownOpen(false)}
                 >
-                  <div className="px-3 py-1 border-b border-slate-800 text-[10px] text-slate-400 uppercase font-semibold tracking-wider">
+                  <div className="px-3.5 py-1 text-[10px] text-slate-400 uppercase font-semibold tracking-wider">
                     Operational Intelligence
                   </div>
                   {SECONDARY_NAV.map((item) => (
@@ -168,12 +166,12 @@ export const AppShell: React.FC<AppShellProps> = ({
                       onClick={() => setIntelDropdownOpen(false)}
                       className={({ isActive }) =>
                         cn(
-                          "flex items-center justify-between px-3 py-1.5 text-xs transition-colors hover:bg-slate-800/70",
-                          isActive ? "text-sky-300 font-medium bg-[#13283f]" : "text-slate-300"
+                          "flex items-center justify-between px-3.5 py-2 text-xs transition-colors hover:bg-slate-800/50",
+                          isActive ? "text-sky-300 font-medium bg-slate-800/60" : "text-slate-300"
                         )
                       }
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2.5">
                         <item.icon className="w-3.5 h-3.5 text-slate-400" />
                         <span>{item.label}</span>
                       </div>
@@ -186,26 +184,25 @@ export const AppShell: React.FC<AppShellProps> = ({
         </div>
 
         {/* RIGHT: Status, UTC Clock, Alerts, Mobile Menu Toggle */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3 sm:gap-4">
           
           {/* SYSTEM HEALTH */}
           <button
             type="button"
             onClick={() => setProvenanceModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#050e18] border border-slate-800/80 hover:border-slate-700 transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-2.5 py-1 rounded-md text-slate-300 hover:text-white transition-colors cursor-pointer"
             title="System Provider & Sensor Health Audit"
           >
-            <span className={cn('w-1.5 h-1.5 rounded-full', isSystemHealthy ? 'bg-emerald-400' : 'bg-amber-400')} />
-            <span className="text-[10px] text-slate-400 uppercase font-semibold hidden sm:inline">SYSTEM:</span>
-            <span className={cn('text-[10px] font-bold tracking-wider font-mono', isSystemHealthy ? 'text-emerald-400' : 'text-amber-400')}>
-              {isSystemHealthy ? 'ONLINE' : 'DEGRADED'}
+            <span className={cn('w-2 h-2 rounded-full', isSystemHealthy ? 'bg-emerald-400 shadow-xs' : 'bg-amber-400')} />
+            <span className="text-xs font-medium text-slate-300">
+              {isSystemHealthy ? 'Online' : 'Degraded'}
             </span>
           </button>
 
           {/* UTC CLOCK */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#050e18] border border-slate-800/80 text-slate-300 text-[11px] font-mono">
-            <Clock className="w-3 h-3 text-slate-400" />
-            <span className="font-semibold text-slate-200">
+          <div className="hidden sm:flex items-center gap-1.5 text-slate-400 text-xs font-mono">
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-slate-300 font-medium">
               {utcTime || 'UTC --:--:--'}
             </span>
           </div>
@@ -214,16 +211,16 @@ export const AppShell: React.FC<AppShellProps> = ({
           <Link
             to="/alerts"
             className={cn(
-              'flex items-center gap-1.5 px-2.5 py-1 rounded-md border transition-colors cursor-pointer',
+              'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer',
               activeAlertsCount > 0
-                ? 'bg-amber-950/30 border-amber-600/50 text-amber-300 hover:bg-amber-900/40'
-                : 'bg-[#050e18] border-slate-800/80 text-slate-400 hover:text-slate-200'
+                ? 'bg-amber-950/40 text-amber-300 hover:bg-amber-900/50'
+                : 'text-slate-400 hover:text-slate-200'
             )}
             title="Active Operational Warnings"
           >
-            <Bell className={cn('w-3 h-3', activeAlertsCount > 0 ? 'text-amber-400' : 'text-slate-400')} />
-            <span className="text-[10px] font-bold tracking-wider font-mono">
-              ALERTS {String(activeAlertsCount).padStart(2, '0')}
+            <Bell className={cn('w-3.5 h-3.5', activeAlertsCount > 0 ? 'text-amber-400' : 'text-slate-400')} />
+            <span className="font-sans">
+              {activeAlertsCount > 0 ? `${activeAlertsCount} Alerts` : 'Alerts'}
             </span>
           </Link>
 
@@ -231,13 +228,14 @@ export const AppShell: React.FC<AppShellProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:text-white"
+            className="md:hidden p-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/60"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </header>
+
 
       {/* MOBILE DROPDOWN MENU */}
       {mobileMenuOpen && (

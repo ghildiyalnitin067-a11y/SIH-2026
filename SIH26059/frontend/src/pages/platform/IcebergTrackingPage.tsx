@@ -178,12 +178,12 @@ export const IcebergTrackingPage: React.FC = () => {
         </div>
       }
     >
-      <div className="flex flex-col h-full overflow-hidden bg-[#040911] font-sans">
+      <div className="flex flex-col min-h-full bg-[#040911] font-sans pb-12">
         
         {/* ========================================================================= */}
-        {/* 1. MAP WORKSPACE & TRACKING VIEW                                         */}
+        {/* 1. MAP WORKSPACE & TRACKING VIEW (EXPANDED SPACIOUS VIEWPORT)            */}
         {/* ========================================================================= */}
-        <div className="flex-1 relative overflow-hidden flex flex-col">
+        <div className="w-full relative flex flex-col">
           
           {/* Top Info Bar */}
           <div className="bg-[#060e18] border-b border-white/[0.04] px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3 text-xs shrink-0">
@@ -213,7 +213,7 @@ export const IcebergTrackingPage: React.FC = () => {
             )}
           </div>
 
-          <div className="relative w-full h-[380px] lg:h-[420px] bg-[#040911]">
+          <div className="relative w-full h-[580px] lg:h-[650px] bg-[#040911]">
             <PolarMap
               section="icebergs"
               showRoute={true}
@@ -356,7 +356,7 @@ export const IcebergTrackingPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* 3. CLEAN TABULAR LIST: ID, Lat, Lon, Timestamp, Risk, Distance, Status   */}
         {/* ========================================================================= */}
-        <div className="bg-[#060e18] overflow-hidden flex-1 flex flex-col justify-between">
+        <div className="bg-[#060e18] w-full flex flex-col">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>

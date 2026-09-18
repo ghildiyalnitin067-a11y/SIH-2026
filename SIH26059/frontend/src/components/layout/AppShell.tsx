@@ -309,7 +309,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       {/* ========================================================================= */}
       {/* 3. MAIN APPLICATION WORKSPACE CONTENT                                    */}
       {/* ========================================================================= */}
-      <main className="flex-1 overflow-hidden relative">
+      <main className="flex-1 overflow-y-auto relative">
         {children}
       </main>
 

@@ -478,9 +478,9 @@ export const PolarMap: React.FC<PolarMapProps> = ({
 
   // Floating HUD UI state
   const [layersMenuOpen, setLayersMenuOpen] = useState(false);
-  const [legendCollapsed, setLegendCollapsed] = useState(false); // Legend visible by default for judges
+  const [legendCollapsed, setLegendCollapsed] = useState(false); // Legend visible by default
   const [iridiumMode, setIridiumMode] = useState(false); // Low-bandwidth mode toggle
-  const [whyRouteCollapsed, setWhyRouteCollapsed] = useState(false); // "Why This Route?" decision support card
+  const [whyRouteCollapsed, setWhyRouteCollapsed] = useState(section !== 'navigation' && section !== 'routes'); // Collapsed on monitoring pages to avoid collision
   const [comparisonMode, setComparisonMode] = useState<'LIVE' | 'COMPARE'>('LIVE');
   const [showCompareModal, setShowCompareModal] = useState<boolean>(false);
   const [historicalWaypoints, setHistoricalWaypoints] = useState<any[]>([]);
@@ -2165,7 +2165,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
             </button>
           ) : (
             <div className="bg-[#06111e]/90 backdrop-blur-md border border-slate-800 rounded-lg p-3 shadow-lg w-64 space-y-2 select-none font-sans">
-              <div className="flex items-center justify-between pb-1 text-xs font-semibold text-slate-200 border-b border-slate-800/60">
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-200">
                 <span className="flex items-center gap-1.5 text-xs">
                   <Compass className="w-3.5 h-3.5 text-sky-400" /> Route Intelligence
                 </span>
@@ -2183,31 +2183,31 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   </button>
                 </div>
               </div>
-              <div className="space-y-1 text-[11px] divide-y divide-slate-800/40">
-                <div className="flex items-center justify-between pt-1 first:pt-0">
+              <div className="space-y-1.5 text-[11px]">
+                <div className="flex items-center justify-between">
                   <span className="text-slate-400">Sea Ice Exposure</span>
                   <span className="text-sky-300 font-semibold font-mono text-[10.5px]">
                     {activeRouteObj.sic_actual !== undefined ? `${activeRouteObj.sic_actual}% SIC` : activeRouteObj.sicExposure !== undefined ? `${activeRouteObj.sicExposure}% SIC` : 'Optimal'}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center justify-between">
                   <span className="text-slate-400">Iceberg Clearance</span>
                   <span className="text-slate-200 font-mono text-[10.5px]">
                     {activeRouteObj.minimum_cpa_km !== undefined ? `${activeRouteObj.minimum_cpa_km} km` : 'Safe margin'}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center justify-between">
                   <span className="text-slate-400">IMO POLARIS RIO</span>
                   <span className="text-emerald-400 font-semibold font-mono text-[10.5px]">
                     {activeRouteObj.rioScore !== undefined ? (Number(activeRouteObj.rioScore) > 0 ? `+${Number(activeRouteObj.rioScore).toFixed(1)}` : String(activeRouteObj.rioScore)) : '+2.4 (Compliant)'}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center justify-between">
                   <span className="text-slate-400">Distance &amp; ETA</span>
                   <span className="text-slate-200 font-mono text-[10.5px]">{activeRouteObj.distance || 'N/A'} • {activeRouteObj.eta || 'N/A'}</span>
                 </div>
                 {activeRouteObj.decision_support?.recommendation && (
-                  <div className="pt-1.5 text-[10.5px] text-slate-300 leading-snug">
+                  <div className="text-[10.5px] text-slate-300 leading-snug">
                     <span className="text-sky-400 font-medium">Decision: </span>
                     {activeRouteObj.decision_support.recommendation.slice(0, 85)}...
                   </div>
@@ -2412,7 +2412,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
             </div>
 
             {/* 2. ICE & HAZARDS */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-800">
+            <div className="space-y-1.5 pt-2">
               <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
                 Ice &amp; Hazards
               </span>
@@ -2455,7 +2455,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
             </div>
 
             {/* 3. ENVIRONMENT & INFRASTRUCTURE */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-800">
+            <div className="space-y-1.5 pt-2">
               <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
                 Environment &amp; Infrastructure
               </span>
@@ -2585,7 +2585,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
           </button>
         ) : (
           <div className="bg-[#06111e]/90 backdrop-blur-md rounded-lg border border-slate-800 p-3 shadow-lg w-52 space-y-2 select-none text-xs font-sans">
-            <div className="flex items-center justify-between pb-1 border-b border-slate-800">
+            <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-200 text-xs">
                 Map Legend
               </span>
@@ -2594,7 +2594,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
               </button>
             </div>
 
-            <div className="space-y-1 text-[11px]">
+            <div className="space-y-1.5 text-[11px]">
               <div className="flex items-center gap-2">
                 <span className="text-emerald-400 font-bold text-xs leading-none">●</span>
                 <span className="text-slate-200">Vessel Position</span>
@@ -2625,7 +2625,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
               </div>
             </div>
 
-            <div className="text-[10px] text-slate-500 pt-1 border-t border-slate-800">
+            <div className="text-[10px] text-slate-500 pt-1">
               US NIC • NOAA CDR • Sentinel-1
             </div>
           </div>
@@ -2637,7 +2637,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       {/* ========================================================================= */}
       {selectedEntityInfo && (
         <div className="absolute bottom-3 right-3 z-30 bg-[#06111e]/95 backdrop-blur-md border border-slate-800 rounded-lg p-3.5 shadow-2xl font-sans text-xs w-72 space-y-2 select-text">
-          <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
+          <div className="flex items-center justify-between">
             <span className="text-xs text-slate-200 font-semibold truncate max-w-[170px]">{selectedEntityInfo.title}</span>
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ color: selectedEntityInfo.badgeColor, backgroundColor: `${selectedEntityInfo.badgeColor}22` }}>

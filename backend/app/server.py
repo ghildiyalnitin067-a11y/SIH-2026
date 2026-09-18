@@ -13,7 +13,7 @@ for _p in [str(BACKEND_DIR), str(BACKEND_DIR / "src"), str(ROOT_DIR)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List, Any, Union
 from datetime import datetime, timezone
 from pydantic import BaseModel, Field
 from fastapi import FastAPI, Query

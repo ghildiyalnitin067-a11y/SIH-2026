@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Satellite, Snowflake, Layers, Filter, ShieldCheck
 } from 'lucide-react';
@@ -106,17 +106,17 @@ export const SeaIcePage: React.FC = () => {
       actions={
         <div className="flex items-center gap-2 font-mono text-xs">
           {/* Horizon Selector */}
-          <div className="flex items-center bg-polar-navy/40 border border-slate/20 rounded-sm p-0.5">
+          <div className="flex items-center bg-[#06111e] border border-slate-800 rounded-xs p-0.5">
             {horizonOptions.map((h) => (
               <button
                 key={h.hours}
                 type="button"
                 onClick={() => setSelectedHorizon(h.hours)}
                 className={cn(
-                  "px-2 py-0.5 rounded-xs text-[10px] font-mono transition-all",
+                  "px-2 py-0.5 rounded-xs text-[10px] font-mono transition-colors",
                   selectedHorizon === h.hours
-                    ? "bg-glacial-blue text-navy font-bold shadow-xs"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-[#12283e] text-sky-300 font-bold border border-[#214972]"
+                    : "text-slate-400 hover:text-slate-200"
                 )}
               >
                 {h.label}
@@ -124,25 +124,25 @@ export const SeaIcePage: React.FC = () => {
             ))}
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-polar-navy/40 border border-slate/20 rounded-sm text-slate-300">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-[#06111e] border border-slate-800 rounded-xs text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             <span className="text-slate-400">FEED:</span>
-            <span className="text-ice-white font-semibold">NOAA CDR + S1 SAR</span>
+            <span className="text-slate-200 font-semibold">NOAA CDR + S1 SAR</span>
           </div>
         </div>
       }
     >
-      <div className="flex flex-col h-full overflow-hidden bg-navy">
+      <div className="flex flex-col h-full overflow-hidden bg-[#040B14]">
         
         {/* ========================================================================= */}
         {/* 1. TOP CONTROLS BAR: Date / Horizon, Region, Layer                       */}
         {/* ========================================================================= */}
-        <div className="bg-polar-navy/20 border-b border-slate/20 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shrink-0">
+        <div className="bg-[#06111e] border-b border-slate-800 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shrink-0">
           
           {/* Left: Region / Ice Sector Selector */}
           <div className="flex items-center gap-2">
             <span className="text-slate-400 text-[10px] uppercase font-bold flex items-center gap-1">
-              <Filter className="w-3 h-3 text-glacial-blue" />
+              <Filter className="w-3 h-3 text-sky-400" />
               Region / Sector:
             </span>
             <div className="flex items-center gap-1">
@@ -152,10 +152,10 @@ export const SeaIcePage: React.FC = () => {
                   type="button"
                   onClick={() => handleSectorClick(s.sector)}
                   className={cn(
-                    "px-2 py-1 rounded-sm text-[10px] font-mono border transition-colors",
+                    "px-2 py-0.5 rounded-xs text-[10px] font-mono border transition-colors",
                     selectedSector === s.sector
-                      ? "bg-glacial-blue/20 text-glacial-blue border-glacial-blue/50 font-bold"
-                      : "text-slate-400 hover:text-slate-200 border-slate/20 hover:bg-polar-navy/30"
+                      ? "bg-[#12283e] text-sky-300 border-[#214972] font-semibold"
+                      : "text-slate-400 hover:text-slate-200 border-slate-800 hover:bg-[#0a1829]"
                   )}
                 >
                   {s.sector} ({s.concentration}%)
@@ -168,15 +168,15 @@ export const SeaIcePage: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
               <span className="text-slate-400 text-[10px] uppercase font-bold flex items-center gap-1">
-                <Layers className="w-3 h-3 text-glacial-blue" />
+                <Layers className="w-3 h-3 text-sky-400" />
                 Layer:
               </span>
               <button
                 type="button"
                 onClick={() => setActiveLayer('grid')}
                 className={cn(
-                  "px-2 py-0.5 rounded-sm text-[10px] font-mono border transition-colors",
-                  activeLayer === 'grid' ? "bg-glacial-blue/20 text-glacial-blue border-glacial-blue/50 font-bold" : "text-slate-400 border-slate/20"
+                  "px-2 py-0.5 rounded-xs text-[10px] font-mono border transition-colors",
+                  activeLayer === 'grid' ? "bg-[#12283e] text-sky-300 border-[#214972] font-semibold" : "text-slate-400 border-slate-800 hover:bg-[#0a1829]"
                 )}
               >
                 SIC Grid
@@ -185,8 +185,8 @@ export const SeaIcePage: React.FC = () => {
                 type="button"
                 onClick={() => setActiveLayer('sar')}
                 className={cn(
-                  "px-2 py-0.5 rounded-sm text-[10px] font-mono border transition-colors",
-                  activeLayer === 'sar' ? "bg-glacial-blue/20 text-glacial-blue border-glacial-blue/50 font-bold" : "text-slate-400 border-slate/20"
+                  "px-2 py-0.5 rounded-xs text-[10px] font-mono border transition-colors",
+                  activeLayer === 'sar' ? "bg-[#12283e] text-sky-300 border-[#214972] font-semibold" : "text-slate-400 border-slate-800 hover:bg-[#0a1829]"
                 )}
               >
                 Sentinel-1 SAR
@@ -195,8 +195,8 @@ export const SeaIcePage: React.FC = () => {
                 type="button"
                 onClick={() => setActiveLayer('both')}
                 className={cn(
-                  "px-2 py-0.5 rounded-sm text-[10px] font-mono border transition-colors",
-                  activeLayer === 'both' ? "bg-glacial-blue/20 text-glacial-blue border-glacial-blue/50 font-bold" : "text-slate-400 border-slate/20"
+                  "px-2 py-0.5 rounded-xs text-[10px] font-mono border transition-colors",
+                  activeLayer === 'both' ? "bg-[#12283e] text-sky-300 border-[#214972] font-semibold" : "text-slate-400 border-slate-800 hover:bg-[#0a1829]"
                 )}
               >
                 Combined
@@ -204,12 +204,12 @@ export const SeaIcePage: React.FC = () => {
             </div>
 
             {sentinelScenes.length > 0 && (
-              <div className="hidden lg:flex items-center gap-1.5 pl-2 border-l border-slate/20">
+              <div className="hidden lg:flex items-center gap-1.5 pl-2 border-l border-slate-800">
                 <span className="text-slate-400 text-[10px] uppercase">SAR Scene:</span>
                 <select
                   value={selectedSceneIdx}
                   onChange={(e) => setSelectedSceneIdx(Number(e.target.value))}
-                  className="bg-navy border border-slate/20 rounded-sm text-[10px] text-slate-200 px-1.5 py-0.5 font-mono focus:outline-none focus:border-slate/30"
+                  className="bg-[#040B14] border border-slate-800 rounded-xs text-[10px] text-slate-200 px-1.5 py-0.5 font-mono focus:outline-none focus:border-slate-600"
                 >
                   {sentinelScenes.map((sc, idx) => (
                     <option key={sc.id} value={idx}>
@@ -229,7 +229,7 @@ export const SeaIcePage: React.FC = () => {
         <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
           
           {/* Map Viewport */}
-          <div className="flex-1 relative h-full bg-navy">
+          <div className="flex-1 relative h-full bg-[#040B14]">
             <PolarMap
               section="sea-ice"
               activeHorizon={activeHorizonLabel}
@@ -253,20 +253,20 @@ export const SeaIcePage: React.FC = () => {
           </div>
 
           {/* Structured Side Information Panel */}
-          <div className="w-full lg:w-84 xl:w-96 bg-polar-navy/20 border-t lg:border-t-0 lg:border-l border-slate/20 p-4 overflow-y-auto custom-scrollbar flex flex-col justify-between shrink-0 font-mono text-xs text-slate-300">
-            <div className="space-y-4">
+          <div className="w-full lg:w-84 xl:w-96 bg-[#06111e] border-t lg:border-t-0 lg:border-l border-slate-800 p-3.5 overflow-y-auto custom-scrollbar flex flex-col justify-between shrink-0 font-mono text-xs text-slate-300">
+            <div className="space-y-3.5">
               
               {/* 1. Selected Sector Overview */}
               <div>
-                <div className="flex items-center justify-between border-b border-slate/20 pb-2 mb-2">
-                  <span className="text-ice-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <Snowflake className="w-3.5 h-3.5 text-glacial-blue" />
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                  <span className="text-slate-200 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                    <Snowflake className="w-3.5 h-3.5 text-sky-400" />
                     {currentSectorData.sector} Conditions
                   </span>
                   <span className={cn(
-                    "text-[10px] px-1.5 py-0.2 rounded-xs font-bold border",
+                    "text-[10px] px-1.5 py-0.5 rounded-xs font-semibold border",
                     currentSectorData.riskLevel === 'HIGH' || currentSectorData.riskLevel === 'CRITICAL'
-                      ? "bg-signature-coral/10 text-signature-coral border-signature-coral/30"
+                      ? "bg-red-500/10 text-red-400 border-red-500/30"
                       : currentSectorData.riskLevel === 'MODERATE'
                       ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
                       : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
@@ -276,45 +276,45 @@ export const SeaIcePage: React.FC = () => {
                 </div>
                 
                 <div className="grid grid-cols-2 gap-2 mt-2">
-                  <div className="bg-navy border border-slate/20 p-2 rounded-sm">
+                  <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
                     <span className="text-slate-400 text-[9px] block uppercase">Concentration</span>
-                    <span className="text-lg font-bold text-ice-white mt-0.5 block">{currentSectorData.concentration}%</span>
-                    <span className="text-[10px] text-glacial-blue truncate block">{currentSectorData.iceType}</span>
+                    <span className="text-base font-bold text-slate-100 mt-0.5 block">{currentSectorData.concentration}%</span>
+                    <span className="text-[10px] text-sky-400 truncate block">{currentSectorData.iceType}</span>
                   </div>
-                  <div className="bg-navy border border-slate/20 p-2 rounded-sm">
+                  <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
                     <span className="text-slate-400 text-[9px] block uppercase">Thickness</span>
-                    <span className="text-lg font-bold text-ice-white mt-0.5 block">{currentSectorData.thickness}</span>
+                    <span className="text-base font-bold text-slate-100 mt-0.5 block">{currentSectorData.thickness}</span>
                     <span className="text-[10px] text-slate-400 block">Drift: {currentSectorData.driftRate}</span>
                   </div>
                 </div>
               </div>
 
               {/* 2. Environmental Side/Bottom Specs (User-requested) */}
-              <div className="space-y-2 pt-2 border-t border-slate/20">
+              <div className="space-y-2 pt-2 border-t border-slate-800">
                 <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold block">
                   Data Specification & Provenance
                 </span>
                 
-                <div className="space-y-1.5 bg-navy border border-slate/20 p-2.5 rounded-sm text-[11px]">
+                <div className="space-y-1.5 bg-[#081524] border border-slate-800 p-2.5 rounded-xs text-[11px]">
                   <div className="flex justify-between">
                     <span className="text-slate-400">SIC Mean / Max:</span>
-                    <span className="text-ice-white font-semibold">64.2% / 94.0%</span>
+                    <span className="text-slate-200 font-semibold">64.2% / 94.0%</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Observation Date:</span>
-                    <span className="text-ice-white font-semibold">Latest Daily (12:00 UTC)</span>
+                    <span className="text-slate-200 font-semibold">Latest Daily (12:00 UTC)</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Primary Source:</span>
-                    <span className="text-glacial-blue font-semibold">NOAA Climate Data Record</span>
+                    <span className="text-sky-400 font-semibold">NOAA Climate Data Record</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Radar Source:</span>
-                    <span className="text-ice-white">Sentinel-1 C-SAR (HH/HV)</span>
+                    <span className="text-slate-200">Sentinel-1 C-SAR (HH/HV)</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Coverage:</span>
-                    <span className="text-ice-white">Circumpolar Antarctic (25km)</span>
+                    <span className="text-slate-200">Circumpolar Antarctic (25km)</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Data Quality:</span>
@@ -327,10 +327,10 @@ export const SeaIcePage: React.FC = () => {
               </div>
 
               {/* 3. Sentinel-1 SAR Target Detections */}
-              <div className="space-y-2 pt-2 border-t border-slate/20">
+              <div className="space-y-2 pt-2 border-t border-slate-800">
                 <div className="flex items-center justify-between text-[10px]">
                   <span className="text-slate-400 uppercase tracking-wider font-bold flex items-center gap-1.5">
-                    <Satellite className="w-3.5 h-3.5 text-glacial-blue" />
+                    <Satellite className="w-3.5 h-3.5 text-sky-400" />
                     SAR Obstacle Detections
                   </span>
                   <span className="text-emerald-400 font-bold">
@@ -339,15 +339,15 @@ export const SeaIcePage: React.FC = () => {
                 </div>
 
                 {loadingRadar ? (
-                  <div className="p-3 bg-navy border border-slate/20 rounded-sm text-center text-slate-400 text-[11px]">
+                  <div className="p-3 bg-[#081524] border border-slate-800 rounded-xs text-center text-slate-400 text-[11px]">
                     Analyzing SAR backscatter...
                   </div>
                 ) : sceneDetection?.detections && sceneDetection.detections.length > 0 ? (
                   <div className="space-y-1.5 max-h-48 overflow-y-auto custom-scrollbar">
                     {sceneDetection.detections.slice(0, 4).map((det: any) => (
-                      <div key={det.target_id} className="p-2 bg-navy border border-slate/20 rounded-sm text-[10px] space-y-0.5">
+                      <div key={det.target_id} className="p-2 bg-[#081524] border border-slate-800 rounded-xs text-[10px] space-y-0.5">
                         <div className="flex items-center justify-between font-bold">
-                          <span className="text-glacial-blue">{det.target_id}</span>
+                          <span className="text-sky-400">{det.target_id}</span>
                           <span className="text-emerald-400">{(det.confidence * 100).toFixed(0)}% CFAR</span>
                         </div>
                         <div className="text-slate-400 flex justify-between text-[9px]">
@@ -361,7 +361,7 @@ export const SeaIcePage: React.FC = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="p-2 bg-navy border border-slate/20 rounded-sm text-slate-400 text-[10px] text-center">
+                  <div className="p-2 bg-[#081524] border border-slate-800 rounded-xs text-slate-400 text-[10px] text-center">
                     No standalone radar targets in this scene. Pack ice matrix dominant.
                   </div>
                 )}
@@ -370,9 +370,9 @@ export const SeaIcePage: React.FC = () => {
             </div>
 
             {/* Bottom Status Footer */}
-            <div className="pt-3 border-t border-slate/20 text-[10px] text-slate-400 flex items-center justify-between">
+            <div className="pt-3 border-t border-slate-800 text-[10px] text-slate-400 flex items-center justify-between">
               <span className="text-emerald-400 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 NOAA CDR Operational
               </span>
               <span>Algorithm: CFAR + Lee</span>

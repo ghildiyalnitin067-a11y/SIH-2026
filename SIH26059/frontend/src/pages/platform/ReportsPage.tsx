@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Printer, 
   Download, 
@@ -124,24 +124,24 @@ export const ReportsPage: React.FC = () => {
       subtitle={`Polar Code Compliance Documentation & Official Logs • Vessel: ${selectedVessel.name}`}
       actions={
         <div className="flex items-center gap-2 font-mono text-xs">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-polar-navy/40 border border-slate/20 rounded-sm text-slate-300">
-            <Ship className="w-3.5 h-3.5 text-glacial-blue" />
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#06111e] border border-slate-800 rounded-xs text-slate-300">
+            <Ship className="w-3.5 h-3.5 text-sky-400" />
             <span className="text-slate-400">VESSEL:</span>
-            <span className="text-ice-white font-semibold">{selectedVessel.name.split(' ')[0]}</span>
+            <span className="text-slate-200 font-semibold">{selectedVessel.name.split(' ')[0]}</span>
           </div>
           <button
             type="button"
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-polar-navy/40 hover:bg-polar-navy text-slate-200 text-xs font-mono border border-slate/20 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xs bg-[#06111e] hover:bg-[#0a1829] text-slate-200 text-xs font-mono border border-slate-800 transition-colors"
           >
-            <Printer className="w-3.5 h-3.5 text-glacial-blue" />
+            <Printer className="w-3.5 h-3.5 text-sky-400" />
             <span>PRINT REPORT</span>
           </button>
           <button
             type="button"
             onClick={handleDownload}
             disabled={isExporting}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm bg-signature-coral hover:bg-soft-coral text-white text-xs font-mono font-bold transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xs bg-[#12283e] hover:bg-[#1a3857] text-sky-300 text-xs font-mono font-semibold border border-[#214972] transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isExporting ? 'EXPORTING...' : 'EXPORT REPORT'}</span>
@@ -149,45 +149,45 @@ export const ReportsPage: React.FC = () => {
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-6 lg:p-10 max-w-4xl mx-auto space-y-6 bg-navy font-mono">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-8 max-w-4xl mx-auto space-y-4 bg-[#040B14] font-mono">
         
         {/* Selector Pills */}
-        <div className="flex items-center gap-2 border-b border-slate/20 pb-4 overflow-x-auto custom-scrollbar">
+        <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto custom-scrollbar">
           {reports.map((r) => (
             <button
               key={r.id}
               type="button"
               onClick={() => setSelectedReportId(r.id)}
               className={cn(
-                "px-3 py-1.5 rounded-sm text-xs transition-all whitespace-nowrap border flex items-center gap-2",
+                "px-3 py-1.5 rounded-xs text-xs transition-colors whitespace-nowrap border flex items-center gap-2",
                 selectedReportId === r.id
-                  ? "bg-glacial-blue/20 text-ice-blue border-glacial-blue/50 font-bold"
-                  : "bg-polar-navy/30 text-slate-400 border-slate/20 hover:text-white"
+                  ? "bg-[#12283e] text-sky-300 border-[#214972] font-semibold"
+                  : "bg-[#06111e] text-slate-400 border-slate-800 hover:text-slate-200 hover:bg-[#0a1829]"
               )}
             >
-              <FileCheck className="w-3.5 h-3.5 text-glacial-blue" />
+              <FileCheck className="w-3.5 h-3.5 text-sky-400" />
               <span>{r.id}</span>
             </button>
           ))}
         </div>
 
         {/* Formal Report Document Display */}
-        <div className="bg-polar-navy/30 border border-slate/20 rounded-sm p-6 sm:p-8 space-y-6 text-xs">
+        <div className="bg-[#06111e] border border-slate-800 rounded-xs p-5 sm:p-6 space-y-5 text-xs">
           
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate/20 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
             <div>
-              <span className="text-[10px] text-glacial-blue tracking-widest uppercase font-semibold block mb-1">
+              <span className="text-[10px] text-sky-400 tracking-wider uppercase font-semibold block mb-1">
                 INTERNATIONAL MARITIME ORGANIZATION (IMO) POLARIS PROTOCOL
               </span>
-              <h3 className="text-base sm:text-lg font-bold text-ice-white font-sans">{selectedReport.title}</h3>
-              <p className="text-slate-400 mt-1 text-xs">Vessel: {selectedReport.vessel} • Polar Class: {selectedReport.polarClass}</p>
+              <h3 className="text-base sm:text-lg font-bold text-slate-100 font-sans">{selectedReport.title}</h3>
+              <p className="text-slate-400 mt-1 text-xs font-mono">Vessel: {selectedReport.vessel} • Polar Class: {selectedReport.polarClass}</p>
             </div>
 
             <div className="flex items-center gap-2">
               <span className={cn(
-                "px-2.5 py-1 rounded-sm text-xs font-bold border flex items-center gap-1.5",
-                selectedReport.status === 'COMPLIANT' ? "text-risk-safe bg-risk-safe/10 border-risk-safe/30" : "text-amber-400 bg-amber-500/10 border-amber-500/30"
+                "px-2.5 py-1 rounded-xs text-xs font-semibold border flex items-center gap-1.5",
+                selectedReport.status === 'COMPLIANT' ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/30" : "text-amber-400 bg-amber-500/10 border-amber-500/30"
               )}>
                 {selectedReport.status === 'COMPLIANT' ? <ShieldCheck className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
                 <span>{selectedReport.status}</span>
@@ -196,24 +196,24 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           {/* RIO Score Metric Banner */}
-          <div className="grid grid-cols-3 gap-3 p-3 bg-navy/80 rounded-sm border border-slate/20 text-center">
+          <div className="grid grid-cols-3 gap-3 p-3 bg-[#081524] rounded-xs border border-slate-800 text-center">
             <div>
               <span className="text-[10px] text-slate-400 uppercase block">RIO OUTCOME</span>
-              <span className="text-lg font-bold text-risk-safe">+{selectedReport.rioScore}</span>
+              <span className="text-lg font-bold text-emerald-400">+{selectedReport.rioScore}</span>
             </div>
             <div>
               <span className="text-[10px] text-slate-400 uppercase block">OPERATION THRESHOLD</span>
-              <span className="text-lg font-bold text-ice-white">&ge; 0.0</span>
+              <span className="text-lg font-bold text-slate-200">&ge; 0.0</span>
             </div>
             <div>
               <span className="text-[10px] text-slate-400 uppercase block">NAVIGATION PERMIT</span>
-              <span className="text-lg font-bold text-glacial-blue">AUTHORIZED</span>
+              <span className="text-lg font-bold text-sky-400">AUTHORIZED</span>
             </div>
           </div>
 
           {/* Summary Section */}
           <div className="space-y-1.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-glacial-blue">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-sky-400">
               1. Executive Assessment Summary
             </h4>
             <p className="text-slate-300 font-sans leading-relaxed text-xs">
@@ -223,13 +223,13 @@ export const ReportsPage: React.FC = () => {
 
           {/* Findings */}
           <div className="space-y-1.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-glacial-blue">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-sky-400">
               2. Verified Operational Directives
             </h4>
             <ul className="space-y-1.5 text-slate-300 font-sans text-xs">
               {(selectedReport.findings || []).map((f, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-glacial-blue font-mono font-bold">•</span>
+                  <span className="text-sky-400 font-mono font-bold">•</span>
                   <span>{f}</span>
                 </li>
               ))}
@@ -237,7 +237,7 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           {/* Signature Footer */}
-          <div className="pt-4 border-t border-slate/20 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-400">
+          <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-400">
             <span>Record Hash: SHA256:{selectedReport.id}-POLAR-NAV</span>
             <span>Issued Date: {selectedReport.date} (UTC)</span>
           </div>

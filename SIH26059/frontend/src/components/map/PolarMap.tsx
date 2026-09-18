@@ -2090,19 +2090,19 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       {/* ========================================================================= */}
       {/* 0. OPERATIONAL STATUS BAR (top strip — real data only)                   */}
       {/* ========================================================================= */}
-      <div className="absolute top-0 left-0 right-0 z-25 h-7 bg-[#040B16]/90 backdrop-blur-sm border-b border-slate-800/80 flex items-center px-3 gap-4 font-mono text-[10px] overflow-hidden select-none pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 z-25 h-7 bg-[#06111e] border-b border-slate-800 flex items-center px-3 gap-4 font-mono text-[10px] overflow-hidden select-none pointer-events-none">
         {/* Route Status */}
         <div className="flex items-center gap-1.5 shrink-0">
           <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: opStatusColor }} />
           <span className="font-bold" style={{ color: opStatusColor }}>ROUTE: {opStatusRoute}</span>
         </div>
-        <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+        <div className="w-px h-3.5 bg-slate-800 shrink-0" />
         {/* Speed */}
         <div className="flex items-center gap-1 text-slate-300 shrink-0">
           <span className="text-slate-500">SOG</span>
-          <span className="font-bold text-white">{Number(opVesselSpeed).toFixed(1)} kn</span>
+          <span className="font-bold text-slate-100">{Number(opVesselSpeed).toFixed(1)} kn</span>
         </div>
-        <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+        <div className="w-px h-3.5 bg-slate-800 shrink-0" />
         {/* Risk */}
         <div className="flex items-center gap-1 shrink-0">
           <span className="text-slate-500">RISK</span>
@@ -2112,38 +2112,38 @@ export const PolarMap: React.FC<PolarMapProps> = ({
             : 'text-emerald-400'
           }`}>{opRouteRisk}</span>
         </div>
-        <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+        <div className="w-px h-3.5 bg-slate-800 shrink-0" />
         {/* ETA */}
         {activeRouteObj?.eta && (
           <>
             <div className="flex items-center gap-1 text-slate-300 shrink-0">
               <span className="text-slate-500">ETA</span>
-              <span className="font-bold text-white">{activeRouteObj.eta}</span>
+              <span className="font-bold text-slate-100">{activeRouteObj.eta}</span>
             </div>
-            <div className="w-px h-3.5 bg-slate-700 shrink-0" />
+            <div className="w-px h-3.5 bg-slate-800 shrink-0" />
           </>
         )}
         {/* Destination */}
         {activeVessel?.destination && (
           <div className="flex items-center gap-1 text-slate-300 shrink-0">
             <span className="text-slate-500">DEST</span>
-            <span className="text-white">{String(activeVessel.destination).split(' ').slice(0, 2).join(' ')}</span>
+            <span className="text-slate-200">{String(activeVessel.destination).split(' ').slice(0, 2).join(' ')}</span>
           </div>
         )}
         {/* Spacer */}
         <div className="flex-1" />
         {/* Iridium Mode Indicator */}
         {iridiumMode && (
-          <div className="flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/40 px-2 py-0.5 rounded text-amber-300 font-bold shrink-0">
+          <div className="flex items-center gap-1.5 bg-amber-950/40 border border-amber-600/50 px-2 py-0.5 rounded-xs text-amber-300 font-bold shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
             IRIDIUM · {iridiumDataKB} KB CACHED
           </div>
         )}
         {/* Data mode badge */}
-        <div className={`flex items-center gap-1 shrink-0 px-2 py-0.5 rounded border ${
+        <div className={`flex items-center gap-1 shrink-0 px-2 py-0.5 rounded-xs border ${
           opIsLive
-            ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
-            : 'bg-slate-700/40 border-slate-600/40 text-slate-400'
+            ? 'bg-emerald-950/30 border-emerald-600/40 text-emerald-400'
+            : 'bg-slate-900 border-slate-700 text-slate-400'
         }`}>
           <span className={`w-1.5 h-1.5 rounded-full ${opIsLive ? 'bg-emerald-400' : 'bg-slate-500'}`} />
           <span className="font-bold">{opDataMode}</span>
@@ -2161,34 +2161,34 @@ export const PolarMap: React.FC<PolarMapProps> = ({
             <button
               type="button"
               onClick={() => setWhyRouteCollapsed(false)}
-              className="flex items-center gap-1.5 bg-[#040B16]/95 backdrop-blur-md border border-cyan-500/50 px-2.5 py-1 rounded-lg text-cyan-300 hover:border-cyan-400 shadow-xl text-[10px] font-bold transition-all"
-              title="Expand PolarNav Route Decision Intelligence"
+              className="flex items-center gap-1.5 bg-[#06111e] border border-slate-700 px-2.5 py-1 rounded-xs text-slate-200 hover:text-white shadow-md text-[10px] font-bold transition-colors cursor-pointer"
+              title="Expand Route Decision Intelligence"
             >
-              <Compass className="w-3 h-3 text-cyan-400" />
-              <span>WHY THIS ROUTE?</span>
+              <Compass className="w-3 h-3 text-sky-400" />
+              <span>ROUTE INTELLIGENCE</span>
               <ChevronDown className="w-3 h-3 text-slate-400" />
             </button>
           ) : (
-            <div className="bg-[#040B16]/95 backdrop-blur-xl border border-cyan-500/60 rounded-xl p-3 shadow-2xl w-72 space-y-2 select-none animate-in fade-in zoom-in-95">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
-                <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Compass className="w-3 h-3 text-cyan-400" /> ROUTE INTELLIGENCE
+            <div className="bg-[#06111e] border border-slate-700 rounded-xs p-2.5 shadow-lg w-72 space-y-1.5 select-none">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-1">
+                <span className="text-[10px] font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                  <Compass className="w-3 h-3 text-sky-400" /> ROUTE INTELLIGENCE
                 </span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[8.5px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  <span className="text-[8.5px] font-bold px-1.5 py-0.5 rounded-xs bg-slate-800 text-slate-300 border border-slate-700">
                     {activeRouteObj.optimization_mode || (activeRouteObj.recommended ? 'RECOMMENDED' : 'ALTERNATIVE')}
                   </span>
                   <button
                     type="button"
                     onClick={() => setWhyRouteCollapsed(true)}
-                    className="text-slate-400 hover:text-white p-0.5"
+                    className="text-slate-400 hover:text-white p-0.5 cursor-pointer"
                     title="Minimize"
                   >
                     <ChevronUp className="w-3 h-3" />
                   </button>
                 </div>
               </div>
-              <div className="space-y-1.5 text-[9.5px]">
+              <div className="space-y-1 text-[9.5px]">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">Sea Ice Exposure:</span>
                   <span className="text-emerald-400 font-bold">
@@ -2196,8 +2196,8 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Iceberg CPA Clearance:</span>
-                  <span className="text-cyan-300 font-bold">
+                  <span className="text-slate-400">Iceberg Clearance:</span>
+                  <span className="text-slate-200 font-bold">
                     {activeRouteObj.minimum_cpa_km !== undefined ? `${activeRouteObj.minimum_cpa_km} km` : 'Safe margin'}
                   </span>
                 </div>
@@ -2209,11 +2209,11 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">Distance & ETA:</span>
-                  <span className="text-white font-bold">{activeRouteObj.distance || 'N/A'} • {activeRouteObj.eta || 'N/A'}</span>
+                  <span className="text-slate-200 font-bold">{activeRouteObj.distance || 'N/A'} • {activeRouteObj.eta || 'N/A'}</span>
                 </div>
                 {activeRouteObj.decision_support?.recommendation && (
-                  <div className="pt-1 border-t border-slate-800/80 text-[8.5px] text-slate-300 leading-snug">
-                    <span className="text-cyan-400 font-bold">Decision: </span>
+                  <div className="pt-1 border-t border-slate-800 text-[8.5px] text-slate-300 leading-snug">
+                    <span className="text-sky-400 font-bold">Decision: </span>
                     {activeRouteObj.decision_support.recommendation.slice(0, 95)}...
                   </div>
                 )}
@@ -2228,54 +2228,54 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       {/* ========================================================================= */}
       <div className="absolute top-9 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 font-mono text-[11px]">
         {/* Viewport Sector Switcher */}
-        <div className="flex items-center bg-[#040B16]/90 backdrop-blur-md rounded-full border border-slate-700/60 p-1 shadow-lg">
+        <div className="flex items-center bg-[#06111e] rounded-xs border border-slate-700 p-0.5 shadow-md">
           <button
             type="button"
             onClick={() => handleViewportSwitch('OPERATIONAL')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
               viewportMode === 'OPERATIONAL'
-                ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/60 shadow-[0_0_10px_rgba(0,242,254,0.3)]'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#12283e] text-sky-300 font-bold border border-[#214972]'
+                : 'text-slate-400 hover:text-white border border-transparent'
             }`}
           >
-            <Crosshair className="w-3.5 h-3.5 text-cyan-400" />
+            <Crosshair className="w-3.5 h-3.5 text-sky-400" />
             <span>OPERATIONAL SECTOR</span>
           </button>
           <button
             type="button"
             onClick={() => handleViewportSwitch('CIRCUMPOLAR')}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-colors cursor-pointer ${
               viewportMode === 'CIRCUMPOLAR'
-                ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/60 shadow-[0_0_10px_rgba(0,242,254,0.3)]'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#12283e] text-sky-300 font-bold border border-[#214972]'
+                : 'text-slate-400 hover:text-white border border-transparent'
             }`}
           >
-            <Globe className="w-3.5 h-3.5 text-cyan-400" />
+            <Globe className="w-3.5 h-3.5 text-sky-400" />
             <span>CIRCUMPOLAR VIEW</span>
           </button>
         </div>
 
         {/* Benchmark Efficiency Comparison Toggle */}
-        <div className="flex items-center bg-[#040B16]/90 backdrop-blur-md rounded-full border border-slate-700/60 p-1 shadow-lg">
+        <div className="flex items-center bg-[#06111e] rounded-xs border border-slate-700 p-0.5 shadow-md">
           <button
             type="button"
             onClick={() => { setComparisonMode('LIVE'); setShowCompareModal(false); }}
-            className={`px-2.5 py-1 rounded-full transition-all text-[10px] ${
+            className={`px-2 py-1 rounded-xs transition-colors text-[10px] cursor-pointer ${
               comparisonMode === 'LIVE'
-                ? 'bg-emerald-500/25 text-emerald-300 font-bold border border-emerald-500/60'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#12283e] text-sky-300 font-bold border border-[#214972]'
+                : 'text-slate-400 hover:text-white border border-transparent'
             }`}
-            title="Live PolarNav Navigation View"
+            title="Live Navigation View"
           >
             LIVE
           </button>
           <button
             type="button"
             onClick={() => setComparisonMode(comparisonMode === 'COMPARE' ? 'LIVE' : 'COMPARE')}
-            className={`px-2.5 py-1 rounded-full transition-all text-[10px] ${
+            className={`px-2 py-1 rounded-xs transition-colors text-[10px] cursor-pointer ${
               comparisonMode === 'COMPARE'
-                ? 'bg-cyan-500/25 text-cyan-300 font-bold border border-cyan-500/60'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#12283e] text-sky-300 font-bold border border-[#214972]'
+                : 'text-slate-400 hover:text-white border border-transparent'
             }`}
             title="Statistical Comparison vs Human Navigator (R/V Aurora Australis Benchmark)"
           >
@@ -2284,36 +2284,36 @@ export const PolarMap: React.FC<PolarMapProps> = ({
         </div>
       </div>
 
-      {/* Floating Historical Comparison Metric Stats HUD (Pure Quantitative Stats, Zero Map Line Clutter) */}
+      {/* Floating Historical Comparison Metric Stats Panel */}
       {comparisonMode === 'COMPARE' && (
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 bg-[#040B16]/95 backdrop-blur-md border border-cyan-500/40 p-3 rounded-lg text-[10.5px] font-mono shadow-2xl text-slate-200 animate-in fade-in slide-in-from-top-1 max-w-[95vw]">
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 bg-[#06111e] border border-slate-700 p-2.5 rounded-xs text-[10.5px] font-mono shadow-xl text-slate-200 max-w-[95vw]">
           <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
             <div className="flex items-center gap-1.5">
               <span className="text-amber-400 font-bold">HUMAN NAVIGATOR (AAD):</span>
               <span className="text-amber-300 font-bold">7,846 km · 240.0h</span>
             </div>
-            <span className="text-slate-500 font-bold">•</span>
+            <span className="text-slate-600 font-bold">•</span>
             <div className="flex items-center gap-1.5">
-              <span className="text-cyan-400 font-bold">POLARNAV AI:</span>
+              <span className="text-sky-400 font-bold">POLARNAV:</span>
               <span className="text-emerald-400 font-bold">2,757 km · 106.3h</span>
             </div>
-            <span className="text-slate-500 font-bold">•</span>
-            <span className="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold border border-emerald-500/40">
+            <span className="text-slate-600 font-bold">•</span>
+            <span className="bg-slate-900 text-emerald-300 px-1.5 py-0.5 rounded-xs font-bold border border-slate-700">
               -65.5% Dist (-5,089 km)
             </span>
-            <span className="bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded font-bold border border-cyan-500/40">
+            <span className="bg-slate-900 text-sky-300 px-1.5 py-0.5 rounded-xs font-bold border border-slate-700">
               -133.7h (-5.6 Days)
             </span>
-            <span className="bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold border border-amber-500/40">
+            <span className="bg-slate-900 text-amber-300 px-1.5 py-0.5 rounded-xs font-bold border border-slate-700">
               142.5 MT Fuel Saved
             </span>
-            <span className="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold border border-emerald-500/40">
+            <span className="bg-slate-900 text-emerald-300 px-1.5 py-0.5 rounded-xs font-bold border border-slate-700">
               0 Violations / Safe Keel
             </span>
             <button
               type="button"
               onClick={() => setShowCompareModal(!showCompareModal)}
-              className="ml-1 text-[10px] text-cyan-300 underline hover:text-white transition-colors cursor-pointer"
+              className="ml-1 text-[10px] text-sky-300 underline hover:text-white transition-colors cursor-pointer"
             >
               {showCompareModal ? 'Hide Details' : 'View Full Breakdown'}
             </button>
@@ -2321,29 +2321,29 @@ export const PolarMap: React.FC<PolarMapProps> = ({
               type="button"
               onClick={() => { setComparisonMode('LIVE'); setShowCompareModal(false); }}
               className="ml-1 text-slate-400 hover:text-white cursor-pointer"
-              title="Close Comparison HUD"
+              title="Close Comparison Panel"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {showCompareModal && (
-            <div className="w-full mt-1 pt-2 border-t border-slate-700/60 font-sans text-xs space-y-2">
+            <div className="w-full mt-1 pt-2 border-t border-slate-800 font-sans text-xs space-y-2">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center text-[11px]">
-                <div className="bg-slate-900/80 p-2.5 rounded border border-slate-800">
+                <div className="bg-slate-950/80 p-2.5 rounded-xs border border-slate-800">
                   <div className="text-amber-400 font-bold">Human Navigator (AAD 2015/16)</div>
                   <div className="text-slate-200 mt-1 font-mono">7,845.8 km · 240.0h (10.0 d)</div>
                   <div className="text-slate-400 text-[10px] font-mono mt-0.5">220.8 MT Fuel · 706.6 MT CO₂</div>
                   <div className="text-slate-400 text-[9.5px] mt-1">Reactive manual avoidance &amp; tactical loops</div>
                 </div>
-                <div className="bg-slate-900/80 p-2.5 rounded border border-slate-800">
+                <div className="bg-slate-950/80 p-2.5 rounded-xs border border-slate-800">
                   <div className="text-slate-400 font-bold">Naive Shortest Path (Geodesic)</div>
                   <div className="text-slate-200 mt-1 font-mono">3,554.0 km · 137.1h (5.7 d)</div>
                   <div className="text-rose-400 text-[10px] font-mono mt-0.5">4 Severe Hazard Violations</div>
                   <div className="text-rose-400 text-[9.5px] mt-1">Cuts blindly through shallow bathymetry &amp; heavy pack</div>
                 </div>
-                <div className="bg-cyan-950/40 p-2.5 rounded border border-cyan-500/50">
-                  <div className="text-cyan-300 font-bold">PolarNav AI Multi-Objective</div>
+                <div className="bg-[#0b1c2e] p-2.5 rounded-xs border border-[#214972]">
+                  <div className="text-sky-300 font-bold">PolarNav Multi-Objective</div>
                   <div className="text-emerald-400 mt-1 font-bold font-mono">2,757.1 km · 106.3h (4.4 d)</div>
                   <div className="text-emerald-300 text-[10px] font-mono mt-0.5">78.3 MT Fuel (142.5 MT Saved)</div>
                   <div className="text-emerald-400 text-[9.5px] mt-1 font-semibold">0 Groundings · Strict Keel &amp; POLARIS Safe</div>
@@ -2358,32 +2358,32 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 3. TOP-RIGHT FLOATING LAYERS CONTROL HUD                                  */}
+      {/* 3. TOP-RIGHT FLOATING LAYERS CONTROL PANEL                                */}
       {/* ========================================================================= */}
       <div className="absolute top-9 right-3 z-30 font-mono text-xs">
         <button
           type="button"
           onClick={() => setLayersMenuOpen(!layersMenuOpen)}
-          className="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700 px-2.5 py-1 rounded-sm text-slate-200 hover:text-white transition-all shadow-md"
+          className="flex items-center gap-1.5 bg-[#06111e] border border-slate-700 px-2.5 py-1 rounded-xs text-slate-200 hover:text-white transition-colors shadow-md cursor-pointer"
         >
-          <Layers className="w-3.5 h-3.5 text-cyan-400" />
+          <Layers className="w-3.5 h-3.5 text-sky-400" />
           <span className="font-bold text-[10px] tracking-wide">MAP LAYERS</span>
           {layersMenuOpen ? <ChevronUp className="w-3 h-3 text-slate-400" /> : <ChevronDown className="w-3 h-3 text-slate-400" />}
         </button>
 
         {layersMenuOpen && (
-          <div className="absolute right-0 mt-1.5 w-64 bg-[#06101E] border border-slate-700 rounded-sm p-3 shadow-xl space-y-2.5 text-xs font-mono max-h-[75vh] overflow-y-auto">
+          <div className="absolute right-0 mt-1 w-64 bg-[#06111e] border border-slate-700 rounded-xs p-2.5 shadow-xl space-y-2 text-xs font-mono max-h-[75vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-800 pb-1">
               <span className="text-[10px] font-bold text-slate-200 uppercase tracking-wider">
                 MAP LAYERS
               </span>
-              <button type="button" onClick={() => setLayersMenuOpen(false)} className="text-slate-400 hover:text-white">
+              <button type="button" onClick={() => setLayersMenuOpen(false)} className="text-slate-400 hover:text-white cursor-pointer">
                 <X className="w-3 h-3" />
               </button>
             </div>
 
             {/* 1. VESSEL & ROUTE */}
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
                 VESSEL &amp; ROUTE
               </span>
@@ -2393,7 +2393,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.activeVessel}
                   onChange={(e) => setLayerToggles({ ...layerToggles, activeVessel: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2402,7 +2402,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.recommendedRoute}
                   onChange={(e) => setLayerToggles({ ...layerToggles, recommendedRoute: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2411,7 +2411,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.altRoutes}
                   onChange={(e) => setLayerToggles({ ...layerToggles, altRoutes: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2420,13 +2420,13 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.waypoints}
                   onChange={(e) => setLayerToggles({ ...layerToggles, waypoints: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
             </div>
 
             {/* 2. ICE & HAZARDS */}
-            <div className="space-y-1.5 pt-1.5 border-t border-slate-800">
+            <div className="space-y-1 pt-1.5 border-t border-slate-800">
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
                 ICE &amp; HAZARDS
               </span>
@@ -2436,7 +2436,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.icebergs}
                   onChange={(e) => setLayerToggles({ ...layerToggles, icebergs: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2445,7 +2445,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.seaIce}
                   onChange={(e) => setLayerToggles({ ...layerToggles, seaIce: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2454,7 +2454,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.radarObstacles}
                   onChange={(e) => setLayerToggles({ ...layerToggles, radarObstacles: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2463,13 +2463,13 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.icebergTrajectories}
                   onChange={(e) => setLayerToggles({ ...layerToggles, icebergTrajectories: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
             </div>
 
             {/* 3. ENVIRONMENT & INFRASTRUCTURE */}
-            <div className="space-y-1.5 pt-1.5 border-t border-slate-800">
+            <div className="space-y-1 pt-1.5 border-t border-slate-800">
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
                 OCEAN &amp; GRID
               </span>
@@ -2479,7 +2479,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.oceanCurrents}
                   onChange={(e) => setLayerToggles({ ...layerToggles, oceanCurrents: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2488,7 +2488,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.navGrid}
                   onChange={(e) => setLayerToggles({ ...layerToggles, navGrid: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
               <label className="flex items-center justify-between text-[10.5px] text-slate-300 hover:text-white cursor-pointer">
@@ -2497,7 +2497,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   type="checkbox"
                   checked={layerToggles.stations}
                   onChange={(e) => setLayerToggles({ ...layerToggles, stations: e.target.checked })}
-                  className="rounded-xs bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0"
+                  className="rounded-xs bg-slate-900 border-slate-700 text-sky-500 focus:ring-0 cursor-pointer"
                 />
               </label>
             </div>
@@ -2513,7 +2513,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
         <button
           type="button"
           onClick={handleResetNorth}
-          className="w-8 h-8 rounded-sm border bg-[#06101E]/95 border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer"
+          className="w-8 h-8 rounded-xs border bg-[#06111e] border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer"
           title="Reset Bearing & North"
         >
           <Compass
@@ -2527,7 +2527,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
         <button
           type="button"
           onClick={handleRecenterRoute}
-          className="w-8 h-8 rounded-sm border bg-[#06101E]/95 border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer"
+          className="w-8 h-8 rounded-xs border bg-[#06111e] border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer"
           title="Fit Active Route Corridor"
         >
           <Crosshair className="w-3.5 h-3.5 text-slate-300" />
@@ -2539,8 +2539,8 @@ export const PolarMap: React.FC<PolarMapProps> = ({
           type="button"
           onClick={handleToggle3D}
           className={cn(
-            "w-8 h-8 rounded-sm border bg-[#06101E]/95 border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer",
-            mapPitch > 25 && "border-cyan-500 text-cyan-300 bg-cyan-950/40"
+            "w-8 h-8 rounded-xs border bg-[#06111e] border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer",
+            mapPitch > 25 && "border-[#214972] text-sky-300 bg-[#12283e]"
           )}
           title={mapPitch > 25 ? "Switch to 2D Overhead View" : "Switch to 3D View"}
         >
@@ -2553,8 +2553,8 @@ export const PolarMap: React.FC<PolarMapProps> = ({
           type="button"
           onClick={() => setIridiumMode(prev => !prev)}
           className={cn(
-            "w-8 h-8 rounded-sm border bg-[#06101E]/95 border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer",
-            iridiumMode && "border-amber-500 text-amber-300 bg-amber-950/40"
+            "w-8 h-8 rounded-xs border bg-[#06111e] border-slate-700 text-slate-300 hover:text-white flex flex-col items-center justify-center transition-colors shadow-md cursor-pointer",
+            iridiumMode && "border-amber-600 text-amber-300 bg-amber-950/40"
           )}
           title={iridiumMode ? "Iridium Mode ON" : "Iridium Mode (Low Bandwidth)"}
         >
@@ -2563,7 +2563,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
         </button>
 
         {/* Zoom Controls */}
-        <div className="flex flex-col rounded-sm border border-slate-700 bg-[#06101E]/95 shadow-md overflow-hidden mt-0.5">
+        <div className="flex flex-col rounded-xs border border-slate-700 bg-[#06111e] shadow-md overflow-hidden mt-0.5">
           <button
             type="button"
             onClick={handleZoomIn}
@@ -2591,14 +2591,14 @@ export const PolarMap: React.FC<PolarMapProps> = ({
           <button
             type="button"
             onClick={() => setLegendCollapsed(false)}
-            className="flex items-center gap-1.5 bg-[#06101E]/95 border border-slate-700 px-2.5 py-1 rounded-sm text-slate-300 hover:text-white shadow-md text-[10px] font-bold cursor-pointer"
+            className="flex items-center gap-1.5 bg-[#06111e] border border-slate-700 px-2.5 py-1 rounded-xs text-slate-300 hover:text-white shadow-md text-[10px] font-bold cursor-pointer"
           >
-            <Compass className="w-3 h-3 text-cyan-400" />
+            <Compass className="w-3 h-3 text-sky-400" />
             <span>MAP LEGEND</span>
             <ChevronUp className="w-3 h-3" />
           </button>
         ) : (
-          <div className="bg-[#06101E]/95 rounded-sm border border-slate-700 p-2.5 shadow-xl w-56 space-y-1.5 select-none text-[10px]">
+          <div className="bg-[#06111e] rounded-xs border border-slate-700 p-2.5 shadow-xl w-56 space-y-1.5 select-none text-[10px]">
             <div className="flex items-center justify-between border-b border-slate-800 pb-1">
               <span className="font-bold text-slate-200 tracking-wider">
                 MAP LEGEND
@@ -2630,7 +2630,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                 <span className="text-slate-200">Radar Obstacle (SAR)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-cyan-400 font-bold text-xs leading-none">■</span>
+                <span className="text-sky-400 font-bold text-xs leading-none">■</span>
                 <span className="text-slate-200">High Sea-Ice (&gt;70%)</span>
               </div>
               <div className="flex items-center gap-2">
@@ -2651,11 +2651,11 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       {/* 5. CLICK-ONLY DOCKED INFO CARD (DISMISSABLE WITH ✕ OR MAP CLICK)           */}
       {/* ========================================================================= */}
       {selectedEntityInfo && (
-        <div className="absolute bottom-4 right-4 z-30 bg-[#040B16]/95 backdrop-blur-md border border-cyan-500/60 rounded-xl p-3.5 shadow-2xl font-mono text-xs w-72 space-y-2 select-text animate-in fade-in slide-in-from-bottom-2">
+        <div className="absolute bottom-4 right-4 z-30 bg-[#06111e] border border-slate-700 rounded-xs p-3 shadow-xl font-mono text-xs w-72 space-y-2 select-text">
           <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
-            <span className="text-[11px] text-cyan-300 font-bold truncate max-w-[170px]">{selectedEntityInfo.title}</span>
+            <span className="text-[11px] text-slate-200 font-bold truncate max-w-[170px]">{selectedEntityInfo.title}</span>
             <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ color: selectedEntityInfo.badgeColor, backgroundColor: `${selectedEntityInfo.badgeColor}22` }}>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-xs" style={{ color: selectedEntityInfo.badgeColor, backgroundColor: `${selectedEntityInfo.badgeColor}22` }}>
                 {selectedEntityInfo.badge}
               </span>
               <button
@@ -2664,7 +2664,7 @@ export const PolarMap: React.FC<PolarMapProps> = ({
                   e.stopPropagation();
                   setSelectedEntityInfo(null);
                 }}
-                className="text-slate-400 hover:text-white p-0.5 rounded hover:bg-slate-800 transition-colors"
+                className="text-slate-400 hover:text-white p-0.5 rounded-xs hover:bg-slate-800 transition-colors cursor-pointer"
                 title="Close Card"
               >
                 <X className="w-3.5 h-3.5" />
@@ -2685,9 +2685,9 @@ export const PolarMap: React.FC<PolarMapProps> = ({
       {/* ========================================================================= */}
       {/* 6. BOTTOM POLAR MARITIME STATUS BAR / LIVE CURSOR READOUT                 */}
       {/* ========================================================================= */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center gap-2.5 bg-[#040B16]/90 backdrop-blur-md border border-slate-800/90 px-3.5 py-1 rounded-md text-[10px] font-mono text-slate-300 shadow-xl pointer-events-none select-none">
-        <span className="flex items-center gap-1.5 text-cyan-400 font-semibold">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center gap-2.5 bg-[#06111e] border border-slate-800 px-3 py-1 rounded-xs text-[10px] font-mono text-slate-300 shadow-md pointer-events-none select-none">
+        <span className="flex items-center gap-1.5 text-sky-400 font-semibold">
+          <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
           <span>POLAR OBS</span>
         </span>
         <span className="text-slate-600">|</span>

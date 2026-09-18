@@ -92,7 +92,7 @@ export const RouteOptimizationPage: React.FC = () => {
       subtitle="Antarctic route planning and optimization"
       actions={
         <div className="flex items-center gap-2 font-mono text-xs">
-          <div className="flex items-center gap-2 bg-polar-navy/40 border border-slate/20 px-3 py-1 rounded-sm">
+          <div className="flex items-center gap-2 bg-[#06111e] border border-slate-800 px-3 py-1 rounded-xs">
             <span className="text-slate-400">ENGAGED:</span>
             <span className="text-emerald-400 font-semibold">{selectedRoute?.name?.split(' - ')[0] || 'ROUTE B'}</span>
           </div>
@@ -100,10 +100,10 @@ export const RouteOptimizationPage: React.FC = () => {
             type="button"
             onClick={() => triggerEmergencyHazard()}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-mono font-semibold border transition-colors cursor-pointer",
+              "flex items-center gap-1.5 px-3 py-1 rounded-xs text-xs font-mono font-semibold border transition-colors cursor-pointer",
               emergencyRerouteActive
-                ? "bg-signature-coral/20 border-signature-coral text-signature-coral"
-                : "bg-polar-navy/40 border-slate/20 text-slate-300 hover:text-white"
+                ? "bg-red-500/20 border-red-500/40 text-red-400"
+                : "bg-[#06111e] border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-[#0a1829]"
             )}
           >
             <ShieldAlert className="w-3.5 h-3.5" />
@@ -112,15 +112,15 @@ export const RouteOptimizationPage: React.FC = () => {
         </div>
       }
     >
-      <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-navy">
+      <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-[#040B14]">
         
-        <div className="w-full lg:w-96 xl:w-[420px] bg-polar-navy/20 border-r border-slate/20 p-4 overflow-y-auto custom-scrollbar flex flex-col justify-between shrink-0 font-mono text-xs text-slate-300 space-y-4">
+        <div className="w-full lg:w-96 xl:w-[420px] bg-[#06111e] border-r border-slate-800 p-3.5 overflow-y-auto custom-scrollbar flex flex-col justify-between shrink-0 font-mono text-xs text-slate-300 space-y-3.5">
           
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             
             <div className="space-y-2.5">
-              <div className="flex items-center justify-between border-b border-slate/20 pb-1.5">
-                <span className="text-ice-white font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
+                <span className="text-slate-200 font-bold text-xs uppercase tracking-wider">
                   Voyage Parameters
                 </span>
                 <span className="text-[10px] text-slate-400">Polaris PC5 Standard</span>
@@ -128,13 +128,13 @@ export const RouteOptimizationPage: React.FC = () => {
 
               <div>
                 <label className="text-[10px] text-slate-400 block mb-1 flex items-center gap-1.5 uppercase font-semibold">
-                  <Ship className="w-3.5 h-3.5 text-glacial-blue" />
+                  <Ship className="w-3.5 h-3.5 text-sky-400" />
                   Origin (Research Vessel)
                 </label>
                 <select
                   value={selectedVesselId}
                   onChange={(e) => setSelectedVesselId(e.target.value)}
-                  className="w-full bg-navy border border-slate/20 rounded-sm p-2 text-xs text-ice-white font-mono focus:outline-none focus:border-slate/30"
+                  className="w-full bg-[#040B14] border border-slate-800 rounded-xs p-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-slate-600"
                 >
                   {fleet.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -147,13 +147,13 @@ export const RouteOptimizationPage: React.FC = () => {
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label className="text-[10px] text-slate-400 flex items-center gap-1.5 uppercase font-semibold">
-                    <MapPin className="w-3.5 h-3.5 text-glacial-blue" />
+                    <MapPin className="w-3.5 h-3.5 text-sky-400" />
                     Destination Station
                   </label>
                   <button
                     type="button"
                     onClick={() => setIsCustomMode(!isCustomMode)}
-                    className="text-[10px] text-glacial-blue hover:text-white"
+                    className="text-[10px] text-sky-400 hover:text-slate-200"
                   >
                     {isCustomMode ? '← Pick Station' : '+ Custom Waypoint'}
                   </button>
@@ -163,7 +163,7 @@ export const RouteOptimizationPage: React.FC = () => {
                   <select
                     value={selectedDestinationId}
                     onChange={(e) => setSelectedDestinationId(e.target.value)}
-                    className="w-full bg-navy border border-slate/20 rounded-sm p-2 text-xs text-ice-white font-mono focus:outline-none focus:border-slate/30"
+                    className="w-full bg-[#040B14] border border-slate-800 rounded-xs p-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-slate-600"
                   >
                     {stations.map((d) => (
                       <option key={d.id} value={d.id}>
@@ -172,13 +172,13 @@ export const RouteOptimizationPage: React.FC = () => {
                     ))}
                   </select>
                 ) : (
-                  <div className="space-y-2 bg-navy p-2.5 rounded-sm border border-slate/20">
+                  <div className="space-y-2 bg-[#040B14] p-2.5 rounded-xs border border-slate-800">
                     <input
                       type="text"
                       placeholder="Waypoint Name (e.g. Weddell Lead)"
                       value={customName}
                       onChange={(e) => setCustomName(e.target.value)}
-                      className="w-full bg-polar-navy/20 border border-slate/20 rounded-sm p-1.5 text-xs text-ice-white font-mono focus:outline-none focus:border-slate/30"
+                      className="w-full bg-[#081524] border border-slate-800 rounded-xs p-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-slate-600"
                     />
                     <div className="grid grid-cols-2 gap-2">
                       <input
@@ -187,7 +187,7 @@ export const RouteOptimizationPage: React.FC = () => {
                         placeholder="Latitude (°S)"
                         value={customLat}
                         onChange={(e) => setCustomLat(e.target.value)}
-                        className="bg-polar-navy/20 border border-slate/20 rounded-sm p-1.5 text-xs text-ice-white font-mono focus:outline-none focus:border-slate/30"
+                        className="bg-[#081524] border border-slate-800 rounded-xs p-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-slate-600"
                       />
                       <input
                         type="number"
@@ -195,7 +195,7 @@ export const RouteOptimizationPage: React.FC = () => {
                         placeholder="Longitude (°E/W)"
                         value={customLon}
                         onChange={(e) => setCustomLon(e.target.value)}
-                        className="bg-polar-navy/20 border border-slate/20 rounded-sm p-1.5 text-xs text-ice-white font-mono focus:outline-none focus:border-slate/30"
+                        className="bg-[#081524] border border-slate-800 rounded-xs p-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-slate-600"
                       />
                     </div>
                     <button
@@ -209,7 +209,7 @@ export const RouteOptimizationPage: React.FC = () => {
                           setIsCustomMode(false);
                         }
                       }}
-                      className="w-full py-1 bg-ocean-blue hover:bg-antarctic-blue text-white rounded-sm text-xs font-semibold"
+                      className="w-full py-1 bg-[#12283e] hover:bg-[#1a3857] text-sky-300 border border-[#214972] rounded-xs text-xs font-semibold"
                     >
                       Set Destination
                     </button>
@@ -218,7 +218,7 @@ export const RouteOptimizationPage: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-2 pt-1">
-                <div className="bg-navy border border-slate/20 p-2 rounded-sm">
+                <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
                   <span className="text-[9px] text-slate-400 block uppercase">Max SIC Constraint</span>
                   <div className="flex items-center justify-between mt-1">
                     <input
@@ -227,12 +227,12 @@ export const RouteOptimizationPage: React.FC = () => {
                       max={95}
                       value={maxSicConstraint}
                       onChange={(e) => setMaxSicConstraint(Number(e.target.value))}
-                      className="w-20 accent-[#3AA6C8]"
+                      className="w-20 accent-sky-500"
                     />
-                    <span className="text-xs font-bold text-ice-white">{maxSicConstraint}%</span>
+                    <span className="text-xs font-bold text-slate-200">{maxSicConstraint}%</span>
                   </div>
                 </div>
-                <div className="bg-navy border border-slate/20 p-2 rounded-sm">
+                <div className="bg-[#081524] border border-slate-800 p-2 rounded-xs">
                   <span className="text-[9px] text-slate-400 block uppercase">Iceberg CPA Buffer</span>
                   <div className="flex items-center justify-between mt-1">
                     <input
@@ -241,9 +241,9 @@ export const RouteOptimizationPage: React.FC = () => {
                       max={30}
                       value={safetyBufferKm}
                       onChange={(e) => setSafetyBufferKm(Number(e.target.value))}
-                      className="w-20 accent-[#3AA6C8]"
+                      className="w-20 accent-sky-500"
                     />
-                    <span className="text-xs font-bold text-ice-white">{safetyBufferKm} km</span>
+                    <span className="text-xs font-bold text-slate-200">{safetyBufferKm} km</span>
                   </div>
                 </div>
               </div>
@@ -255,7 +255,7 @@ export const RouteOptimizationPage: React.FC = () => {
                   await recomputeRoutes();
                   setActiveRouteId(recommendedRoute?.id || 'route-b');
                 }}
-                className="w-full py-2 bg-ocean-blue hover:bg-antarctic-blue text-white rounded-sm text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                className="w-full py-2 bg-[#12283e] hover:bg-[#1a3857] text-sky-300 border border-[#214972] rounded-xs text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
               >
                 {isComputingRoutes ? (
                   <>
@@ -272,36 +272,36 @@ export const RouteOptimizationPage: React.FC = () => {
             </div>
 
             {recommendedRoute && (
-              <div className="space-y-2 pt-2 border-t border-slate/20">
+              <div className="space-y-2 pt-2 border-t border-slate-800">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-ice-white uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                     Recommended Route
                   </span>
-                  <span className={cn("text-[9px] px-1.5 py-0.2 rounded-xs font-bold border", getRiskLabel(recommendedRoute).bg, getRiskLabel(recommendedRoute).color, getRiskLabel(recommendedRoute).border)}>
+                  <span className={cn("text-[9px] px-1.5 py-0.5 rounded-xs font-semibold border", getRiskLabel(recommendedRoute).bg, getRiskLabel(recommendedRoute).color, getRiskLabel(recommendedRoute).border)}>
                     {getRiskLabel(recommendedRoute).label}
                   </span>
                 </div>
 
                 <div className={cn(
-                  "p-3 rounded-sm border transition-colors space-y-2.5",
+                  "p-3 rounded-xs border transition-colors space-y-2",
                   activeRouteId === recommendedRoute.id
-                    ? "bg-polar-navy/40 border-glacial-blue/50"
-                    : "bg-navy border-slate/20"
+                    ? "bg-[#0c1c2e] border-sky-500/40"
+                    : "bg-[#081524] border-slate-800"
                 )}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-sm font-bold text-ice-white">{recommendedRoute.name}</div>
+                      <div className="text-sm font-bold text-slate-100">{recommendedRoute.name}</div>
                       <div className="text-[11px] text-slate-400">{recommendedRoute.distance?.toLocaleString()} km · ETA: {recommendedRoute.eta}</div>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleSetActiveRoute(recommendedRoute.id)}
                       className={cn(
-                        "px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider transition-colors",
+                        "px-2.5 py-1 rounded-xs text-[10px] font-bold uppercase tracking-wider transition-colors",
                         activeRouteId === recommendedRoute.id
-                          ? "bg-emerald-500 text-navy"
-                          : "bg-glacial-blue hover:bg-white text-navy"
+                          ? "bg-emerald-600 text-slate-100"
+                          : "bg-[#12283e] hover:bg-[#1a3857] text-sky-300 border border-[#214972]"
                       )}
                     >
                       {activeRouteId === recommendedRoute.id ? "Engaged" : "Select"}
@@ -312,14 +312,14 @@ export const RouteOptimizationPage: React.FC = () => {
                     {recommendedRoute.reason || 'Optimized for minimal fuel consumption while strictly honoring IMO Polar Code RIO positive limits and avoiding charted iceberg drift vectors.'}
                   </p>
 
-                  <div className="grid grid-cols-3 gap-1.5 pt-1.5 border-t border-slate/20 text-[10px]">
+                  <div className="grid grid-cols-3 gap-1.5 pt-1.5 border-t border-slate-800 text-[10px]">
                     <div>
                       <span className="text-slate-400 block">POLARIS RIO</span>
                       <span className="text-emerald-400 font-bold text-xs">{recommendedRoute.rioScore || '+8.4'}</span>
                     </div>
                     <div>
                       <span className="text-slate-400 block">SIC Exposure</span>
-                      <span className="text-glacial-blue font-bold text-xs">{recommendedRoute.sic_actual || recommendedRoute.sicExposure || 48}%</span>
+                      <span className="text-sky-400 font-bold text-xs">{recommendedRoute.sic_actual || recommendedRoute.sicExposure || 48}%</span>
                     </div>
                     <div>
                       <span className="text-slate-400 block">Est. Fuel</span>
@@ -331,8 +331,8 @@ export const RouteOptimizationPage: React.FC = () => {
             )}
 
             {alternativeRoutes.length > 0 && (
-              <div className="space-y-2 pt-2 border-t border-slate/20">
-                <span className="text-xs font-bold text-ice-white uppercase tracking-wider block">
+              <div className="space-y-2 pt-2 border-t border-slate-800">
+                <span className="text-xs font-bold text-slate-200 uppercase tracking-wider block">
                   Alternative Routes
                 </span>
 
@@ -345,15 +345,15 @@ export const RouteOptimizationPage: React.FC = () => {
                         key={alt.id}
                         onClick={() => handleSetActiveRoute(alt.id)}
                         className={cn(
-                          "p-2.5 rounded-sm border transition-colors cursor-pointer space-y-1.5",
+                          "p-2.5 rounded-xs border transition-colors cursor-pointer space-y-1.5",
                           isSelected
-                            ? "bg-polar-navy/40 border-glacial-blue/50 text-ice-white"
-                            : "bg-navy border-slate/20 hover:border-slate/30 text-slate-300"
+                            ? "bg-[#0c1c2e] border-sky-500/40 text-slate-100"
+                            : "bg-[#081524] border-slate-800 hover:border-slate-700 text-slate-300"
                         )}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-xs text-ice-white">{alt.name}</span>
-                          <span className={cn("text-[9px] px-1.5 py-0.2 rounded-xs font-bold border", rRisk.bg, rRisk.color, rRisk.border)}>
+                          <span className="font-bold text-xs text-slate-200">{alt.name}</span>
+                          <span className={cn("text-[9px] px-1.5 py-0.5 rounded-xs font-semibold border", rRisk.bg, rRisk.color, rRisk.border)}>
                             {rRisk.label}
                           </span>
                         </div>
@@ -370,14 +370,14 @@ export const RouteOptimizationPage: React.FC = () => {
 
           </div>
 
-          <div className="pt-2 border-t border-slate/20 text-[10px] text-slate-400 flex justify-between">
+          <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-400 flex justify-between">
             <span>IMO Resolution A.1026(26)</span>
             <span>POLARIS Compliant</span>
           </div>
 
         </div>
 
-        <div className="flex-1 relative h-full bg-navy">
+        <div className="flex-1 relative h-full bg-[#040B14]">
           <PolarMap
             section="overview"
             showRoute={true}

@@ -33,23 +33,23 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#030910] text-ice-white font-sans overflow-hidden">
+    <div className="flex flex-col h-screen bg-[#040B14] text-slate-200 font-sans overflow-hidden">
       {/* Header */}
-      <header className="h-14 border-b border-slate/20 bg-navy flex items-center justify-between px-4 z-20 shrink-0">
+      <header className="h-12 border-b border-slate-800 bg-[#06111e] flex items-center justify-between px-4 z-20 shrink-0 font-mono">
         <div className="flex items-center gap-4">
-          <div className="font-semibold tracking-wide text-sm flex items-center gap-2 font-mono">
-             <div className="w-2 h-2 rounded-full bg-signature-coral" />
+          <div className="font-bold tracking-wider text-xs flex items-center gap-2 text-slate-100">
+             <div className="w-2 h-2 rounded-xs bg-sky-400" />
              POLARNAV
           </div>
-          <div className="hidden md:flex text-xs text-slate font-mono border-l border-slate/30 pl-4">
+          <div className="hidden md:flex text-xs text-slate-400 border-l border-slate-800 pl-4">
             Sea-Ice · Iceberg · Ocean · Navigation Decision Support
           </div>
         </div>
-        <div className="flex items-center gap-6 text-xs font-mono text-slate">
+        <div className="flex items-center gap-6 text-xs text-slate-400">
            <div className="hidden lg:block">{new Date().toISOString().split('T')[1].substring(0, 5)} UTC</div>
-           <div className="hidden lg:block">DATA STATUS: <span className="text-risk-safe font-semibold">OPERATIONAL (REAL SATELLITE / SIMULATED AIS)</span></div>
-           <div className="flex items-center gap-2 text-ice-white">
-              <span className="w-2 h-2 rounded-full bg-risk-safe animate-pulse" />
+           <div className="hidden lg:block">DATA STATUS: <span className="text-emerald-400 font-semibold">OPERATIONAL (SATELLITE / AIS)</span></div>
+           <div className="flex items-center gap-2 text-slate-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               SYSTEM OPERATIONAL
            </div>
         </div>
@@ -57,34 +57,34 @@ const Dashboard = () => {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-16 md:w-56 border-r border-slate/20 bg-navy flex flex-col z-20 shrink-0">
-          <div className="flex-1 py-4 flex flex-col gap-1 px-2">
+        <aside className="w-16 md:w-56 border-r border-slate-800 bg-[#06111e] flex flex-col z-20 shrink-0 font-mono">
+          <div className="flex-1 py-3 flex flex-col gap-1 px-2">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-sm transition-all group",
+                  "flex items-center gap-3 px-3 py-2 rounded-xs transition-colors group text-xs",
                   activeTab === item.id 
-                    ? "bg-polar-navy text-ice-white border-l-2 border-glacial-blue" 
-                    : "text-slate hover:text-ice-white hover:bg-polar-navy/50 border-l-2 border-transparent"
+                    ? "bg-[#12283e] text-sky-300 border-l-2 border-sky-400 font-semibold" 
+                    : "text-slate-400 hover:text-slate-200 hover:bg-[#081524] border-l-2 border-transparent"
                 )}
               >
-                <item.icon className={cn("w-5 h-5 shrink-0", activeTab === item.id ? "text-glacial-blue" : "")} />
-                <span className="hidden md:block text-sm font-medium text-left">{item.label}</span>
+                <item.icon className={cn("w-4 h-4 shrink-0", activeTab === item.id ? "text-sky-400" : "")} />
+                <span className="hidden md:block text-xs text-left">{item.label}</span>
               </button>
             ))}
           </div>
-          <div className="p-4 border-t border-slate/20">
-             <button className="flex items-center gap-3 text-slate hover:text-ice-white transition-colors w-full">
-                <Settings className="w-5 h-5" />
-                <span className="hidden md:block text-sm font-medium">Settings</span>
+          <div className="p-3 border-t border-slate-800">
+             <button className="flex items-center gap-3 text-slate-400 hover:text-slate-200 transition-colors w-full text-xs">
+                <Settings className="w-4 h-4" />
+                <span className="hidden md:block text-xs">Settings</span>
              </button>
           </div>
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 relative flex flex-col lg:flex-row">
+        <main className="flex-1 relative flex flex-col lg:flex-row bg-[#040B14]">
           
           {/* Map Container */}
           <div className="flex-1 relative h-full">
@@ -94,28 +94,26 @@ const Dashboard = () => {
               onSelectIceberg={setSelectedIcebergId}
               showRouteOptimization={showRouteOptimization}
             />
-            
-
 
             {/* Time Machine / Timeline */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[400] bg-navy/90 backdrop-blur-md border border-slate/30 px-6 py-3 rounded-full flex items-center gap-4 shadow-xl">
-               <span className="text-xs font-mono text-slate">24H AGO</span>
-               <div className="w-48 h-1 bg-slate/20 rounded-full relative">
-                  <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-3 h-3 rounded-full bg-signature-coral shadow-[0_0_10px_#FF6B5E]" />
-                  <div className="absolute top-0 left-0 h-full w-1/3 bg-signature-coral/30 rounded-l-full" />
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[400] bg-[#06111e] border border-slate-800 px-4 py-2 rounded-xs flex items-center gap-4 shadow-lg font-mono">
+               <span className="text-[10px] text-slate-400">24H AGO</span>
+               <div className="w-36 h-1 bg-[#040B14] border border-slate-800 rounded-full relative">
+                  <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-2 h-2 rounded-full bg-sky-400" />
+                  <div className="absolute top-0 left-0 h-full w-1/3 bg-sky-400/40 rounded-l-full" />
                </div>
-               <span className="text-xs font-mono text-ice-white font-bold">NOW</span>
-               <div className="w-48 h-1 bg-slate/20 rounded-full relative">
-                  <div className="absolute top-0 left-1/3 w-0.5 h-2 -translate-y-0.5 bg-slate/50" />
-                  <div className="absolute top-0 left-2/3 w-0.5 h-2 -translate-y-0.5 bg-slate/50" />
+               <span className="text-[10px] text-slate-100 font-bold">NOW</span>
+               <div className="w-36 h-1 bg-[#040B14] border border-slate-800 rounded-full relative">
+                  <div className="absolute top-0 left-1/3 w-0.5 h-1.5 -translate-y-0.5 bg-slate-600" />
+                  <div className="absolute top-0 left-2/3 w-0.5 h-1.5 -translate-y-0.5 bg-slate-600" />
                </div>
-               <span className="text-xs font-mono text-slate">+48H</span>
+               <span className="text-[10px] text-slate-400">+48H</span>
             </div>
           </div>
 
           {/* Right Panel or Drawer */}
           <div className={cn(
-            "w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-slate/20 bg-navy/95 backdrop-blur-sm z-[500] flex flex-col shrink-0 transition-transform duration-300",
+            "w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-slate-800 bg-[#06111e] z-[500] flex flex-col shrink-0 transition-transform duration-300",
             "h-1/3 lg:h-full lg:static absolute bottom-0", // Mobile drawer behavior
             showRouteOptimization ? "hidden" : "flex"
           )}>
@@ -124,7 +122,7 @@ const Dashboard = () => {
           
           {/* Route Optimization Drawer */}
           {showRouteOptimization && (
-            <div className="absolute inset-y-0 right-0 w-full lg:w-[450px] bg-navy/95 backdrop-blur-md border-l border-slate/20 z-[500] shadow-2xl animate-in slide-in-from-right">
+            <div className="absolute inset-y-0 right-0 w-full lg:w-[420px] bg-[#06111e] border-l border-slate-800 z-[500] shadow-2xl animate-in slide-in-from-right">
               <RouteOptimization onClose={() => setShowRouteOptimization(false)} />
             </div>
           )}

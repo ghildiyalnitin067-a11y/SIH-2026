@@ -91,42 +91,42 @@ export const AppShell: React.FC<AppShellProps> = ({
   const isSystemHealthy = systemHealth?.overall_status === 'ONLINE' || systemHealth?.startup_ready;
 
   return (
-    <div className="flex flex-col h-screen bg-navy text-ice-white font-sans overflow-hidden select-none">
+    <div className="flex flex-col h-screen bg-[#040B14] text-slate-100 font-sans overflow-hidden select-none">
       
       {/* ========================================================================= */}
       {/* 1. UNIFIED HORIZONTAL MARITIME NAVBAR                                    */}
       {/* ========================================================================= */}
-      <header className="h-12 bg-polar-navy/20 border-b border-slate/20 flex items-center justify-between px-3 sm:px-5 z-40 shrink-0 font-mono text-xs">
+      <header className="h-11 bg-[#06111e] border-b border-slate-800 flex items-center justify-between px-3 sm:px-4 z-40 shrink-0 font-mono text-xs">
         
         {/* LEFT: Brand + Primary Horizontal Navigation */}
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-5">
           <Link
             to="/"
             className="flex items-center gap-2 group transition-opacity hover:opacity-90"
             title="Return to PolarNav Landing Briefing"
           >
-            <div className="w-6 h-6 rounded-sm bg-polar-navy/80 border border-glacial-blue/40 flex items-center justify-center group-hover:border-glacial-blue transition-colors">
-              <Anchor className="w-3.5 h-3.5 text-glacial-blue" />
+            <div className="w-5 h-5 rounded-xs bg-slate-900 border border-slate-700 flex items-center justify-center">
+              <Anchor className="w-3 h-3 text-sky-400" />
             </div>
-            <span className="font-bold tracking-wider text-xs sm:text-sm text-ice-white font-mono uppercase">
-              POLAR<span className="text-glacial-blue">NAV</span>
+            <span className="font-bold tracking-wider text-xs sm:text-sm text-slate-100 font-mono uppercase">
+              POLAR<span className="text-sky-400">NAV</span>
             </span>
           </Link>
 
           <span className="text-slate-700 hidden lg:inline">|</span>
 
           {/* DESKTOP HORIZONTAL MENU */}
-          <nav className="hidden md:flex items-center gap-1 bg-polar-navy/40 p-1 rounded-sm border border-slate/20">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-950/80 p-0.5 rounded-xs border border-slate-800">
             {PRIMARY_NAV.map((item) => (
               <NavLink
                 key={item.id}
                 to={item.path}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-mono transition-all",
+                    "flex items-center gap-1.5 px-2.5 py-1 rounded-xs text-xs font-mono transition-colors",
                     isActive
-                      ? "bg-glacial-blue/20 text-ice-blue font-semibold border border-glacial-blue/40"
-                      : "text-slate-300 hover:text-white hover:bg-polar-navy/60"
+                      ? "bg-[#12283e] text-sky-300 font-semibold border border-[#214972]"
+                      : "text-slate-400 hover:text-slate-100 hover:bg-slate-900"
                   )
                 }
               >
@@ -141,10 +141,10 @@ export const AppShell: React.FC<AppShellProps> = ({
                 type="button"
                 onClick={() => setIntelDropdownOpen(!intelDropdownOpen)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1 rounded-sm text-xs font-mono transition-all cursor-pointer",
+                  "flex items-center gap-1.5 px-2.5 py-1 rounded-xs text-xs font-mono transition-colors cursor-pointer",
                   isIntelActive || intelDropdownOpen
-                    ? "bg-glacial-blue/20 text-ice-blue font-semibold border border-glacial-blue/40"
-                    : "text-slate-300 hover:text-white hover:bg-polar-navy/60"
+                    ? "bg-[#12283e] text-sky-300 font-semibold border border-[#214972]"
+                    : "text-slate-400 hover:text-slate-100 hover:bg-slate-900"
                 )}
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -154,10 +154,10 @@ export const AppShell: React.FC<AppShellProps> = ({
 
               {intelDropdownOpen && (
                 <div 
-                  className="absolute left-0 mt-1.5 w-60 bg-navy border border-slate/30 rounded-sm shadow-xl py-1.5 z-50 font-mono"
+                  className="absolute left-0 mt-1 w-60 bg-[#06111e] border border-slate-700 rounded-xs shadow-lg py-1 z-50 font-mono"
                   onMouseLeave={() => setIntelDropdownOpen(false)}
                 >
-                  <div className="px-3 py-1 border-b border-slate/20 text-[9px] text-glacial-blue uppercase font-bold tracking-wider">
+                  <div className="px-3 py-1 border-b border-slate-800 text-[9px] text-slate-400 uppercase font-bold tracking-wider">
                     Operational Intelligence
                   </div>
                   {SECONDARY_NAV.map((item) => (
@@ -167,8 +167,8 @@ export const AppShell: React.FC<AppShellProps> = ({
                       onClick={() => setIntelDropdownOpen(false)}
                       className={({ isActive }) =>
                         cn(
-                          "flex items-center justify-between px-3 py-2 text-xs transition-colors hover:bg-polar-navy/70",
-                          isActive ? "text-ice-blue font-semibold bg-polar-navy/50" : "text-slate-300"
+                          "flex items-center justify-between px-3 py-1.5 text-xs transition-colors hover:bg-slate-800/70",
+                          isActive ? "text-sky-300 font-semibold bg-[#12283e]" : "text-slate-300"
                         )
                       }
                     >
@@ -191,10 +191,10 @@ export const AppShell: React.FC<AppShellProps> = ({
           <button
             type="button"
             onClick={() => setProvenanceModalOpen(true)}
-            className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-polar-navy/40 border border-slate/20 hover:border-glacial-blue/50 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-2 py-0.5 rounded-xs bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition-colors cursor-pointer"
             title="System Provider & Sensor Health Audit"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className={cn('w-1.5 h-1.5 rounded-full', isSystemHealthy ? 'bg-emerald-400' : 'bg-amber-400')} />
             <span className="text-[10px] text-slate-400 uppercase font-semibold hidden sm:inline">SYSTEM:</span>
             <span className={cn('text-[10px] font-bold tracking-wider', isSystemHealthy ? 'text-emerald-400' : 'text-amber-400')}>
               {isSystemHealthy ? 'ONLINE' : 'DEGRADED'}
@@ -202,8 +202,8 @@ export const AppShell: React.FC<AppShellProps> = ({
           </button>
 
           {/* UTC CLOCK */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded bg-polar-navy/40 border border-slate/20 text-slate-300 text-[11px]">
-            <Clock className="w-3 h-3 text-glacial-blue" />
+          <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-xs bg-slate-950/80 border border-slate-800 text-slate-300 text-[11px]">
+            <Clock className="w-3 h-3 text-slate-400" />
             <span className="font-semibold text-slate-200">
               {utcTime || 'UTC --:--:--'}
             </span>
@@ -213,10 +213,10 @@ export const AppShell: React.FC<AppShellProps> = ({
           <Link
             to="/alerts"
             className={cn(
-              'flex items-center gap-1.5 px-2 py-0.5 rounded border transition-colors cursor-pointer',
+              'flex items-center gap-1.5 px-2 py-0.5 rounded-xs border transition-colors cursor-pointer',
               activeAlertsCount > 0
-                ? 'bg-amber-500/10 border-amber-500/40 text-amber-300 hover:bg-amber-500/20'
-                : 'bg-polar-navy/40 border-slate/20 text-slate-400 hover:text-slate-200'
+                ? 'bg-amber-950/30 border-amber-600/50 text-amber-300 hover:bg-amber-900/40'
+                : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-slate-200'
             )}
             title="Active Operational Warnings"
           >
@@ -230,7 +230,7 @@ export const AppShell: React.FC<AppShellProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1 rounded bg-polar-navy border border-slate/30 text-slate-300 hover:text-white"
+            className="md:hidden p-1 rounded-xs bg-slate-900 border border-slate-700 text-slate-300 hover:text-white"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -240,7 +240,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       {/* MOBILE DROPDOWN MENU */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-navy border-b border-slate/20 p-3 space-y-1 z-50 font-mono text-xs animate-in fade-in">
+        <div className="md:hidden bg-[#06111e] border-b border-slate-800 p-2.5 space-y-1 z-50 font-mono text-xs">
           {PRIMARY_NAV.map((item) => (
             <NavLink
               key={item.id}
@@ -248,8 +248,8 @@ export const AppShell: React.FC<AppShellProps> = ({
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-sm",
-                  isActive ? "bg-glacial-blue/20 text-ice-blue font-semibold" : "text-slate-300 hover:text-white"
+                  "flex items-center gap-2 px-3 py-1.5 rounded-xs",
+                  isActive ? "bg-[#12283e] text-sky-300 font-semibold border border-[#214972]" : "text-slate-300 hover:text-white"
                 )
               }
             >
@@ -257,7 +257,7 @@ export const AppShell: React.FC<AppShellProps> = ({
               <span>{item.label}</span>
             </NavLink>
           ))}
-          <div className="pt-2 border-t border-slate/20 text-[10px] text-slate-500 px-3 uppercase font-bold">
+          <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-500 px-3 uppercase font-bold">
             Intelligence Modules
           </div>
           {SECONDARY_NAV.map((item) => (
@@ -267,8 +267,8 @@ export const AppShell: React.FC<AppShellProps> = ({
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-sm",
-                  isActive ? "bg-glacial-blue/20 text-ice-blue font-semibold" : "text-slate-300 hover:text-white"
+                  "flex items-center gap-2 px-3 py-1.5 rounded-xs",
+                  isActive ? "bg-[#12283e] text-sky-300 font-semibold border border-[#214972]" : "text-slate-300 hover:text-white"
                 )
               }
             >
@@ -283,9 +283,9 @@ export const AppShell: React.FC<AppShellProps> = ({
       {/* 2. STANDARDIZED PAGE HEADER BAR (If title is provided)                    */}
       {/* ========================================================================= */}
       {title && (
-        <div className="h-10 bg-polar-navy/20 border-b border-slate/20 px-3 sm:px-5 flex items-center justify-between shrink-0 font-mono text-xs z-30">
+        <div className="h-9 bg-[#081524] border-b border-slate-800 px-3 sm:px-4 flex items-center justify-between shrink-0 font-mono text-xs z-30">
           <div className="flex items-center gap-3 truncate">
-            <h1 className="text-xs font-bold uppercase tracking-wider text-ice-white shrink-0">
+            <h1 className="text-xs font-bold uppercase tracking-wider text-slate-100 shrink-0">
               {title}
             </h1>
             {subtitle && (
@@ -315,11 +315,11 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       {/* DATA AUDIT & PROVENANCE MODAL */}
       {provenanceModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 font-mono">
-          <div className="bg-polar-navy/30 border border-slate/30 rounded-sm shadow-2xl max-w-lg w-full p-4 space-y-3 text-xs">
-            <div className="flex items-center justify-between pb-2 border-b border-slate/20">
-              <span className="font-bold text-ice-white flex items-center gap-1.5">
-                <Radio className="w-4 h-4 text-glacial-blue" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 font-mono">
+          <div className="bg-[#06111e] border border-slate-700 rounded-xs shadow-xl max-w-lg w-full p-4 space-y-3 text-xs">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span className="font-bold text-slate-100 flex items-center gap-1.5">
+                <Radio className="w-4 h-4 text-sky-400" />
                 SYSTEM &amp; SENSOR DATA AUDIT
               </span>
               <button
@@ -331,34 +331,34 @@ export const AppShell: React.FC<AppShellProps> = ({
               </button>
             </div>
 
-            <div className="space-y-2 text-[11px] text-slate-300">
-              <div className="flex items-center justify-between p-2 bg-polar-navy/30 rounded border border-slate/20">
+            <div className="space-y-1.5 text-[11px] text-slate-300">
+              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
                 <span className="text-slate-400">Tracked Icebergs</span>
-                <span className="text-ice-white font-bold">85 Records (BYU MERS / US NIC)</span>
+                <span className="text-slate-200 font-bold">85 Records (BYU MERS / US NIC)</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-polar-navy/30 rounded border border-slate/20">
+              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
                 <span className="text-slate-400">Sea Ice Concentration</span>
-                <span className="text-ice-white font-bold">NOAA CoastWatch CDR V4 AMSR2</span>
+                <span className="text-slate-200 font-bold">NOAA CoastWatch CDR V4 AMSR2</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-polar-navy/30 rounded border border-slate/20">
+              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
                 <span className="text-slate-400">Radar Imagery</span>
-                <span className="text-ice-white font-bold">ESA Sentinel-1 SAR C-Band</span>
+                <span className="text-slate-200 font-bold">ESA Sentinel-1 SAR C-Band</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-polar-navy/30 rounded border border-slate/20">
+              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
                 <span className="text-slate-400">Marine Meteorological</span>
-                <span className="text-ice-white font-bold">ECMWF ERA5 / Copernicus CMEMS</span>
+                <span className="text-slate-200 font-bold">ECMWF ERA5 / CMEMS</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-polar-navy/30 rounded border border-slate/20">
+              <div className="flex items-center justify-between p-2 bg-slate-950/70 rounded-xs border border-slate-800">
                 <span className="text-slate-400">Polar Code Compliance</span>
-                <span className="text-ice-white font-bold">IMO POLARIS Res. MSC.385(94)</span>
+                <span className="text-slate-200 font-bold">IMO POLARIS Res. MSC.385(94)</span>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-slate/20 flex justify-end">
+            <div className="pt-2 border-t border-slate-800 flex justify-end">
               <button
                 type="button"
                 onClick={() => setProvenanceModalOpen(false)}
-                className="px-3 py-1 bg-polar-navy hover:bg-polar-navy/80 text-ice-white rounded text-xs cursor-pointer"
+                className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xs text-xs cursor-pointer font-semibold"
               >
                 Close Audit
               </button>

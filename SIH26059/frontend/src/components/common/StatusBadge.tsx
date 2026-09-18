@@ -131,7 +131,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
       title={provenance ? `Provenance: ${provenance}${timestamp ? ` • Updated: ${timestamp}` : ''}` : undefined}
     >
       {symbol === '●' ? (
-        <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', dotColor, normStatus === 'LIVE' ? 'animate-pulse' : '')} />
+        <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', dotColor)} />
       ) : (
         <span className="text-[11px] leading-none shrink-0">{symbol}</span>
       )}

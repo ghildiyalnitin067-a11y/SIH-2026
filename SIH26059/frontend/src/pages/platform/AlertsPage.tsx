@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   AlertTriangle, 
@@ -103,38 +103,38 @@ export const AlertsPage: React.FC = () => {
       subtitle={`Real-Time Proximity Warnings & Incident Mitigation • Fleet Context: ${selectedVessel.name}`}
       actions={
         <div className="flex items-center gap-2 text-xs font-mono">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-polar-navy/40 border border-slate/20 rounded-sm text-slate-300">
-            <Ship className="w-3.5 h-3.5 text-glacial-blue" />
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#06111e] border border-slate-800 rounded-xs text-slate-300">
+            <Ship className="w-3.5 h-3.5 text-sky-400" />
             <span className="text-slate-400">VESSEL:</span>
-            <span className="text-ice-white font-semibold">{selectedVessel.name.split(' ')[0]}</span>
+            <span className="text-slate-200 font-semibold">{selectedVessel.name.split(' ')[0]}</span>
           </div>
           <span className="text-slate-400">STATUS:</span>
-          <span className={cn("font-semibold", activeCriticalCount > 0 ? "text-signature-coral" : "text-risk-safe")}>
+          <span className={cn("font-semibold", activeCriticalCount > 0 ? "text-red-400" : "text-emerald-400")}>
             {activeCriticalCount > 0 ? `${activeCriticalCount} ACTIVE THREATS` : "ALL HAZARDS MITIGATED"}
           </span>
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-6 max-w-5xl mx-auto space-y-4 bg-navy">
+      <div className="h-full overflow-y-auto custom-scrollbar p-3 md:p-4 max-w-5xl mx-auto space-y-3 bg-[#040B14]">
         
         {/* Top Header & Filter Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate/20 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
           <div>
-            <h3 className="font-bold text-sm text-ice-white font-mono uppercase tracking-wider">Active Navigation Hazards</h3>
+            <h3 className="font-bold text-sm text-slate-200 font-mono uppercase tracking-wider">Active Navigation Hazards</h3>
             <p className="text-[11px] text-slate-400 mt-0.5 font-sans">{activeCriticalCount > 0 ? `${activeCriticalCount} unacknowledged — immediate attention required` : 'All hazards acknowledged or resolved'}</p>
           </div>
 
-          <div className="flex items-center gap-1 font-mono text-xs bg-polar-navy/40 p-1 rounded-sm border border-slate/20">
+          <div className="flex items-center gap-1 font-mono text-xs bg-[#06111e] p-0.5 rounded-xs border border-slate-800">
             {(['ALL', 'ACTIVE', 'HIGH', 'CAUTION', 'RESOLVED'] as const).map((sev) => (
               <button
                 key={sev}
                 type="button"
                 onClick={() => setFilterSeverity(sev)}
                 className={cn(
-                  "px-2.5 py-1 rounded-sm text-xs transition-all uppercase",
+                  "px-2.5 py-1 rounded-xs text-[10px] transition-colors uppercase",
                   filterSeverity === sev
-                    ? "bg-glacial-blue/20 text-ice-blue border border-glacial-blue/50 font-bold"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-[#12283e] text-sky-300 border border-[#214972] font-semibold"
+                    : "text-slate-400 hover:text-slate-200"
                 )}
               >
                 {sev}
@@ -144,7 +144,7 @@ export const AlertsPage: React.FC = () => {
         </div>
 
         {/* Alert Cards */}
-        <div className="space-y-3">
+        <div className="space-y-2.5 font-mono">
           {filteredAlerts.map((alert) => {
             const isHigh = alert.severity === 'HIGH';
             const isCaution = alert.severity === 'CAUTION';
@@ -153,64 +153,64 @@ export const AlertsPage: React.FC = () => {
               <div
                 key={alert.id}
                 className={cn(
-                  "border rounded-sm p-4 space-y-3 transition-all",
+                  "border rounded-xs p-3 space-y-2.5 transition-colors",
                   alert.acknowledged
-                    ? "bg-polar-navy/20 border-slate/20 opacity-60"
+                    ? "bg-[#06111e]/60 border-slate-800 opacity-60"
                     : isHigh
-                    ? "bg-signature-coral/5 border-signature-coral/30"
+                    ? "bg-[#081524] border-red-500/30"
                     : isCaution
-                    ? "bg-amber-500/5 border-amber-500/30"
-                    : "bg-polar-navy/30 border-slate/20"
+                    ? "bg-[#081524] border-amber-500/30"
+                    : "bg-[#06111e] border-slate-800"
                 )}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
                     <div className={cn(
-                      "p-1.5 rounded-sm mt-0.5 border",
-                      isHigh ? "bg-signature-coral/10 text-signature-coral border-signature-coral/30" : isCaution ? "bg-amber-500/10 text-amber-400 border-amber-500/30" : "bg-glacial-blue/10 text-glacial-blue border-glacial-blue/30"
+                      "p-1.5 rounded-xs mt-0.5 border",
+                      isHigh ? "bg-red-500/10 text-red-400 border-red-500/30" : isCaution ? "bg-amber-500/10 text-amber-400 border-amber-500/30" : "bg-sky-500/10 text-sky-400 border-sky-500/30"
                     )}>
                       {isHigh ? <ShieldAlert className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs text-slate-400">{alert.id}</span>
+                        <span className="text-xs text-slate-400">{alert.id}</span>
                         <span className={cn(
-                          "px-1.5 py-0.2 rounded-sm text-[9px] font-mono font-bold border",
-                          isHigh ? "text-signature-coral border-signature-coral/30" : isCaution ? "text-amber-400 border-amber-500/30" : "text-risk-safe border-risk-safe/30"
+                          "px-1.5 py-0.5 rounded-xs text-[9px] font-semibold border",
+                          isHigh ? "text-red-400 border-red-500/30 bg-red-500/10" : isCaution ? "text-amber-400 border-amber-500/30 bg-amber-500/10" : "text-emerald-400 border-emerald-500/30 bg-emerald-500/10"
                         )}>
                           {alert.severity}
                         </span>
                         {alert.acknowledged && (
-                          <span className="text-[9px] font-mono text-risk-safe flex items-center gap-1 font-semibold">
+                          <span className="text-[9px] text-emerald-400 flex items-center gap-1 font-semibold">
                             <CheckCircle2 className="w-3 h-3" /> ACKNOWLEDGED
                           </span>
                         )}
                       </div>
-                      <h4 className="font-bold text-sm text-ice-white mt-1">{alert.title}</h4>
-                      <p className="text-xs text-slate-300 mt-1 leading-relaxed">{alert.description}</p>
+                      <h4 className="font-bold text-sm text-slate-100 mt-1 font-sans">{alert.title}</h4>
+                      <p className="text-xs text-slate-300 mt-0.5 leading-relaxed font-sans">{alert.description}</p>
                     </div>
                   </div>
 
-                  <span className="text-xs font-mono text-slate-400 shrink-0">{alert.timestamp}</span>
+                  <span className="text-xs text-slate-400 shrink-0">{alert.timestamp}</span>
                 </div>
 
-                <div className="bg-polar-navy/40 p-3 rounded-sm border border-slate/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+                <div className="bg-[#040B14] p-2.5 rounded-xs border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="space-y-0.5">
                     <div className="text-slate-400 text-[10px] uppercase font-semibold">RECOMMENDED MITIGATION:</div>
-                    <div className="text-glacial-blue font-sans text-xs">{alert.recommendedAction}</div>
+                    <div className="text-sky-400 font-sans text-xs">{alert.recommendedAction}</div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       type="button"
                       onClick={() => toggleAcknowledge(alert.id)}
-                      className="px-2.5 py-1 rounded-sm border border-slate/30 text-slate-300 hover:text-white hover:bg-polar-navy/60 transition-colors text-xs font-mono"
+                      className="px-2.5 py-1 rounded-xs border border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-[#081524] transition-colors text-xs"
                     >
                       {alert.acknowledged ? "Unmark" : "Acknowledge"}
                     </button>
                     <Link
                       to="/navigation"
-                      className="flex items-center gap-1.5 bg-signature-coral hover:bg-soft-coral text-white font-bold px-3 py-1 rounded-sm text-xs font-mono transition-colors"
+                      className="flex items-center gap-1.5 bg-[#12283e] hover:bg-[#1a3857] text-sky-300 border border-[#214972] font-semibold px-3 py-1 rounded-xs text-xs transition-colors"
                     >
                       <RouteIcon className="w-3.5 h-3.5" />
                       <span>Mitigate Route</span>

@@ -79,16 +79,17 @@ export const AppShell: React.FC<AppShellProps> = ({
       }
     }).catch(() => {});
 
-    // Fetch real-time health from backend
-    fetch('/api/realtime/health')
-      .then((r) => r.json())
-      .then((data) => setSystemHealth(data))
+    // Fetch real-time health from backend safely via API client
+    api.realtimeHealth()
+      .then((data) => {
+        if (data) setSystemHealth(data);
+      })
       .catch(() => {});
 
     return () => clearInterval(interval);
   }, []);
 
-  const isSystemHealthy = systemHealth?.overall_status === 'ONLINE' || systemHealth?.startup_ready;
+  const isSystemHealthy = systemHealth ? (systemHealth?.overall_status === 'ONLINE' || systemHealth?.startup_ready) : true;
 
   return (
     <div className="flex flex-col h-screen bg-[#040B14] text-slate-100 font-sans overflow-hidden select-none">

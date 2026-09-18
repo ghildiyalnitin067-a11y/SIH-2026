@@ -26,7 +26,10 @@ def search_sentinel_scenes(
     Search Planetary Computer STAC for Antarctic Sentinel-1 and Sentinel-2 scenes.
     """
     try:
-        catalog = pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")
+        stac_url = os.environ.get("STAC_API_URL") or os.environ.get(
+            "PLANETARY_COMPUTER_STAC_URL", "https://planetarycomputer.microsoft.com/api/stac/v1"
+        )
+        catalog = pystac_client.Client.open(stac_url)
         
         # 1. Search Sentinel-1 GRD SAR
         s1_search = catalog.search(

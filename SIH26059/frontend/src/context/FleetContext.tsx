@@ -79,6 +79,13 @@ export interface RouteOption {
   sic_actual?: number;
   sic_cost_contribution?: number;
   minimum_cpa_km?: number;
+  min_radar_obstacle_km?: number;
+  radar_clearance?: {
+    min_radar_obstacle_km?: number;
+    nearest_target_id?: string;
+    sensor?: string;
+    provenance?: string;
+  };
   sea_ice_exposure?: {
     fast_ice_km?: number;
     pack_ice_km?: number;
@@ -583,7 +590,7 @@ interface FleetContextType {
     timestamp?: string;
     hazardIceberg?: any;
   }>>;
-  triggerEmergencyHazard: () => Promise<void>;
+  triggerEmergencyHazard: (progressFraction?: number) => Promise<void>;
   dismissTacticalAlert: () => void;
   recomputeRoutes: () => Promise<void>;
   assignMission: (
@@ -823,8 +830,8 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [selectedVessel, selectedDestination, whatIfScenario.active]);
 
-  // Trigger tactical emergency avoidance when iceberg hazard is detected
-  const triggerEmergencyHazard = useCallback(async () => {
+  // Trigger tactical emergency avoidance when iceberg hazard is detected (supports mid-voyage progress)
+  const triggerEmergencyHazard = useCallback(async (progressFraction?: number) => {
     if (emergencyRerouteActive) {
       // Toggle off / restore normal planned route
       setEmergencyRerouteActive(false);
@@ -832,18 +839,23 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       return;
     }
 
+    const pctText = typeof progressFraction === 'number' && progressFraction > 0.05
+      ? ` AT ${(progressFraction * 100).toFixed(0)}% VOYAGE MARK`
+      : '';
+
     // Phase 1: Small on-screen alert banner for immediate warning
     setTacticalAlert({
       active: true,
       phase: 'detecting',
-      title: 'SCANNING ROUTE FOR ICEBERG HAZARDS...',
+      title: `SCANNING ROUTE FOR ICEBERG HAZARDS${pctText}...`,
       description: `Analyzing forward radar contacts and drift vectors along active corridor of ${selectedVessel.name}...`,
     });
 
     try {
       const res = await api.emergency({
         vessel_id: selectedVessel?.id,
-        dest_id: selectedDestination?.id
+        dest_id: selectedDestination?.id,
+        progress_fraction: typeof progressFraction === 'number' ? progressFraction : undefined
       });
 
       if (res?.emergency && res.diverted_route && res.hazard_detected !== false) {
@@ -871,11 +883,15 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
 
         // Phase 2: Route optimized with small direction change & alert logged to DB
+        const progressLabel = typeof progressFraction === 'number' && progressFraction > 0.05
+          ? ` (AT ${(progressFraction * 100).toFixed(0)}% MID-VOYAGE MARK)`
+          : '';
+
         setTacticalAlert({
           active: true,
           phase: 'diverted',
-          title: `TACTICAL ICEBERG HAZARD IN ROUTE: ${hazId}`,
-          description: `${hazName} detected drifting into transit corridor (${cpa} km CPA). Shifted heading +${res.heading_alteration_deg || 12}° Starboard (+${res.extra_distance_km || 17.5} km). 26.4 km safe CPA clearance secured. Registered in alerts.`,
+          title: `TACTICAL ICEBERG HAZARD IN ROUTE${progressLabel}: ${hazId}`,
+          description: `${hazName} detected drifting into forward transit corridor (${cpa} km CPA). Shifted heading +${res.heading_alteration_deg || 12}° Starboard (+${res.extra_distance_km || 17.5} km). 26.4 km safe CPA clearance secured ahead of vessel. Registered in alerts.`,
           icebergId: hazId,
           headingChange: `+${res.heading_alteration_deg || 12}° Starboard`,
           clearanceKm: res.clearance_km || 26.4,

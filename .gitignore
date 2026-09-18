@@ -89,4 +89,11 @@ sih_ppt/
 *.temp
 *.part
 *.crdownload
+*.nc.*
+
+# 10. Development Agent & Planning Working Directories
+.agent/
+.agents/
+.planning/
+
 

@@ -1,174 +1,110 @@
 {
-  "-78.0_166.5": {
-    "cached_at": 1788448769.4382725,
+  "-85.0_0.0": {
+    "cached_at": 1789719821.5111792,
     "data": {
-      "wind_speed_kn": 13.4,
-      "wind_speed_ms": 6.9,
-      "wind_direction_deg": 96.0,
-      "temperature_c": -29.5,
-      "pressure_hpa": 986.7,
-      "wave_height_m": 0.48,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -77.846,
-      "lon": 166.6681
-    }
-  },
-  "-71.5_176.0": {
-    "cached_at": 1788448767.9906993,
-    "data": {
-      "wind_speed_kn": 5.5,
-      "wind_speed_ms": 2.8,
-      "wind_direction_deg": 144.0,
-      "temperature_c": -20.2,
-      "pressure_hpa": 994.7,
+      "wind_speed_kn": 17.8,
+      "wind_speed_ms": 9.2,
+      "wind_direction_deg": 76.0,
+      "temperature_c": -54.4,
+      "pressure_hpa": 678.0,
       "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:15",
+      "timestamp": "2026-09-18T08:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -71.5,
-      "lon": 176.2
-    }
-  },
-  "-64.5_40.0": {
-    "cached_at": 1788448527.0529308,
-    "data": {
-      "wind_speed_kn": 34.3,
-      "wind_speed_ms": 17.7,
-      "wind_direction_deg": 80.0,
-      "temperature_c": -11.0,
-      "pressure_hpa": 963.8,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -64.5,
-      "lon": 40.2
-    }
-  },
-  "-69.0_39.5": {
-    "cached_at": 1788448528.6241305,
-    "data": {
-      "wind_speed_kn": 5.6,
-      "wind_speed_ms": 2.9,
-      "wind_direction_deg": 116.0,
-      "temperature_c": -16.8,
-      "pressure_hpa": 987.6,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -69.0042,
-      "lon": 39.5806
-    }
-  },
-  "-63.0_-59.5": {
-    "cached_at": 1788448548.3567169,
-    "data": {
-      "wind_speed_kn": 14.9,
-      "wind_speed_ms": 7.7,
-      "wind_direction_deg": 38.0,
-      "temperature_c": -10.9,
-      "pressure_hpa": 997.0,
-      "wave_height_m": 0.88,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -62.8,
-      "lon": -59.5
-    }
-  },
-  "-62.0_-58.5": {
-    "cached_at": 1788448549.8571227,
-    "data": {
-      "wind_speed_kn": 6.7,
-      "wind_speed_ms": 3.4,
-      "wind_direction_deg": 88.0,
-      "temperature_c": -13.0,
-      "pressure_hpa": 997.3,
-      "wave_height_m": 0.82,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -62.0833,
-      "lon": -58.3833
-    }
-  },
-  "-62.0_-59.0": {
-    "cached_at": 1788449431.715906,
-    "data": {
-      "wind_speed_kn": 10.4,
-      "wind_speed_ms": 5.4,
-      "wind_direction_deg": 88.0,
-      "temperature_c": -11.2,
-      "pressure_hpa": 994.0,
-      "wave_height_m": 1.08,
-      "timestamp": "2026-09-03T15:30",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -62.2,
-      "lon": -58.9667
-    }
-  },
-  "-54.0_68.5": {
-    "cached_at": 1788450687.2028592,
-    "data": {
-      "wind_speed_kn": 34.2,
-      "wind_speed_ms": 17.6,
-      "wind_direction_deg": 254.0,
-      "temperature_c": 1.5,
-      "pressure_hpa": 989.9,
-      "wave_height_m": 9.04,
-      "timestamp": "2026-09-03T15:45",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -54.2,
-      "lon": 68.4
+      "lat": -85.0,
+      "lon": 0.0
     }
   },
   "-65.0_-64.0": {
-    "cached_at": 1788450698.022106,
+    "cached_at": 1789720161.1972067,
     "data": {
-      "wind_speed_kn": 2.1,
-      "wind_speed_ms": 1.1,
-      "wind_direction_deg": 236.0,
-      "temperature_c": -16.5,
-      "pressure_hpa": 997.5,
-      "wave_height_m": 0.04,
-      "timestamp": "2026-09-03T15:45",
+      "wind_speed_kn": 14.8,
+      "wind_speed_ms": 7.6,
+      "wind_direction_deg": 297.0,
+      "temperature_c": -2.8,
+      "pressure_hpa": 980.6,
+      "wave_height_m": 0.26,
+      "timestamp": "2026-09-18T08:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
       "lat": -64.7744,
       "lon": -64.0531
     }
   },
-  "-69.5_76.0": {
-    "cached_at": 1788450688.7143552,
+  "-65.0_64.5": {
+    "cached_at": 1789719064.9602222,
     "data": {
-      "wind_speed_kn": 7.3,
-      "wind_speed_ms": 3.8,
-      "wind_direction_deg": 142.0,
-      "temperature_c": -22.1,
-      "pressure_hpa": 986.1,
-      "wave_height_m": 0.04,
-      "timestamp": "2026-09-03T15:45",
+      "wind_speed_kn": 9.2,
+      "wind_speed_ms": 4.7,
+      "wind_direction_deg": 252.0,
+      "temperature_c": -20.8,
+      "pressure_hpa": 964.8,
+      "wave_height_m": 1.8,
+      "timestamp": "2026-09-18T08:00",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -65.2,
+      "lon": 64.3
+    }
+  },
+  "-54.0_68.5": {
+    "cached_at": 1789718787.5697303,
+    "data": {
+      "wind_speed_kn": 24.8,
+      "wind_speed_ms": 12.8,
+      "wind_direction_deg": 308.0,
+      "temperature_c": 0.3,
+      "pressure_hpa": 997.2,
+      "wave_height_m": 4.76,
+      "timestamp": "2026-09-18T08:00",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -54.2,
+      "lon": 68.4
+    }
+  },
+  "-69.5_76.0": {
+    "cached_at": 1789718789.0212142,
+    "data": {
+      "wind_speed_kn": 8.5,
+      "wind_speed_ms": 4.4,
+      "wind_direction_deg": 27.0,
+      "temperature_c": -19.2,
+      "pressure_hpa": 957.3,
+      "wave_height_m": 0.2,
+      "timestamp": "2026-09-18T08:00",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
       "lat": -69.4068,
       "lon": 76.1953
     }
   },
-  "-69.0_-8.5": {
-    "cached_at": 1788450693.5025666,
+  "-71.0_11.5": {
+    "cached_at": 1789719825.3448877,
     "data": {
-      "wind_speed_kn": 23.4,
-      "wind_speed_ms": 12.0,
-      "wind_direction_deg": 11.0,
-      "temperature_c": -7.9,
-      "pressure_hpa": 988.8,
+      "wind_speed_kn": 26.5,
+      "wind_speed_ms": 13.6,
+      "wind_direction_deg": 110.0,
+      "temperature_c": -16.4,
+      "pressure_hpa": 948.1,
       "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:45",
+      "timestamp": "2026-09-18T08:15",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -70.7667,
+      "lon": 11.7333
+    }
+  },
+  "-69.0_-8.5": {
+    "cached_at": 1789720156.362035,
+    "data": {
+      "wind_speed_kn": 11.5,
+      "wind_speed_ms": 5.9,
+      "wind_direction_deg": 46.0,
+      "temperature_c": -36.0,
+      "pressure_hpa": 959.6,
+      "wave_height_m": 1.8,
+      "timestamp": "2026-09-18T08:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
       "lat": -69.2,
@@ -176,15 +112,15 @@
     }
   },
   "-70.5_-8.5": {
-    "cached_at": 1788450694.9911766,
+    "cached_at": 1789720157.6601515,
     "data": {
-      "wind_speed_kn": 31.0,
-      "wind_speed_ms": 16.0,
-      "wind_direction_deg": 82.0,
-      "temperature_c": -17.0,
-      "pressure_hpa": 984.4,
+      "wind_speed_kn": 7.8,
+      "wind_speed_ms": 4.0,
+      "wind_direction_deg": 113.0,
+      "temperature_c": -34.9,
+      "pressure_hpa": 954.6,
       "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:45",
+      "timestamp": "2026-09-18T08:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
       "lat": -70.6744,
@@ -192,163 +128,195 @@
     }
   },
   "-63.0_-58.5": {
-    "cached_at": 1788450696.5716865,
+    "cached_at": 1789720159.945109,
     "data": {
-      "wind_speed_kn": 7.3,
-      "wind_speed_ms": 3.8,
-      "wind_direction_deg": 42.0,
-      "temperature_c": -13.7,
-      "pressure_hpa": 997.7,
-      "wave_height_m": 0.56,
-      "timestamp": "2026-09-03T15:45",
+      "wind_speed_kn": 27.9,
+      "wind_speed_ms": 14.4,
+      "wind_direction_deg": 268.0,
+      "temperature_c": -1.6,
+      "pressure_hpa": 983.6,
+      "wave_height_m": 3.16,
+      "timestamp": "2026-09-18T08:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
       "lat": -63.1,
       "lon": -58.4
     }
   },
-  "-65.0_64.5": {
-    "cached_at": 1788450699.5217912,
+  "-78.0_166.5": {
+    "cached_at": 1789720266.4257534,
     "data": {
-      "wind_speed_kn": 22.1,
-      "wind_speed_ms": 11.4,
-      "wind_direction_deg": 120.0,
-      "temperature_c": -21.3,
-      "pressure_hpa": 991.5,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:45",
+      "wind_speed_kn": 20.1,
+      "wind_speed_ms": 10.4,
+      "wind_direction_deg": 146.0,
+      "temperature_c": -21.8,
+      "pressure_hpa": 974.3,
+      "wave_height_m": 0.98,
+      "timestamp": "2026-09-18T08:30",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -65.2,
-      "lon": 64.3
-    }
-  },
-  "-68.5_78.0": {
-    "cached_at": 1788450700.9730225,
-    "data": {
-      "wind_speed_kn": 8.8,
-      "wind_speed_ms": 4.5,
-      "wind_direction_deg": 131.0,
-      "temperature_c": -18.9,
-      "pressure_hpa": 987.9,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:45",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -68.5764,
-      "lon": 77.9672
-    }
-  },
-  "-68.5_-2.5": {
-    "cached_at": 1788450702.4838052,
-    "data": {
-      "wind_speed_kn": 18.3,
-      "wind_speed_ms": 9.4,
-      "wind_direction_deg": 13.0,
-      "temperature_c": -13.0,
-      "pressure_hpa": 998.2,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:45",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -68.5,
-      "lon": -2.5
-    }
-  },
-  "-71.5_-3.0": {
-    "cached_at": 1788450704.0008538,
-    "data": {
-      "wind_speed_kn": 21.0,
-      "wind_speed_ms": 10.8,
-      "wind_direction_deg": 87.0,
-      "temperature_c": -21.5,
-      "pressure_hpa": 893.8,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:45",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -71.6739,
-      "lon": -2.8408
-    }
-  },
-  "-67.5_-68.0": {
-    "cached_at": 1788448543.0325682,
-    "data": {
-      "wind_speed_kn": 3.6,
-      "wind_speed_ms": 1.8,
-      "wind_direction_deg": 253.0,
-      "temperature_c": -22.9,
-      "pressure_hpa": 1002.0,
-      "wave_height_m": 0.02,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -67.57,
-      "lon": -68.13
-    }
-  },
-  "-71.0_11.5": {
-    "cached_at": 1788448804.7091525,
-    "data": {
-      "wind_speed_kn": 4.0,
-      "wind_speed_ms": 2.1,
-      "wind_direction_deg": 263.0,
-      "temperature_c": -23.0,
-      "pressure_hpa": 987.9,
-      "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:15",
-      "status": "REAL",
-      "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -70.77,
-      "lon": 11.73
+      "lat": -77.846,
+      "lon": 166.6681
     }
   },
   "-66.5_110.5": {
-    "cached_at": 1788448842.135306,
+    "cached_at": 1788956643.9054039,
     "data": {
-      "wind_speed_kn": 4.5,
-      "wind_speed_ms": 2.3,
-      "wind_direction_deg": 19.0,
-      "temperature_c": -9.1,
-      "pressure_hpa": 989.6,
+      "wind_speed_kn": 6.7,
+      "wind_speed_ms": 3.5,
+      "wind_direction_deg": 69.0,
+      "temperature_c": -11.9,
+      "pressure_hpa": 974.2,
       "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:15",
+      "timestamp": "2026-09-09T12:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -66.28,
-      "lon": 110.53
+      "lat": -66.27,
+      "lon": 110.54
     }
   },
-  "-67.5_63.0": {
-    "cached_at": 1788448930.7488437,
+  "-65.0_64.0": {
+    "cached_at": 1788956640.4098146,
     "data": {
-      "wind_speed_kn": 4.2,
-      "wind_speed_ms": 2.2,
-      "wind_direction_deg": 94.0,
-      "temperature_c": -21.6,
-      "pressure_hpa": 995.3,
+      "wind_speed_kn": 12.7,
+      "wind_speed_ms": 6.6,
+      "wind_direction_deg": 55.0,
+      "temperature_c": -18.0,
+      "pressure_hpa": 984.9,
       "wave_height_m": 1.8,
-      "timestamp": "2026-09-03T15:15",
+      "timestamp": "2026-09-09T12:15",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
-      "lat": -67.6,
-      "lon": 62.87
+      "lat": -65.0,
+      "lon": 64.0
+    }
+  },
+  "-66.0_110.5": {
+    "cached_at": 1789719066.211081,
+    "data": {
+      "wind_speed_kn": 33.2,
+      "wind_speed_ms": 17.1,
+      "wind_direction_deg": 92.0,
+      "temperature_c": -10.0,
+      "pressure_hpa": 948.8,
+      "wave_height_m": 1.4,
+      "timestamp": "2026-09-18T08:00",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -66.2,
+      "lon": 110.5
+    }
+  },
+  "-66.0_65.0": {
+    "cached_at": 1788957687.4364934,
+    "data": {
+      "wind_speed_kn": 6.2,
+      "wind_speed_ms": 3.2,
+      "wind_direction_deg": 68.0,
+      "temperature_c": -20.6,
+      "pressure_hpa": 986.2,
+      "wave_height_m": 1.8,
+      "timestamp": "2026-09-09T12:30",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -66.0,
+      "lon": 65.0
+    }
+  },
+  "-62.0_-59.0": {
+    "cached_at": 1789720379.7023227,
+    "data": {
+      "wind_speed_kn": 19.3,
+      "wind_speed_ms": 9.9,
+      "wind_direction_deg": 280.0,
+      "temperature_c": -1.8,
+      "pressure_hpa": 987.9,
+      "wave_height_m": 1.6,
+      "timestamp": "2026-09-18T08:30",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -62.2,
+      "lon": -58.9
+    }
+  },
+  "-68.0_-67.5": {
+    "cached_at": 1789720381.011571,
+    "data": {
+      "wind_speed_kn": 2.6,
+      "wind_speed_ms": 1.3,
+      "wind_direction_deg": 200.0,
+      "temperature_c": -8.7,
+      "pressure_hpa": 975.3,
+      "wave_height_m": 1.8,
+      "timestamp": "2026-09-18T08:30",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -67.8,
+      "lon": -67.5
+    }
+  },
+  "-64.5_40.0": {
+    "cached_at": 1789721899.71512,
+    "data": {
+      "wind_speed_kn": 17.0,
+      "wind_speed_ms": 8.7,
+      "wind_direction_deg": 333.0,
+      "temperature_c": -4.7,
+      "pressure_hpa": 978.4,
+      "wave_height_m": 1.8,
+      "timestamp": "2026-09-18T08:45",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -64.5,
+      "lon": 40.2
+    }
+  },
+  "-62.0_-58.5": {
+    "cached_at": 1788969095.5275874,
+    "data": {
+      "wind_speed_kn": 10.6,
+      "wind_speed_ms": 5.4,
+      "wind_direction_deg": 116.0,
+      "temperature_c": -13.4,
+      "pressure_hpa": 1001.1,
+      "wave_height_m": 0.78,
+      "timestamp": "2026-09-09T15:45",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -62.0833,
+      "lon": -58.3833
     }
   },
   "-62.5_-59.5": {
-    "cached_at": 1788449458.392536,
+    "cached_at": 1789721901.061183,
     "data": {
-      "wind_speed_kn": 10.0,
-      "wind_speed_ms": 5.1,
-      "wind_direction_deg": 48.0,
-      "temperature_c": -12.2,
-      "pressure_hpa": 990.9,
-      "wave_height_m": 0.6,
-      "timestamp": "2026-09-03T15:30",
+      "wind_speed_kn": 17.8,
+      "wind_speed_ms": 9.1,
+      "wind_direction_deg": 285.0,
+      "temperature_c": -1.7,
+      "pressure_hpa": 980.3,
+      "wave_height_m": 1.26,
+      "timestamp": "2026-09-18T08:45",
       "status": "REAL",
       "source": "Open-Meteo Atmospheric & Marine API",
       "lat": -62.4786,
       "lon": -59.6642
+    }
+  },
+  "-66.0_109.0": {
+    "cached_at": 1789726430.7105503,
+    "data": {
+      "wind_speed_kn": 17.3,
+      "wind_speed_ms": 8.9,
+      "wind_direction_deg": 135.0,
+      "temperature_c": -10.3,
+      "pressure_hpa": 952.9,
+      "wave_height_m": 1.8,
+      "timestamp": "2026-09-18T10:00",
+      "status": "REAL",
+      "source": "Open-Meteo Atmospheric & Marine API",
+      "lat": -65.795508,
+      "lon": 109.121113
     }
   }
 }

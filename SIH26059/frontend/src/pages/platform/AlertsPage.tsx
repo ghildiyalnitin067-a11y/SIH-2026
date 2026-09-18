@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   AlertTriangle, 
@@ -99,7 +99,7 @@ export const AlertsPage: React.FC = () => {
 
   return (
     <AppShell
-      title="Active Alerts"
+      title="TACTICAL ALERTS"
       subtitle={`Real-Time Proximity Warnings & Incident Mitigation • Fleet Context: ${selectedVessel.name}`}
       actions={
         <div className="flex items-center gap-2 text-xs font-mono">
@@ -115,18 +115,16 @@ export const AlertsPage: React.FC = () => {
         </div>
       }
     >
-      <div className="h-full overflow-y-auto custom-scrollbar p-6 lg:p-10 max-w-5xl mx-auto space-y-6 bg-navy">
+      <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-6 max-w-5xl mx-auto space-y-4 bg-navy">
         
         {/* Top Header & Filter Strip */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate/20 pb-4">
           <div>
-            <div className="text-[10px] font-mono text-glacial-blue tracking-widest uppercase font-semibold">
-              01 // Safety Protocols
-            </div>
-            <h3 className="text-base sm:text-lg font-bold text-ice-white font-sans mt-0.5">Active Navigation Hazards</h3>
+            <h3 className="font-bold text-sm text-ice-white font-mono uppercase tracking-wider">Active Navigation Hazards</h3>
+            <p className="text-[11px] text-slate-400 mt-0.5 font-sans">{activeCriticalCount > 0 ? `${activeCriticalCount} unacknowledged — immediate attention required` : 'All hazards acknowledged or resolved'}</p>
           </div>
 
-          <div className="flex items-center gap-1 font-mono text-xs bg-polar-navy/30 p-1 rounded-sm border border-slate/20">
+          <div className="flex items-center gap-1 font-mono text-xs bg-polar-navy/40 p-1 rounded-sm border border-slate/20">
             {(['ALL', 'ACTIVE', 'HIGH', 'CAUTION', 'RESOLVED'] as const).map((sev) => (
               <button
                 key={sev}
@@ -196,7 +194,7 @@ export const AlertsPage: React.FC = () => {
                   <span className="text-xs font-mono text-slate-400 shrink-0">{alert.timestamp}</span>
                 </div>
 
-                <div className="bg-navy/70 p-3 rounded-sm border border-slate/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+                <div className="bg-polar-navy/40 p-3 rounded-sm border border-slate/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
                   <div className="space-y-0.5">
                     <div className="text-slate-400 text-[10px] uppercase font-semibold">RECOMMENDED MITIGATION:</div>
                     <div className="text-glacial-blue font-sans text-xs">{alert.recommendedAction}</div>

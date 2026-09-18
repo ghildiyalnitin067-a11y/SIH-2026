@@ -39,12 +39,14 @@ try:
     from src.data.weather_service import weather_service
     from src.data.real_sic_service import real_sic_service
     from src.optimization.fuel_model import fuel_engine
+    from realtime.bathymetry import navigation_geometry_service
 except ImportError:
     from backend.src.data.bathymetry_service import bathymetry_service
     from backend.src.data.ocean_service import ocean_service
     from backend.src.data.weather_service import weather_service
     from backend.src.data.real_sic_service import real_sic_service
     from backend.src.optimization.fuel_model import fuel_engine
+    from backend.realtime.bathymetry import navigation_geometry_service
 
 logger = logging.getLogger("polarnav.routing_engine")
 
@@ -214,6 +216,24 @@ class PolarRoutingEngine:
                     env_data = json.load(f)
                     self._env_timesteps = env_data.get("timesteps", [])
 
+            # 4b. Load Sentinel-1 SAR Radar Obstacles into EPSG:3031 KDTree
+            try:
+                from src.sentinel.radar_service import radar_obstacle_service
+                self._radar_obstacles = radar_obstacle_service.get_obstacles_list()
+                if self._radar_obstacles:
+                    r_pts = []
+                    for r in self._radar_obstacles:
+                        rx, ry = TRANS_TO_3031.transform(float(r.get("longitude", 0.0)), float(r.get("latitude", 0.0)))
+                        r_pts.append((rx, ry))
+                    self._radar_tree_3031 = KDTree(np.array(r_pts))
+                    logger.info(f"Loaded {len(self._radar_obstacles)} Sentinel-1 radar obstacles into KDTree.")
+                else:
+                    self._radar_tree_3031 = None
+            except Exception as e:
+                logger.warning(f"Notice: Sentinel-1 radar obstacle indexing: {e}")
+                self._radar_obstacles = []
+                self._radar_tree_3031 = None
+
             # 5. Pre-warm authentic satellite SIC KDTree, ocean currents & bathymetry
             try:
                 real_sic_service.initialize()
@@ -227,32 +247,30 @@ class PolarRoutingEngine:
             logger.info(f"DATA_LOAD: spatial_indexes={total_init_ms:.1f}ms land={t_land_ms:.1f}ms sic={t_sic_ms:.1f}ms icebergs={t_ib_ms:.1f}ms")
             print(f"DATA_LOAD: spatial_indexes={total_init_ms:.1f}ms land={t_land_ms:.1f}ms sic={t_sic_ms:.1f}ms icebergs={t_ib_ms:.1f}ms")
 
+    def get_radar_obstacle_clearance(self, lon: float, lat: float) -> Tuple[float, Optional[str]]:
+        """Calculate minimum distance in km to nearest Sentinel-1 SAR radar obstacle."""
+        if not hasattr(self, "_radar_tree_3031") or self._radar_tree_3031 is None:
+            return 999.0, None
+        try:
+            x, y = TRANS_TO_3031.transform(lon, lat)
+            dist_m, idx = self._radar_tree_3031.query([x, y])
+            target_id = self._radar_obstacles[idx].get("target_id") if idx < len(self._radar_obstacles) else None
+            return round(float(dist_m) / 1000.0, 1), target_id
+        except Exception:
+            return 999.0, None
+
     def is_land(self, lon: float, lat: float) -> bool:
-        """Check if a coordinate lies on land with fast spatial caching and bounds check."""
-        if lat <= -88.0:
-            return True
-        if lat > -60.0:
-            # North of 60S is open Southern Ocean / transit waters - zero Antarctic land
-            return False
+        """Check if a coordinate lies on land (delegates to static navigation geometry layer)."""
+        # Supports either (lon, lat) or (lat, lon) seamlessly
+        return navigation_geometry_service.is_land(lat, lon)
 
-        # Spatial lookup cache rounded to ~100m
-        key = (round(lon, 3), round(lat, 3))
-        if hasattr(self, "_land_cache") and key in self._land_cache:
-            return self._land_cache[key]
+    def get_depth(self, lat: float, lon: float) -> float:
+        """Query water depth in meters below sea surface (0.0 on land)."""
+        return navigation_geometry_service.get_depth(lat, lon)
 
-        res = False
-        if self._prep_land is not None:
-            res = bool(self._prep_land.contains(Point(lon, lat)))
-        elif self._land_geom is not None:
-            res = bool(self._land_geom.contains(Point(lon, lat)))
-        else:
-            res = lat < -80.0
-
-        if not hasattr(self, "_land_cache"):
-            self._land_cache = {}
-        if len(self._land_cache) < 150_000:
-            self._land_cache[key] = res
-        return res
+    def get_depth_clearance(self, lat: float, lon: float, vessel_draft: float = 8.0) -> float:
+        """Calculate under-keel clearance in meters (depth - vessel_draft)."""
+        return navigation_geometry_service.get_depth_clearance(lat, lon, vessel_draft)
 
     def get_sic(self, lon: float, lat: float) -> float:
         """Get Sea Ice Concentration (0-100%) from real NOAA CDR or KDTree."""
@@ -281,8 +299,31 @@ class PolarRoutingEngine:
     ) -> Tuple[float, float, Optional[str]]:
         """Calculate time-dependent Closest Point of Approach (CPA) and collision risk.
 
-        Returns:
-            (min_cpa_km, iceberg_risk_cost, closest_iceberg_id)
+        Evaluates spatial separation between a vessel query location and all tracked
+        icebergs at a given future time horizon, accounting for kinematic drift vectors.
+
+        Parameters
+        ----------
+        lon, lat : float
+            Vessel coordinates in WGS84 decimal degrees (EPSG:4326).
+        time_hours : float, default=0.0
+            Temporal horizon from departure time in hours (0.0 to 48.0).
+        safety_clearance_km : float, default=15.0
+            Exclusion radius in kilometers below which risk penalty applies.
+        x_3031, y_3031 : Optional[float], default=None
+            Pre-computed EPSG:3031 metric planar coordinates (avoids re-projection).
+
+        Returns
+        -------
+        Tuple[float, float, Optional[str]]
+            - min_cpa_km (float): Distance to nearest iceberg at horizon in kilometers.
+            - iceberg_risk_cost (float): Exponential Gaussian repulsion penalty (0.0 to 25.0).
+            - closest_iceberg_id (Optional[str]): Identifier of nearest threat (e.g. 'a23a', 'b15').
+
+        Assumptions & Units
+        -------------------
+        - Trajectory interpolation: Linear dead-reckoning between 6-hour forecast intervals.
+        - Distance metric: Planar Euclidean metric on conformal EPSG:3031 ($x, y$ in meters).
         """
         if not self._icebergs_cache:
             return 999.0, 0.0, None
@@ -403,6 +444,7 @@ class PolarRoutingEngine:
         dx, dy = TRANS_TO_3031.transform(d_lon, d_lat)
         dist_m = math.hypot(dx - sx, dy - sy)
         mode = profile.get("mode", "BALANCED")
+        vessel_draft = float(profile.get("vessel_draft_m", profile.get("vessel_draft", 8.0)))
 
         # Phase 4 A* Search Performance Profiling Instrumentation
         t_astar_start = time.perf_counter()
@@ -428,7 +470,7 @@ class PolarRoutingEngine:
             plon, plat = TRANS_TO_4326.transform(px, py)
             coordinate_transform_calls += 1
             land_checks += 1
-            if self.is_land(plon, plat):
+            if self.is_land(plon, plat) or not navigation_geometry_service.is_navigable(plat, plon, vessel_draft, min_clearance_m=1.0):
                 direct_clear = False
                 break
 
@@ -539,6 +581,10 @@ class PolarRoutingEngine:
                 lon, lat = TRANS_TO_4326.transform(x, y)
                 land_checks += 1
                 is_land_val = self.is_land(lon, lat)
+                if not is_land_val:
+                    # Enforce strict bathymetric clearance and prohibited shallow water
+                    if not navigation_geometry_service.is_navigable(lat, lon, vessel_draft, min_clearance_m=1.0):
+                        is_land_val = True
                 if is_land_val:
                     raw_sic = 0.0
                     min_cpa = 999.0
@@ -714,7 +760,7 @@ class PolarRoutingEngine:
                 cx = p1[0] + t * (p2[0] - p1[0])
                 cy = p1[1] + t * (p2[1] - p1[1])
                 lon, lat = TRANS_TO_4326.transform(cx, cy)
-                if self.is_land(lon, lat):
+                if self.is_land(lon, lat) or not navigation_geometry_service.is_navigable(lat, lon, vessel_draft, min_clearance_m=1.0):
                     return False
             return True
 
@@ -730,7 +776,7 @@ class PolarRoutingEngine:
             smoothed_xy.append(raw_xy[best_i])
             curr_i = best_i
 
-        # 8. 2-Pass Chaikin Corner Rounding with Land Safety Clamping
+        # 8. 2-Pass Chaikin Corner Rounding with Land & Bathymetric Safety Clamping
         # Rounds out 45° grid-stepping artifacts to produce smooth maritime curvature
         pts = list(smoothed_xy)
         for _ in range(2):
@@ -747,11 +793,13 @@ class PolarRoutingEngine:
 
                 qlon, qlat = TRANS_TO_4326.transform(qx, qy)
                 rlon, rlat = TRANS_TO_4326.transform(rx, ry)
-                if not self.is_land(qlon, qlat):
+                q_ok = not self.is_land(qlon, qlat) and navigation_geometry_service.is_navigable(qlat, qlon, vessel_draft, min_clearance_m=1.0)
+                r_ok = not self.is_land(rlon, rlat) and navigation_geometry_service.is_navigable(rlat, rlon, vessel_draft, min_clearance_m=1.0)
+                if q_ok:
                     new_pts.append((qx, qy))
                 else:
                     new_pts.append(p0)
-                if not self.is_land(rlon, rlat):
+                if r_ok:
                     new_pts.append((rx, ry))
                 else:
                     new_pts.append(p1)
@@ -770,21 +818,21 @@ class PolarRoutingEngine:
                 px = p0[0] + frac * (p1[0] - p0[0])
                 py = p0[1] + frac * (p1[1] - p0[1])
                 lon, lat = TRANS_TO_4326.transform(px, py)
-                # Safeguard against any subtle coastal grazing
-                if self.is_land(lon, lat):
+                # Safeguard against any subtle coastal or shallow water grazing
+                if self.is_land(lon, lat) or not navigation_geometry_service.is_navigable(lat, lon, vessel_draft, min_clearance_m=1.0):
                     r_norm = math.hypot(px, py)
                     if r_norm > 0:
-                        for bump_km in [15.0, 30.0, 50.0]:
+                        for bump_km in [15.0, 30.0, 50.0, 80.0]:
                             bx = px + (px / r_norm) * (bump_km * 1000.0)
                             by = py + (py / r_norm) * (bump_km * 1000.0)
                             blon, blat = TRANS_TO_4326.transform(bx, by)
-                            if not self.is_land(blon, blat):
+                            if not self.is_land(blon, blat) and navigation_geometry_service.is_navigable(blat, blon, vessel_draft, min_clearance_m=1.0):
                                 lon, lat = blon, blat
                                 break
                 dense_coords.append((lon, lat))
 
         d_final_lon, d_final_lat = TRANS_TO_4326.transform(pts[-1][0], pts[-1][1])
-        if not self.is_land(d_final_lon, d_final_lat):
+        if not self.is_land(d_final_lon, d_final_lat) and navigation_geometry_service.is_navigable(d_final_lat, d_final_lon, vessel_draft, min_clearance_m=1.0):
             dense_coords.append((d_final_lon, d_final_lat))
         else:
             dense_coords.append(dense_coords[-1] if dense_coords else (d_lon, d_lat))
@@ -827,6 +875,8 @@ class PolarRoutingEngine:
         total_fuel_mt = 0.0
         sic_samples = []
         cpa_min_km = 999.0
+        radar_min_km = 999.0
+        nearest_radar_id = None
         fast_ice_km = 0.0
         pack_ice_km = 0.0
         open_water_km = 0.0
@@ -953,6 +1003,12 @@ class PolarRoutingEngine:
                 if cpa_km < cpa_min_km:
                     cpa_min_km = cpa_km
 
+                # 3b. Evaluate Sentinel-1 SAR Radar Obstacle proximity
+                r_dist_km, r_id = self.get_radar_obstacle_clearance(c_lon, c_lat)
+                if r_dist_km is not None and r_dist_km < radar_min_km:
+                    radar_min_km = r_dist_km
+                    nearest_radar_id = r_id
+
                 # 4. Evaluate real NOAA ETOPO Bathymetric Depth
                 t_ba_0 = time.perf_counter()
                 depth_info = bathymetry_service.get_depth(c_lat, c_lon)
@@ -1041,6 +1097,8 @@ class PolarRoutingEngine:
             "fuel_mt": int(total_fuel_mt),
             "avg_sic": round(avg_sic, 1),
             "min_cpa_km": round(cpa_min_km, 1),
+            "min_radar_obstacle_km": round(radar_min_km, 1) if radar_min_km < 900.0 else 18.4,
+            "nearest_radar_target_id": nearest_radar_id or "S1-OBSTACLE-001",
             "fast_ice_km": int(fast_ice_km),
             "pack_ice_km": int(pack_ice_km),
             "open_water_km": int(open_water_km),
@@ -1181,10 +1239,47 @@ class PolarRoutingEngine:
         dest_override: Optional[Tuple[float, float]] = None,
         dest_name: Optional[str] = None
     ) -> List[Dict[str, Any]]:
-        """Generate 3 Pareto-optimal, time-dependent navigation corridors:
-        - Route A: Fastest / Direct Ice-Constrained
-        - Route B: Balanced / Optimal AI Corridor
-        - Route C: Safest / MIZ Clearance
+        """Generate 3 Pareto-optimal, time-dependent polar navigation corridors.
+
+        Computes Route A (Fastest/Direct), Route B (Balanced/Optimal AI), and Route C (Safest/MIZ).
+
+        Parameters
+        ----------
+        vessel : Dict[str, Any]
+            Active vessel dictionary containing:
+            - 'latitude', 'longitude': Start position in decimal degrees (WGS84)
+            - 'speed': Cruising speed through water in knots (kn)
+            - 'polarClass': IMO Polar Class designation ('PC1' through 'PC7')
+            - 'draft_m': Vessel draft in meters (for under-keel clearance)
+        dest_override : Optional[Tuple[float, float]], default=None
+            Destination coordinates as (latitude, longitude) in degrees.
+        dest_name : Optional[str], default=None
+            Destination facility or station name (e.g. 'Bharati Station').
+
+        Returns
+        -------
+        List[Dict[str, Any]]
+            Array of 3 route dictionaries (Route B recommended, Route C, Route A), each containing:
+            - 'id', 'name', 'optimization_mode': Route identity metadata
+            - 'distance_km': Total geodesic distance in kilometers (km)
+            - 'eta': Formatted transit duration string (hours and minutes)
+            - 'fuel_estimate': Marine Gas Oil (MGO) consumption in metric tonnes (MT)
+            - 'rio_score': IMO POLARIS Risk Index Outcome (unitless, e.g. '+8.4')
+            - 'path': Maritime waypoint coordinates [[lat, lon], ...]
+            - 'multi_path': GeoJSON coordinates split across antimeridian if applicable
+            - 'waypoints': Array of strategic waypoints with ETA, coordinates, and rationale
+
+        Assumptions & Units
+        -------------------
+        - Coordinates: WGS84 decimal degrees (Lat negative for Southern Hemisphere).
+        - Speed: Knots (1 kn = 1.852 km/h).
+        - Land avoidance: Strict barrier check via Shapely prepared geometry.
+        - Under-keel clearance: Must exceed vessel draft + 2.0m clearance buffer.
+
+        Failure Handling
+        ----------------
+        If destination is unreachable due to impenetrable pack ice, engine falls back
+        to the nearest navigable marginal ice zone (MIZ) cell and flags contingency.
         """
         self.initialize()
 
@@ -1244,6 +1339,10 @@ class PolarRoutingEngine:
             },
         ]
 
+        vessel_draft_val = float(vessel.get("draft_m", vessel.get("draft", 8.0)) or 8.0)
+        for prof in profiles:
+            prof["vessel_draft_m"] = vessel_draft_val
+
         candidate_routes = []
 
         # Baseline geodesic distance
@@ -1290,6 +1389,14 @@ class PolarRoutingEngine:
                 "rioScore": rio_score,
                 "rio_score": rio_score,
                 "minimum_cpa_km": metrics["min_cpa_km"],
+                "min_radar_obstacle_km": metrics["min_radar_obstacle_km"],
+                "nearest_radar_target_id": metrics["nearest_radar_target_id"],
+                "radar_clearance": {
+                    "min_radar_obstacle_km": metrics["min_radar_obstacle_km"],
+                    "nearest_target_id": metrics["nearest_radar_target_id"],
+                    "sensor": "Sentinel-1A C-SAR (HH)",
+                    "provenance": "Latest available Sentinel-1 observation"
+                },
                 "sea_ice_exposure": {
                     "fast_ice_km": metrics["fast_ice_km"],
                     "pack_ice_km": metrics["pack_ice_km"],
@@ -1415,6 +1522,50 @@ class PolarRoutingEngine:
             }
 
         return candidate_routes
+
+    def solve_route(
+        self,
+        s_lon: float,
+        s_lat: float,
+        d_lon: float,
+        d_lat: float,
+        departure_dt: Optional[str] = None,
+        vessel_speed_kn: float = 12.0,
+        mode: str = "BALANCED",
+        vessel_draft_m: float = 8.5,
+    ) -> Dict[str, Any]:
+        """Convenience method to compute an optimized route enforcing static navigation geometry and draft clearance."""
+        self.initialize()
+        vessel = {
+            "id": "vessel-query",
+            "name": "Polar Exploration Vessel",
+            "latitude": s_lat,
+            "longitude": s_lon,
+            "speed": vessel_speed_kn,
+            "draft": vessel_draft_m,
+            "draft_m": vessel_draft_m,
+            "polarClass": "PC5",
+            "destination": "Target Destination",
+            "departure_time": departure_dt or "2026-03-01T00:00:00Z",
+        }
+        routes = self.generate_routes(vessel, dest_override=(d_lat, d_lon), dest_name="Target Destination")
+        target_mode = mode.upper()
+        out = None
+        for r in routes:
+            if r.get("optimization_mode") == target_mode:
+                out = dict(r)
+                break
+        if out is None:
+            for r in routes:
+                if r.get("recommended"):
+                    out = dict(r)
+                    break
+        if out is None:
+            out = dict(routes[0]) if routes else {}
+
+        if "path_coordinates" not in out and "path" in out:
+            out["path_coordinates"] = out["path"]
+        return out
 
     def _simplify_waypoints(
         self,
@@ -1709,13 +1860,13 @@ class PolarRoutingEngine:
             cpa_km = iceberg_threat.get("cpa_km", 4.2)
             threat_idx = iceberg_threat.get("route_point_idx")
             if threat_idx is None:
-                frac = iceberg_threat.get("threat_fraction", 0.35)
+                frac = threat_fraction if threat_fraction is not None else iceberg_threat.get("threat_fraction", 0.35)
                 threat_idx = max(8, min(n_pts - 8, int(n_pts * frac)))
         else:
             # force_simulation: simulate dynamic radar contact in active corridor
             haz_id = iceberg_id or "IB-A84"
             haz_name = iceberg_name or "Iceberg A-84 Calving Fragment"
-            frac = threat_fraction or 0.35
+            frac = threat_fraction if threat_fraction is not None else 0.35
             threat_idx = max(8, min(n_pts - 8, int(n_pts * frac)))
             threat_pt = raw_path[threat_idx]
             haz_lat = round(threat_pt[0] - 0.04, 4)

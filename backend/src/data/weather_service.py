@@ -5,6 +5,7 @@ Implements disk-backed JSON caching with TTL and graceful fallback to
 local ERA5 Reanalysis NetCDF (era5_antarctic_real.nc) when offline.
 Zero fake data generation.
 """
+import os
 import json
 import time
 import logging
@@ -93,8 +94,9 @@ class WeatherService:
         try:
             meteo_key = os.environ.get("OPEN_METEO_API_KEY", "")
             key_param = f"&apikey={meteo_key}" if meteo_key else ""
+            meteo_base = os.environ.get("OPEN_METEO_BASE_URL", "https://api.open-meteo.com/v1").rstrip("/")
             w_url = (
-                f"https://api.open-meteo.com/v1/forecast?"
+                f"{meteo_base}/forecast?"
                 f"latitude={lat}&longitude={lon}&"
                 f"current=temperature_2m,wind_speed_10m,wind_direction_10m,surface_pressure{key_param}"
             )
@@ -113,9 +115,10 @@ class WeatherService:
             # Fetch wave height from marine API if available
             wave_height_m = 1.8
             try:
-                m_url = f"https://marine-api.open-meteo.com/v1/marine?latitude={lat}&longitude={lon}&current=wave_height,wave_direction{key_param}"
+                marine_base = os.environ.get("OPEN_METEO_MARINE_URL", "https://marine-api.open-meteo.com/v1").rstrip("/")
+                m_url = f"{marine_base}/marine?latitude={lat}&longitude={lon}&current=wave_height,wave_direction{key_param}"
                 req_m = urllib.request.Request(m_url, headers={"User-Agent": "PolarNav-Antarctic-AI/1.0"})
-                with urllib.request.urlopen(req_m, timeout=4) as resp_m:
+                with urllib.request.urlopen(req_m, timeout=1.5) as resp_m:
                     m_data = json.loads(resp_m.read().decode("utf-8"))
                     wave_height_m = float(m_data.get("current", {}).get("wave_height", 1.8))
             except Exception:

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { 
   Printer, 
   Download, 
@@ -120,7 +120,7 @@ export const ReportsPage: React.FC = () => {
 
   return (
     <AppShell
-      title="IMO Reports"
+      title="COMPLIANCE REPORTS"
       subtitle={`Polar Code Compliance Documentation & Official Logs • Vessel: ${selectedVessel.name}`}
       actions={
         <div className="flex items-center gap-2 font-mono text-xs">
@@ -135,7 +135,7 @@ export const ReportsPage: React.FC = () => {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-polar-navy/40 hover:bg-polar-navy text-slate-200 text-xs font-mono border border-slate/20 transition-colors"
           >
             <Printer className="w-3.5 h-3.5 text-glacial-blue" />
-            <span>Print</span>
+            <span>PRINT REPORT</span>
           </button>
           <button
             type="button"
@@ -144,7 +144,7 @@ export const ReportsPage: React.FC = () => {
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-sm bg-signature-coral hover:bg-soft-coral text-white text-xs font-mono font-bold transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>{isExporting ? 'Exporting...' : 'Export JSON'}</span>
+            <span>{isExporting ? 'EXPORTING...' : 'EXPORT REPORT'}</span>
           </button>
         </div>
       }

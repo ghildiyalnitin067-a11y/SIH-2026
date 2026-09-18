@@ -118,8 +118,15 @@ class HistoricalVoyageReplayEngine:
             raise ValueError(f"Actual track must contain at least 2 points, got {len(actual_track)}")
 
         start_lat, start_lon = float(actual_track[0][0]), float(actual_track[0][1])
-        dest_lat = float(destination_coords[0]) if destination_coords else float(actual_track[-1][0])
-        dest_lon = float(destination_coords[1]) if destination_coords else float(actual_track[-1][1])
+        if destination_coords:
+            dest_lat, dest_lon = float(destination_coords[0]), float(destination_coords[1])
+        else:
+            raw_dest_lat, raw_dest_lon = float(actual_track[-1][0]), float(actual_track[-1][1])
+            if haversine_km(start_lat, start_lon, raw_dest_lat, raw_dest_lon) < 50.0:
+                furthest = max(actual_track, key=lambda p: haversine_km(start_lat, start_lon, float(p[0]), float(p[1])))
+                dest_lat, dest_lon = float(furthest[0]), float(furthest[1])
+            else:
+                dest_lat, dest_lon = raw_dest_lat, raw_dest_lon
 
         vessel_info = {
             "vessel_name": vessel_name,
@@ -299,8 +306,15 @@ class HistoricalVoyageReplayEngine:
             raise ValueError(f"Actual track must contain at least 2 points, got {len(actual_track)}")
 
         start_lat, start_lon = float(actual_track[0][0]), float(actual_track[0][1])
-        dest_lat = float(destination_coords[0]) if destination_coords else float(actual_track[-1][0])
-        dest_lon = float(destination_coords[1]) if destination_coords else float(actual_track[-1][1])
+        if destination_coords:
+            dest_lat, dest_lon = float(destination_coords[0]), float(destination_coords[1])
+        else:
+            raw_dest_lat, raw_dest_lon = float(actual_track[-1][0]), float(actual_track[-1][1])
+            if haversine_km(start_lat, start_lon, raw_dest_lat, raw_dest_lon) < 50.0:
+                furthest = max(actual_track, key=lambda p: haversine_km(start_lat, start_lon, float(p[0]), float(p[1])))
+                dest_lat, dest_lon = float(furthest[0]), float(furthest[1])
+            else:
+                dest_lat, dest_lon = raw_dest_lat, raw_dest_lon
 
         vessel_info = {
             "vessel_name": vessel_name,

@@ -41,11 +41,15 @@ RAW_DIR = BASE_DIR / "data" / "raw" / "sea_ice"
 PROCESSED_DIR = BASE_DIR / "data" / "processed"
 
 # G02135 monthly extent/area CSVs
-G02135_BASE_URL = "https://noaadata.apps.nsidc.org/NOAA/G02135"
+G02135_BASE_URL = os.environ.get("NSIDC_G02135_BASE_URL", "https://noaadata.apps.nsidc.org/NOAA/G02135").rstrip("/")
 MONTHS = list(range(1, 13))
 
 # CDR ERDDAP
-CDR_ERDDAP_URL = "https://polarwatch.noaa.gov/erddap/griddap"
+_raw_erddap = (
+    os.environ.get("NOAA_POLARWATCH_ERDDAP_URL")
+    or os.environ.get("NOAA_ERDDAP_BASE_URL", "https://polarwatch.noaa.gov/erddap")
+).rstrip("/")
+CDR_ERDDAP_URL = _raw_erddap if _raw_erddap.endswith("/griddap") else f"{_raw_erddap}/griddap"
 CDR_SOUTH_MONTHLY = "nsidcCDRiceSQsh1month"
 
 

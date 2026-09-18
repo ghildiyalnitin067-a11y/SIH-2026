@@ -123,7 +123,7 @@ export const api = {
     const qs = q.toString() ? `?${q.toString()}` : "";
     return apiFetch<{routes: any[]}>(`/routes${qs}`);
   },
-  emergency: (payload: { vessel_id?: string; dest_id?: string; hazard_type?: string; reason?: string; force_simulation?: boolean }) => 
+  emergency: (payload: { vessel_id?: string; dest_id?: string; hazard_type?: string; reason?: string; force_simulation?: boolean; progress_fraction?: number }) => 
     apiPost<{ emergency: boolean; status: string; alert: any; old_route: any; new_route: any; diverted_route: any; routes: any[]; heading_alteration_deg: number; clearance_km: number; extra_distance_km: number; extra_eta_minutes?: number; hazard_detected?: boolean; iceberg?: any; iceberg_id?: string; iceberg_name?: string; cpa_km?: number; tcpa_hours?: number; threat_level?: string; extra_fuel_mt?: number; local_reroute_applied?: boolean; unaffected_points_count?: number }>("/navigation/emergency", payload),
   restore: (payload?: any) => apiPost<{ status: string; corridor_clear: boolean }>("/navigation/restore", payload || {}),
   simulationWhatIf: (payload: { vessel_id?: string; dest_id?: string; iceberg_drift_km?: number; sic_delta_pct?: number; wind_gust_kn?: number; dest_lat?: number; dest_lon?: number; dest_name?: string }) =>
@@ -194,6 +194,16 @@ export const api = {
   navigationScenario: () => apiFetch<{vessel: any; destination: any; mode: string; source: string; primary_region: string}>("/navigation/scenario"),
   sentinelScenes: () => apiFetch<{scenes: any[]; total_scenes: number}>("/sentinel/scenes"),
   sentinelDetections: (sceneIdx: number = 0) => apiFetch<any>(`/sentinel/detections?scene_idx=${sceneIdx}`),
+  radarObstacles: () => apiFetch<{
+    type: string;
+    status: string;
+    source: string;
+    label: string;
+    observation_date: string;
+    provenance: string;
+    total_obstacles: number;
+    features: any[];
+  }>("/radar/obstacles"),
   sentinelMetrics: () => apiFetch<any>("/sentinel/metrics"),
   environmentStatus: () => apiFetch<any>("/environment/status"),
   seaIce: (lat: number = -65.0, lon: number = -64.0) => apiFetch<any>(`/sea-ice?lat=${lat}&lon=${lon}`),
@@ -229,6 +239,59 @@ export const api = {
   historicalReplay: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/replay?voyage_id=${voyageId}`),
   historicalThreeWay: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/three-way?voyage_id=${voyageId}`),
   historicalEnvironmentSnapshot: (voyageId: string = "AAD-2015-16") => apiFetch<any>(`/historical/environment-snapshot?voyage_id=${voyageId}`),
+  realtimeState: (lat: number = -65.20, lon: number = 64.30, vesselHeading: number = 0, vesselDraft: number = 8.0) => 
+    apiFetch<any>(`/realtime/state?lat=${lat}&lon=${lon}&vessel_heading=${vesselHeading}&vessel_draft=${vesselDraft}`),
+  realtimeHealth: () => apiFetch<any>("/realtime/health"),
+  realtimeSatelliteScenes: (params?: { lat?: number; lon?: number; radius_km?: number; max_results?: number; use_live_api?: boolean }) => {
+    const q = new URLSearchParams();
+    if (params?.lat !== undefined) q.append("lat", String(params.lat));
+    if (params?.lon !== undefined) q.append("lon", String(params.lon));
+    if (params?.radius_km !== undefined) q.append("radius_km", String(params.radius_km));
+    if (params?.max_results !== undefined) q.append("max_results", String(params.max_results));
+    if (params?.use_live_api !== undefined) q.append("use_live_api", String(params.use_live_api));
+    const qs = q.toString() ? `?${q.toString()}` : "";
+    return apiFetch<{ count: number; scenes: any[]; cache_stats: any }>(`/realtime/satellite/scenes${qs}`);
+  },
+  realtimeSatelliteScene: (sceneId: string) => apiFetch<any>(`/realtime/satellite/scene/${encodeURIComponent(sceneId)}`),
+  operationalDashboard: (vesselId?: string, lat?: number, lon?: number) => {
+    const q = new URLSearchParams();
+    if (vesselId) q.append("vessel_id", vesselId);
+    if (typeof lat === 'number') q.append("lat", String(lat));
+    if (typeof lon === 'number') q.append("lon", String(lon));
+    const qs = q.toString() ? `?${q.toString()}` : '';
+    return apiFetch<any>(`/realtime/operational-dashboard${qs}`);
+  },
+  vesselTelemetry: () => apiFetch<any>("/realtime/vessel/telemetry"),
+  vesselTelemetryControl: (payload: { action: string; speed_multiplier?: number; sog_kn?: number }) =>
+    apiPost<any>("/realtime/vessel/telemetry/control", payload),
+  vesselTelemetryNmeaFeed: (payload: { sentence: string }) =>
+    apiPost<any>("/realtime/vessel/telemetry/nmea-feed", payload),
+  realtimeBacktestCatalog: () => 
+    apiFetch<{ status: string; count: number; catalog: any[]; data_mode: string; anti_lookahead_enforced: boolean }>("/realtime/backtest/catalog"),
+  realtimeBacktestVoyage: (voyageId: string, params?: { polar_class?: string; speed_knots?: number; draft_m?: number }) => {
+    const q = new URLSearchParams();
+    if (params?.polar_class) q.append("polar_class", params.polar_class);
+    if (params?.speed_knots !== undefined) q.append("speed_knots", String(params.speed_knots));
+    if (params?.draft_m !== undefined) q.append("draft_m", String(params.draft_m));
+    const qs = q.toString() ? `?${q.toString()}` : "";
+    return apiFetch<any>(`/realtime/backtest/voyage/${encodeURIComponent(voyageId)}${qs}`);
+  },
+  realtimeBacktestRun: (payload: { voyage_id: string; polar_class?: string; speed_knots?: number; draft_m?: number; beam_m?: number; length_m?: number }) =>
+    apiPost<any>("/realtime/backtest/run", payload),
+  realtimeGeneralizationCatalog: () => 
+    apiFetch<{ unseen_vessels: any[]; novel_corridors: any[]; stress_conditions: string[] }>("/realtime/generalization/catalog"),
+  realtimeGeneralizationTest: (payload: { vessel: any; corridor: any; stress_condition?: string; profile?: string }) =>
+    apiPost<any>("/realtime/generalization/test", payload),
+  realtimeGeneralizationBenchmark: () => 
+    apiFetch<any>("/realtime/generalization/benchmark-suite"),
+  realtimeReliabilityAudit: () => 
+    apiFetch<any>("/realtime/reliability/audit"),
+  realtimeReliabilitySimulateFault: (payload: { provider: string; fault_type: string; delay_ms?: number; error_message?: string; force_stale_hours?: number; active?: boolean }) =>
+    apiPost<any>("/realtime/reliability/simulate-fault", payload),
+  realtimeReliabilityReset: () => 
+    apiPost<any>("/realtime/reliability/reset", {}),
+  realtimeReliabilityProvider: (providerId: string) => 
+    apiFetch<any>(`/realtime/reliability/provider/${encodeURIComponent(providerId)}`),
 };
 
 

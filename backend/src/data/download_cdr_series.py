@@ -3,6 +3,7 @@
 Fetches 18 months of monthly passive microwave satellite CDR data from CoastWatch ERDDAP.
 Saves to data/raw/sea_ice/real_cdr_series_18m.nc.
 """
+import os
 import urllib.request
 import logging
 from pathlib import Path
@@ -15,8 +16,12 @@ TARGET_DIR.mkdir(parents=True, exist_ok=True)
 TARGET_FILE = TARGET_DIR / "real_cdr_series_18m.nc"
 
 # CoastWatch ERDDAP URL: 18 months (Jan 2023 - Jun 2024), 50km resolution grid
+ERDDAP_BASE = (
+    os.environ.get("NOAA_COASTWATCH_ERDDAP_BASE_URL")
+    or os.environ.get("NOAA_ERDDAP_BASE_URL", "https://coastwatch.pfeg.noaa.gov/erddap")
+).rstrip("/")
 ERDDAP_URL = (
-    "https://coastwatch.pfeg.noaa.gov/erddap/griddap/nsidcG02202v4shmday.nc?"
+    f"{ERDDAP_BASE}/griddap/nsidcG02202v4shmday.nc?"
     "cdr_seaice_conc_monthly[(2023-01-01T00:00:00Z):1:(2024-06-01T00:00:00Z)]"
     "[(4350000.0):2:(-3950000.0)][(-3950000.0):2:(3950000.0)]"
 )

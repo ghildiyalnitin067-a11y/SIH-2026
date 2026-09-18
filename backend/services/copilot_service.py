@@ -171,8 +171,9 @@ class GeminiProvider(LLMProvider):
                 models_to_try.append(candidate)
 
         last_error = None
+        gemini_base = os.getenv("GEMINI_API_BASE", "https://generativelanguage.googleapis.com/v1beta").rstrip("/")
         for mod in models_to_try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{mod}:generateContent?key={self.api_key}"
+            url = f"{gemini_base}/models/{mod}:generateContent?key={self.api_key}"
             payload = {
                 "contents": [
                     {

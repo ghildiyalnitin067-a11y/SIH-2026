@@ -16,7 +16,9 @@ import xarray as xr
 logger = logging.getLogger("polarnav.ocean")
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "ocean"
-CURRENTS_PATH = DATA_DIR / "copernicus_currents_real.nc"
+CURRENTS_LIVE_PATH = DATA_DIR / "copernicus_currents_live.nc"
+CURRENTS_REAL_PATH = DATA_DIR / "copernicus_currents_real.nc"
+CURRENTS_PATH = CURRENTS_LIVE_PATH if CURRENTS_LIVE_PATH.exists() else CURRENTS_REAL_PATH
 
 
 import threading
@@ -25,7 +27,10 @@ class OceanCurrentsService:
     """Service providing real Copernicus Marine ocean current lookups."""
 
     def __init__(self, nc_path: Optional[Path] = None):
-        self.nc_path = nc_path or CURRENTS_PATH
+        if nc_path is not None:
+            self.nc_path = nc_path
+        else:
+            self.nc_path = CURRENTS_LIVE_PATH if CURRENTS_LIVE_PATH.exists() else CURRENTS_REAL_PATH
         self._ds: Optional[xr.Dataset] = None
         self._lats: Optional[np.ndarray] = None
         self._lons: Optional[np.ndarray] = None
@@ -53,7 +58,10 @@ class OceanCurrentsService:
                 return False
 
             try:
-                self._ds = xr.open_dataset(self.nc_path)
+                try:
+                    self._ds = xr.open_dataset(self.nc_path)
+                except Exception:
+                    self._ds = xr.open_dataset(self.nc_path, engine="h5netcdf")
                 self._lats = self._ds.latitude.values
                 self._lons = self._ds.longitude.values
                 self._lat_min = float(self._lats[0])

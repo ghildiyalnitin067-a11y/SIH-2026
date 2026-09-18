@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { 
   Activity, Snowflake, ShieldAlert, Clock, BarChart3, Wind, LineChart as LucideLineChart, Ship
 } from 'lucide-react';
@@ -72,7 +72,7 @@ export const AnalysisPage: React.FC = () => {
 
   return (
     <AppShell
-      title="Risk Analysis"
+      title="RISK & IMO POLARIS"
       subtitle={`Physics-Informed Environmental Simulation & IMO POLARIS Verification — ${env.timestep || 'T+0h'}`}
       actions={
         <div className="flex items-center gap-2 font-mono text-xs">

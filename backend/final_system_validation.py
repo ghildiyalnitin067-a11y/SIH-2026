@@ -9,6 +9,8 @@ BACKEND_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BACKEND_DIR))
 sys.path.insert(0, str(BACKEND_DIR / "src"))
 
+import joblib
+import sklearn.ensemble._forest
 from fastapi.testclient import TestClient
 from app.server import app
 
@@ -162,6 +164,9 @@ def run_final_validation():
         ("GET", "/api/antarctic/vessels", 200),
         ("POST_JSON_200", "/api/navigation/emergency", {"vessel_id": "rv_sagar_nidhi", "force_simulation": True}),
         ("GET", "/api/sic/timesteps", 200),
+        ("GET", "/api/realtime/health", 200),
+        ("GET", "/api/realtime/state?lat=-66.27&lon=110.54", 200),
+        ("GET", "/api/realtime/satellite/scenes", 200),
         # Security test: out of bounds coords returns 400
         ("POST_JSON_400", "/api/routes/optimize", {"start_lat": 999.0, "start_lon": 0.0, "dest_lat": -70.0, "dest_lon": 10.0}),
         # Security test: inland impossible route returns FAILED_NO_NAVIGABLE_ROUTE
